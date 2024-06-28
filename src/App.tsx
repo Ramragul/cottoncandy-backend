@@ -4,15 +4,15 @@
 // import CatalogueGrid from './components/CatalogueGrid'
 // import CategoryList from './components/CategoryList'
 // import { useState } from 'react'
-// import { Category } from './hooks/useCatalogueCategory'
+ import { Category } from './hooks/useCatalogueCategory'
 // import OccasionSelector from './components/OccasionSelector'
 // import SortSelector from './components/SortSelector'
 // import { Routes, Route, Navigate } from "react-router-dom";
 
-// export interface CatalogueQuery {
-//   category : Category | null
-//   occasion : string | null
-// }
+export interface CatalogueQuery {
+  category : Category | null
+  occasion : string | null
+}
 
 // function App() {
 

@@ -84,7 +84,7 @@ return (
     <OccasionSelector selectedOccasion={catalogueQuery.occasion} onOccasionSelect={(occasion)=>setCatalogueQuery({...catalogueQuery, occasion})}/>
     <SortSelector />
     </HStack>
-    <CatalogueGrid catalogueQuery={catalogueQuery} />
+    <CatalogueGrid catalogueQuery={catalogueQuery} apiPath={"api/cc/designcatalogue"} />
     
     {/* <Box w={{ base: '100%', md: '98%' }}>
     <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>

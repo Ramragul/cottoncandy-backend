@@ -39,6 +39,7 @@ import {
     Show,
   } from '@chakra-ui/react';
 import CatalogueImageCard from '../components/CatalogueImageCard'
+import { Catalogue } from '@/hooks/useDesignCatalogue'
 
 export interface CatalogueQuery {
   category : Category | null
@@ -51,61 +52,32 @@ export interface Product {
     name: string;
     price: string;
   }
-const products: Product[] = [
+
+  interface Props {
+    products : Catalogue;
+  }
+const products: Catalogue[] = [
     {
-      id: 1,
-      image: Photo1,
-      name: 'Product 1',
-      price: '$100',
+      ProductID: "1",
+      ProductImageURL: Photo1,
+      ProductName: 'Product 1',
     },
     {
-      id: 2,
-      image: Photo2,
-      name: 'Product 2',
-      price: '$150',
+      ProductID: "2",
+      ProductImageURL: Photo2,
+      ProductName: 'Product 2',
     },
     {
-      id: 3,
-      image: Photo3,
-      name: 'Product 3',
-      price: '$150',
+      ProductID: "3",
+      ProductImageURL: Photo3,
+      ProductName: 'Product 3',
     },
     {
-      id: 4,
-      image: blazzer,
-      name: 'Product 4',
-      price: '$150',
+      ProductID: "4",
+      ProductImageURL: Photo4,
+      ProductName: 'Product 4',
     },
-    {
-      id: 5,
-      image: Photo5,
-      name: 'Product 5',
-      price: '$150',
-    },
-    {
-      id: 6,
-      image: Photo6,
-      name: 'Product 2',
-      price: '$150',
-    },
-    {
-      id: 7,
-      image: sharwani,
-      name: 'Product 2',
-      price: '$150',
-    },
-    {
-      id: 7,
-      image: Photo4,
-      name: 'Product 2',
-      price: '$150',
-    },
-    {
-      id: 7,
-      image: Photo7,
-      name: 'Product 2',
-      price: '$150',
-    },
+    
     // Add more products here
   ];
 
@@ -162,13 +134,17 @@ return (
 
 
 
-<Box w={{ base: '100%', md: '98%' }}>
+{/* <Box w={{ base: '100%', md: '98%' }}>
 <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
 {products.map((product) => ( 
     <CatalogueImageCard product={product} />
    ))}
   </Grid>
-  </Box>
+  </Box> */}
+
+<CatalogueGrid catalogueQuery={catalogueQuery} apiPath={"api/cc/rental/product"} />
+
+  
     {/* <Box w={{ base: '100%', md: '98%' }}>
           <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
             {products.map((product) => (

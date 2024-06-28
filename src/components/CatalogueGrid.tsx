@@ -12,23 +12,24 @@ import CatalogueImageCard from './CatalogueImageCard';
 
 
 interface Props {
-    catalogueQuery : CatalogueQuery
+    catalogueQuery : CatalogueQuery,
+    apiPath : string
 
 }
 
 
-const CatalogueGrid = ({catalogueQuery} : Props) => {
+const CatalogueGrid = ({catalogueQuery , apiPath} : Props ) => {
 
     console.log("selected Occasion from Grid Catalogue query object "+catalogueQuery.occasion)
   
-    const {data , error, isLoading} = useDesignCatalogue (catalogueQuery);
+    const {data , error, isLoading} = useDesignCatalogue (catalogueQuery , apiPath );
     const skeletons = [1,2,3,4,5,6]
     
   return (
     <>
     {error && <Text>{error}</Text>}
 
-    <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
+    <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={8}>
     {isLoading && skeletons.map(skeleton => (
     <CatalogueCardContainer key={skeleton}>
         <CatalogueCardSkeleton /> 
