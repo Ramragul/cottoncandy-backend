@@ -6,6 +6,7 @@ export interface Catalogue {
     ProductID : string;
     ProductName : string;
     ProductImageURL : string;
+ 
 
 
 }
