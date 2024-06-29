@@ -61,11 +61,13 @@ const products: Catalogue[] = [
       ProductID: "1",
       ProductImageURL: Photo1,
       ProductName: 'Product 1',
+      ProductPrice: ''
     },
     {
       ProductID: "2",
       ProductImageURL: Photo2,
       ProductName: 'Product 2',
+      ProductPrice: ''
     },
     {
       ProductID: "3",
@@ -119,7 +121,7 @@ return (
           </VStack>
         </Box> */}
 
-        <FilterComponent />
+        <FilterComponent selectedCategory={catalogueQuery.category} onSelectCategory={(category => setCatalogueQuery({...catalogueQuery ,category}))} />
     </GridItem>
      
 

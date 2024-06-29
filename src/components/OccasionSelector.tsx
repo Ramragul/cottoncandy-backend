@@ -21,22 +21,48 @@ id : '',
 occasionValue : 'All'
 },
 {
-id : 'Ethnic',
-occasionValue : 'Ethnic'
+id : 'Bridal',
+occasionValue : 'Bridal'
+},
+{
+id : 'Casual',
+occasionValue : 'Casual'
+},
+{
+id : 'Celebrations',
+occasionValue : 'Celebrations'
 },
 {
 id : 'Formal',
 occasionValue : 'Formal'
 },
 {
+id : 'Festival',
+occasionValue : 'Festival'
+},
+{
+id : 'Glamour',
+occasionValue : 'Glamour'
+},
+{
 id : 'Party',
 occasionValue : 'Party'
 },
 {
-id : 'General',
-occasionValue : 'General'
+id : 'Tradational',
+occasionValue : 'Tradational'
+},
+{
+id : 'Trendy',
+occasionValue : 'Trendy'
+},
+{
+id : 'Wedding',
+occasionValue : 'Wedding'
 },
 ]
+
+
 
 console.log("SelectedOccasion From Occasion pring :" +selectedOccasion)
   return (

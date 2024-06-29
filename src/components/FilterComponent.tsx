@@ -71,6 +71,8 @@ import { Box, Heading, VStack, Stack, Text, Flex, useRadio, useRadioGroup, Icon,
 import { FaDoorOpen, FaBirthdayCake, FaGraduationCap, FaUserTie } from 'react-icons/fa';
 import React from 'react';
 
+import useCatalogueCategory, { Category } from '../hooks/useCatalogueCategory'
+
 import blazzer from '../assets/rentalPage/blazzer.jpg'
 import indowest from '../assets/rentalPage/indowest.jpg'
 import pyjama from '../assets/rentalPage/pyjama.jpg'
@@ -80,39 +82,42 @@ import suits from '../assets/rentalPage/suits.jpg'
 interface Product {
     id: number;
     image: string;
-    name: string;
+    CategoryName: string;
     price: string;
   }
-
+  interface Props {
+    onSelectCategory : (category : Product) => void;
+    selectedCategory : Category | null;
+}
   const products: Product[] = [
     {
       id: 1,
       image: blazzer,
-      name: 'Blazzer',
+      CategoryName: 'Blazzer',
       price: '$100',
     },
     {
       id: 2,
       image: indowest,
-      name: 'Indo West',
+      CategoryName: 'Indo West',
       price: '$150',
     },
     {
       id: 3,
       image: pyjama,
-      name: 'Pyjama',
+      CategoryName: 'Pyjama',
       price: '$150',
     },
     {
       id: 4,
       image: sharwani,
-      name: 'Sharwani',
+      CategoryName: 'Sharwani',
       price: '$150',
     },
     {
       id: 5,
       image: suits,
-      name: 'Suits',
+      CategoryName: 'Suits',
       price: '$150',
     },
     // Add more products here
@@ -158,7 +163,7 @@ interface Product {
 //   );
 // };
 
-const FilterComponent = () => {
+const FilterComponent = ({onSelectCategory,selectedCategory} : Props) => {
 //   const options = [
 //     { value: 'wedding', label: 'Wedding', icon: FaDoorOpen },
 //     { value: 'party', label: 'Party', icon: FaBirthdayCake },
@@ -202,7 +207,8 @@ return(
 <HStack>
     <Image boxSize='50px' borderRadius={8} src = {val.image}></Image>
     {/* <Button fontWeight={(val.CategoryName === selectedCategory?.CategoryName) ? 'bold' : 'normal'} fontSize='lg' variant='link' onClick={()=>onSelectCategory(val)}>{val.name}</Button> */}
-    <Button fontWeight= 'bold' color='pink.900' fontSize='lg' variant='link' onClick={()=>console.log("Selected FIlter" +val)}>{val.name}</Button>
+    {/* <Button fontWeight= 'bold' color='pink.900' fontSize='lg' variant='link' onClick={()=>console.log("Selected FIlter" +val)}>{val.name}</Button> */}
+    <Button fontWeight={(val.CategoryName === selectedCategory?.CategoryName) ? 'bold' : 'normal'} fontSize='lg' variant='link' onClick={()=>onSelectCategory(val)}>{val.CategoryName}</Button>
 </HStack>
 </ListItem>))}
 </List>
