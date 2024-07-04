@@ -3,3 +3,5 @@ export * from "./home";
 export * from "./tailoringCatalogue";
 export * from "./rentalCatalogue";
 export * from "./aboutUs";
+export * from "./productDetails";
+export * from "./cartPage";

@@ -59,6 +59,7 @@ export interface CatalogueQuery {
 import {Routes, Route, Navigate } from "react-router-dom";
 import {TailoringCatalogue} from "./pages/tailoringCatalogue";
 import routes from "./routes";
+import { CartProvider } from './contexts/CartContext';
 import React from "react";
 import Navbar from "./widgets/layout/navbar";
 import { Box } from '@chakra-ui/react'
@@ -68,8 +69,10 @@ function App () {
   return (
     <>
    <Box>
+    
     {/* <TailoringCatalogue /> */}
     <Navbar />
+    
     <Routes>
         {routes.map(
           ({ path, element }, key) =>
@@ -77,6 +80,7 @@ function App () {
         )}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
+
       </Box>
     </>
   )

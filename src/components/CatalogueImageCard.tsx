@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import {
     Box,
@@ -27,16 +28,25 @@ import { Catalogue } from '@/hooks/useDesignCatalogue';
   interface Props {
     product : Catalogue
   }
-  
 
+
+  
 const CatalogueImageCard = ({product} : Props) => {
+
+    const navigate = useNavigate();
+
+    const handleProductClick = (product: any) => {
+        navigate(`/productDetails`, { state: { product } });
+      };
+
+
   return (
    <>
      {/* <Box w={{ base: '100%', md: '98%' }} px={{ base: 4, md: 0 }}>
     <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}> */}
       {/* {products.map((product) => ( */}
         <GridItem key={product.ProductID} position="relative" m={{ base: 2, md: 0 }}>
-          <Box height="0" pt="133.98%" position="relative">
+          <Box height="0" pt="133.98%" position="relative" onClick={() => handleProductClick(product)}>
             <Image
               src={product.ProductImageURL}
               alt={product.ProductName}
