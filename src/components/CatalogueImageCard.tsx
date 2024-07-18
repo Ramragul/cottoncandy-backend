@@ -39,6 +39,7 @@ const CatalogueImageCard = ({product} : Props) => {
         navigate(`/productDetails`, { state: { product } });
       };
 
+        console.log("Product from DB "+JSON.stringify(product));
 
   return (
    <>

@@ -5,3 +5,5 @@ export * from "./rentalCatalogue";
 export * from "./aboutUs";
 export * from "./productDetails";
 export * from "./cartPage";
+export * from "./checkoutPage";
+export * from "./loginPage";
