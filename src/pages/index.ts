@@ -7,3 +7,5 @@ export * from "./productDetails";
 export * from "./cartPage";
 export * from "./checkoutPage";
 export * from "./loginPage";
+export * from "./registerPage";
+export * from "./yourOrdersPage";

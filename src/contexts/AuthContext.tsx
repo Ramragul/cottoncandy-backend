@@ -63,7 +63,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 // Define the shape of the auth context
 interface AuthContextProps {
   authState: AuthState;
-  login: (userId: string, username: string) => void;
+  login: (userId: string, userName: string) => void;
   logout: () => void;
 }
 
@@ -71,7 +71,7 @@ interface AuthContextProps {
 interface AuthState {
   isAuthenticated: boolean;
   userId?: string;
-  username?: string;
+  userName?: string;
 }
 
 // Create the AuthContext with a default value
@@ -87,13 +87,14 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     localStorage.setItem('authState', JSON.stringify(authState));
   }, [authState]);
 
-  const login = (userId: string, username: string) => {
-    console.log("Userid value from Auth Context "+userId)
-    setAuthState({ isAuthenticated: true, userId, username });
+  const login = (userName: string, userId: string) => {
+    console.log("UserName value from Auth Context "+userName)
+    console.log("UserId value from Auth Context "+userId)
+    setAuthState({ isAuthenticated: true, userId, userName });
   };
 
   const logout = () => {
-    setAuthState({ isAuthenticated: false, userId: undefined, username: undefined });
+    setAuthState({ isAuthenticated: false, userId: undefined, userName: undefined });
     localStorage.removeItem('authState');
   };
 

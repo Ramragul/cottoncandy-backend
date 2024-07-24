@@ -14,7 +14,6 @@ const useData = <T>(endpoint : string , requestConfig?:AxiosRequestConfig ,deps?
     const [error,setError] = useState('')
     const [isLoading, setLoading] = useState(false)
 
-        
     
         useEffect (() => {
             const controller = new AbortController();
@@ -23,10 +22,12 @@ const useData = <T>(endpoint : string , requestConfig?:AxiosRequestConfig ,deps?
 
             apiClient.get<FetchResponse<T>>(endpoint,{signal: controller.signal, ...requestConfig})
             .then(res => {
+                console.log("Inside Api call " +JSON.stringify(res.data))
                 setData(res.data.data)
                 setLoading(false)
             })
             .catch(err => {
+                console.log("Connection Error In Hooks" +err.message)
                if (err instanceof CanceledError) return;
                 setError(err.message)
                 setLoading(false)
@@ -34,7 +35,7 @@ const useData = <T>(endpoint : string , requestConfig?:AxiosRequestConfig ,deps?
 
             return () => controller.abort();
         },(deps) ?[...deps] : [])
-
+        console.log("Data Received from DB in Hooks:"+JSON.stringify(data))
         return {data,error , isLoading}
 }
 
