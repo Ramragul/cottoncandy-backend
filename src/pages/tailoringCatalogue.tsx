@@ -10,6 +10,7 @@ import SortSelector from '../components/SortSelector'
 import CatalogueImageCard from '../components/CatalogueImageCard'
 
 import React from 'react'
+import { CatalogueQuery } from "../App";
 
 
 import Photo1 from '../assets/rentalPage/photo1.jpg'
@@ -19,38 +20,38 @@ import Photo4 from '../assets/rentalPage/photo4.jpg'
 import Photo5 from '../assets/rentalPage/photo5.jpg'
 
 
-const products: Product[] = [
-  {
-    id: 1,
-    image: Photo1,
-    name: 'Product 1',
-    price: '$100',
-  },
-  {
-    id: 2,
-    image: Photo2,
-    name: 'Product 2',
-    price: '$150',
-  },
-  {
-    id: 3,
-    image: Photo3,
-    name: 'Product 3',
-    price: '$150',
-  },
-  {
-    id: 4,
-    image: Photo4,
-    name: 'Product 4',
-    price: '$150',
-  },
-];
+// const products: Product[] = [
+//   {
+//     id: 1,
+//     image: Photo1,
+//     name: 'Product 1',
+//     price: '$100',
+//   },
+//   {
+//     id: 2,
+//     image: Photo2,
+//     name: 'Product 2',
+//     price: '$150',
+//   },
+//   {
+//     id: 3,
+//     image: Photo3,
+//     name: 'Product 3',
+//     price: '$150',
+//   },
+//   {
+//     id: 4,
+//     image: Photo4,
+//     name: 'Product 4',
+//     price: '$150',
+//   },
+// ];
 
 
-export interface CatalogueQuery {
-  category : Category | null
-  occasion : string | null
-}
+// export interface CatalogueQuery {
+//   category : Category | null
+//   occasion : string | null
+// }
 
 export const TailoringCatalogue = () => {
 

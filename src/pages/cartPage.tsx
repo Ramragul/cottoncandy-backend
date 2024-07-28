@@ -281,6 +281,7 @@ import { Box, Heading, Text, VStack, Flex } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import CartItem from '../components/CartItem';
+//import CartItem,{ CartItem } from '../components/CartItem';
 import CartTotals from '../components/CartTotals';
 import '../css/CartPage.css';
 
@@ -323,6 +324,7 @@ export const CartPage = () => {
                 key={item.id}
                 item={item}
                 onRemove={() => removeItem(item.id)}
+                onUpdateQuantity = {()=>console.log("Updated")}
               />
             ))}
           </VStack>

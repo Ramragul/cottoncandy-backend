@@ -1,6 +1,9 @@
 import React from 'react';
 import { Box, VStack, HStack, Heading, Text, Button } from '@chakra-ui/react';
 import '../css/CartPage.css';
+// import {CartItem} from './CartItem';
+import { CartItem } from '../contexts/CartContext';
+
 
 interface CartTotalsProps {
   cart: CartItem[];

@@ -1,28 +1,3 @@
-// import React from 'react'
-// import { Catalogue } from '../hooks/useDesignCatalogue'
-// import { Card, CardBody, Heading, Image,Box, Grid, GridItem, Button, Text } from '@chakra-ui/react'
-
-// interface Props {
-//     catalogue : Catalogue
-// }
-
-// const CatalogueCard = ({catalogue}: Props) => {
-//   return (
-//     <Card >
-//     <Image src = {catalogue.ProductImageURL} objectFit="cover"/>
-//     <CardBody>
-//         <Heading fontSize='2xl'>{catalogue.ProductName}</Heading>
-//     </CardBody>
-//     </Card>
-
-
-
-//   )
-// }
-
-// export default CatalogueCard
-
-
 import React from 'react';
 import { Catalogue } from '../hooks/useDesignCatalogue';
 import { Box, Grid, GridItem, Image, Text, Button, VStack } from '@chakra-ui/react';

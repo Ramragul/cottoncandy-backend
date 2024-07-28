@@ -53,7 +53,7 @@ export const YourOrdersPage: React.FC = () => {
                   <Box key={item.id} display="flex" alignItems="center">
                     <Image
                       boxSize="100px"
-                      objectFit="fit"
+                      objectFit="contain"
                       src={item.imageURL}
                       alt={item.name}
                       mr={4}

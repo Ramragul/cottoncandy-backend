@@ -4,8 +4,6 @@ export interface Category {
     CategoryID : string;
     CategoryName : string;
     CategoryImageURL : string;
-
-
 }
 
 const useCatalogueCategory = () => useData <Category>("/api/cc/categories")

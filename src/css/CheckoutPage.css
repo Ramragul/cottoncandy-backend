@@ -174,47 +174,6 @@
   }
   
 
-
-
-
-  /* .animationContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; 
-    position: relative;
-  }
-   */
-  
-  /* .checkoutContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-    position: relative;
-  }
-  
-  .checkoutLeft,
-  .checkoutRight {
-    width: 48%;
-  }
-  
-  .animationContainer {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    text-align: center;
-  }
-  
-  .cartTotalsContainer {
-    border: 1px solid #e2e8f0;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  } */
   
   .checkoutContainer {
     display: flex;

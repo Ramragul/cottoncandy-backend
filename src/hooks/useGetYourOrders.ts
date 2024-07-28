@@ -17,13 +17,10 @@ export interface YourOrders {
     productsPrice: number;
     securityDeposit: number;
     items : OrderItem[];
- 
-
-
 }
 
 //const useDesignCatalogue = (catalogueQuery : CatalogueQuery , apiPath : string) => useData <Catalogue>("/api/cc/designcatalogue",
-const useGetYourOrders = ( userId,apiPath : string) => useData <YourOrders>(apiPath,
+const useGetYourOrders = ( userId: string | undefined,apiPath : string) => useData <YourOrders>(apiPath,
 {
     params:{
         userId:userId,

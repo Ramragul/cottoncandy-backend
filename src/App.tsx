@@ -45,6 +45,12 @@ import { Box } from '@chakra-ui/react';
 import Navbar from './widgets/layout/navbar';
 import routes from './routes';
 import { useAuth } from './contexts/AuthContext';
+import { Category } from '../src/hooks/useCatalogueCategory'
+
+export interface CatalogueQuery {
+  category : Category | null
+  occasion : string | null
+}
 
 const App: React.FC = () => {
   const { authState, logout } = useAuth();
@@ -52,7 +58,8 @@ const App: React.FC = () => {
   return (
     <>
       <Box>
-        <Navbar isAuthenticated={authState.isAuthenticated} onLogout={logout} />
+        {/* <Navbar isAuthenticated={authState.isAuthenticated} onLogout={logout} /> */}
+        <Navbar  />
         <Routes>
           {routes.map(({ path, element }, key) => (
             <Route key={key} path={path} element={element} />

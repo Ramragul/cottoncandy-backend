@@ -1,6 +1,19 @@
+// Version 1 - Cart Context data type mismatch fix for the build 
+
 import React from 'react';
 import { Box, Flex, Text, Image, Input, Button, Divider } from '@chakra-ui/react';
 import '../css/CartPage.css';
+export interface CartItem {
+  id: number;
+  name: string;
+  size: string;
+  duration: string;
+  deliveryDate: Date | null;
+  returnDate: Date | null;
+  quantity: number;
+  price: number;
+  imageURL: string;
+}
 
 interface CartItemProps {
   item: CartItem;
@@ -16,7 +29,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQuantity })
     <Box className="cartItemBox">
       <Flex className="cartItemFlex">
         <Box className="cartItemImage">
-          <Image src={item.imageURL} alt={item.ProductName} boxSize="100px" />
+          <Image src={item.imageURL} alt={item.name} boxSize="100px" />
         </Box>
         <Box className="cartItemDetails">
           <Text>{item.name}</Text>
@@ -25,7 +38,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQuantity })
           <Text>Price: ${item.price}</Text>
           <Text>Deposit: ${calculateDeposit(item)}</Text>
           <Text mt={2}>
-            <Button size="sm" colorScheme="red" onClick={() => onRemove(item.ProductID)}>
+            <Button size="sm" colorScheme="red" onClick={() => onRemove(item.id)}>
               Remove
             </Button>
           </Text>
@@ -35,7 +48,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQuantity })
             type="number"
             value={item.quantity}
             min={1}
-            onChange={(e) => onUpdateQuantity(item.ProductID, parseInt(e.target.value))}
+            onChange={(e) => onUpdateQuantity(item.id, parseInt(e.target.value))}
             width="60px"
             border="1px solid black"
           />

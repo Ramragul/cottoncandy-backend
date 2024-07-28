@@ -78,40 +78,40 @@
 
 
 
-import React from 'react';
-import { Box, Flex, Heading, Link as ChakraLink } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
-import ImageCarousel from '../components/ImageCarousel';
+// import React from 'react';
+// import { Box, Flex, Heading, Link as ChakraLink } from '@chakra-ui/react';
+// import { Link as RouterLink } from 'react-router-dom';
+// import ImageCarousel from '../components/ImageCarousel';
 
-export const Home = () => {
-  return (
-    <Box textAlign="center" p="5" bg="gray.50" minHeight="100vh">
-      <Heading color="pink.500" mb="8">Welcome to Cotton Candy</Heading>
-      <Flex justify="center" gap="8">
-        <ChakraLink 
-          as={RouterLink} 
-          to="/tailoringCatalogue" 
-          p="8" 
-          bg="pink.200" 
-          borderRadius="md" 
-          _hover={{ bg: "pink.300" }}
-        >
-          Tailoring
-        </ChakraLink>
-        <ChakraLink 
-          as={RouterLink} 
-          to="/rentalCatalogue" 
-          p="8" 
-          bg="orange.200" 
-          borderRadius="md" 
-          _hover={{ bg: "orange.300" }}
-        >
-          Rental
-        </ChakraLink>
-      </Flex>
-      < ImageCarousel />
-    </Box>
-  );
-}
+// export const Home = () => {
+//   return (
+//     <Box textAlign="center" p="5" bg="gray.50" minHeight="100vh">
+//       <Heading color="pink.500" mb="8">Welcome to Cotton Candy</Heading>
+//       <Flex justify="center" gap="8">
+//         <ChakraLink 
+//           as={RouterLink} 
+//           to="/tailoringCatalogue" 
+//           p="8" 
+//           bg="pink.200" 
+//           borderRadius="md" 
+//           _hover={{ bg: "pink.300" }}
+//         >
+//           Tailoring
+//         </ChakraLink>
+//         <ChakraLink 
+//           as={RouterLink} 
+//           to="/rentalCatalogue" 
+//           p="8" 
+//           bg="orange.200" 
+//           borderRadius="md" 
+//           _hover={{ bg: "orange.300" }}
+//         >
+//           Rental
+//         </ChakraLink>
+//       </Flex>
+//       < ImageCarousel />
+//     </Box>
+//   );
+// }
 
-export default Home;
+// export default Home;

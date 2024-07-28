@@ -44,6 +44,11 @@ interface PostResponse<T> {
     data: T;
 }
 
+interface ApiResponseData {
+    message: string;
+    // other properties that the API response data might have
+  }
+
 interface ResponseData {
     message : string;
     status : number;
@@ -61,16 +66,20 @@ const usePostData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig) =>
         setError(null);
 
         try {
-            const response = await apiClient.post<PostResponse<T>>(endpoint, payload, requestConfig);
+           const response = await apiClient.post<PostResponse<T>>(endpoint, payload, requestConfig);
+          // const response = await apiClient.post<PostResponse<ApiResponseData>>(endpoint, payload, requestConfig);
+           
             setData(response.data.data);
             console.log("Response from Backend DB:" +JSON.stringify(response))
-            
+            //const responseData: ApiResponseData = response
+            console.log("Response data Message 7777 " + response.data) 
+           
             setResponseData({
-                message: response.data.message,
+                message: "Message",
                 status: response.status,
                 orderId : 1
               });
-             // console.log("Data" +JSON.stringify(data))
+              console.log("Response Data" +responseData)
         } catch (err) {
             if (err instanceof AxiosError) {
                 setError(err.message);
