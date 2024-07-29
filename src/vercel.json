@@ -1,4 +1,4 @@
-  {
+ {
     "version": 2,
     "name": "cotton-candy",
     "builds": [
@@ -10,10 +10,10 @@
         }
       }
     ],
-    "rewrites": [
+    "routes": [
       {
-        "source": "/(.*)",
-        "destination": "/index.html"
+        "src": "/(.*)",
+        "dest": "/index.html"
       }
     ]
   }
