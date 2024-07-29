@@ -34,7 +34,7 @@ export const Home = () => {
             <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Tailoring</Text>
           </Link>
         </GridItem> */}
-        <GridItem>
+        {/* <GridItem>
           <Link to="/purchaseCatalogue">
             <Box
               p={6}
@@ -51,7 +51,7 @@ export const Home = () => {
             </Box>
             <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Purchase</Text>
           </Link>
-        </GridItem>
+        </GridItem> */}
         <GridItem>
           <Link to="/rentalCatalogue">
             <Box

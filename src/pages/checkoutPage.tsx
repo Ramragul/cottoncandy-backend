@@ -773,6 +773,18 @@ export const CheckoutPage: React.FC = () => {
               Free Delivery
             </Badge>
           </HStack>
+          <HStack justifyContent="space-between" mt={4}>
+            <Badge
+              colorScheme="Yellow"
+              fontSize="lg"
+              p={2}
+              borderRadius="md"
+              animation={`${bounceAnimation} 1s infinite`}
+            >
+              Cash on Delivery
+            </Badge>
+          </HStack>
+
               </VStack>
               <Button colorScheme="pink" width="100%" onClick={handleSubmit(onSubmit)} isDisabled={Object.keys(errors).length > 0}>
                 Proceed to Booking
