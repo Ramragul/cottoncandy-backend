@@ -139,7 +139,8 @@ export const LoginPage = () => {
       console.log("Response From Login Server" +JSON.stringify(user));
       login(user.userName, user.userId); // Store the user ID and username
       setSuccess(true);
-      setTimeout(() => navigate(-1), 5000); // Navigate to the previous page after 3 seconds
+      // setTimeout(() => navigate(-1), 5000); // Navigate to the previous page after 3 seconds
+      setTimeout(() => navigate('/home'), 5000);
     } catch (error) {
       setError('Invalid credentials. Please try again.');
       toast({
