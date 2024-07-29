@@ -24,12 +24,14 @@ interface CartItemProps {
 const CartItem: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQuantity }) => {
   const calculateSubtotal = (item: CartItem) => item.price * item.quantity;
   const calculateDeposit = (item: CartItem) => item.price * item.quantity;
-  console.log("Item from Cart Component 77:" +JSON.stringify(item ))
+
+  const firstImageURL = item.imageURL.split(',')[0];
+  
   return (
     <Box className="cartItemBox">
       <Flex className="cartItemFlex">
         <Box className="cartItemImage">
-          <Image src={item.imageURL} alt={item.name} boxSize="100px" />
+          <Image src={firstImageURL} alt={item.name} boxSize="100px" />
         </Box>
         <Box className="cartItemDetails">
           <Text>{item.name}</Text>

@@ -2,7 +2,8 @@ import React from 'react';
 import { Box, Text, Grid, GridItem, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import TailoringPhoto from '../assets/homePage/TailoringPhoto.jpeg'
-import RentalPhoto from '../assets/homePage/RentalPhoto.jpeg'
+import RentalPhoto from '../assets/homePage/RentalPhoto4.jpeg'
+import PurchasePhoto from '../assets/homePage/PurchasePhoto2.jpeg'
 
 export const Home = () => {
   return (
@@ -15,7 +16,7 @@ export const Home = () => {
 
       {/* Image Container for Tailoring and Rental */}
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={16} p={16}>
-        <GridItem>
+        {/* <GridItem>
           <Link to="/tailoringCatalogue">
             <Box
               p={6}
@@ -31,6 +32,24 @@ export const Home = () => {
             >
             </Box>
             <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Tailoring</Text>
+          </Link>
+        </GridItem> */}
+        <GridItem>
+          <Link to="/purchaseCatalogue">
+            <Box
+              p={6}
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              textAlign="center"
+              _hover={{ transform: 'scale(1.05)', transition: 'transform 0.2s' }}
+              height={{ base: "300px", md: "400px" }}
+              backgroundImage={`url(${PurchasePhoto})`}
+              backgroundSize="cover"
+              backgroundPosition="center"
+            >
+            </Box>
+            <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Purchase</Text>
           </Link>
         </GridItem>
         <GridItem>

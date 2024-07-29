@@ -7,6 +7,8 @@ export const YourOrdersPage: React.FC = () => {
   const { authState } = useAuth();
   const { data: orders = [], error, isLoading } = useGetYourOrders(authState.userId, 'api/cc/user/orders');
 
+ 
+
   if (isLoading) {
     return (
       <Center h="100vh">
@@ -54,7 +56,7 @@ export const YourOrdersPage: React.FC = () => {
                     <Image
                       boxSize="100px"
                       objectFit="contain"
-                      src={item.imageURL}
+                      src={item.imageURL.split(',')[0]}
                       alt={item.name}
                       mr={4}
                     />

@@ -145,7 +145,7 @@ import { CatalogueQuery } from '../App';
 import { Category } from '../hooks/useCatalogueCategory';
 import CategorySelector from '../components/CategorySelector';
 
-export const RentalCatalogue: React.FC = () => {
+export const PurchaseCatalogue: React.FC = () => {
   const [catalogueQuery, setCatalogueQuery] = useState<CatalogueQuery>({} as CatalogueQuery);
 
   const handleCategorySelect = (category: Category) => {
@@ -197,4 +197,4 @@ export const RentalCatalogue: React.FC = () => {
   );
 };
 
-export default RentalCatalogue;
+export default PurchaseCatalogue;

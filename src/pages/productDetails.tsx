@@ -274,7 +274,7 @@ export const ProductDetails: React.FC = () => {
               <Button colorScheme="pink" width="100%" onClick={handleAddToCart}>Add to Cart</Button>
             </Box>
             <Box flex={buttonFlex} minWidth={buttonMinWidth}>
-              <Button colorScheme="teal" width="100%">Rent Now</Button>
+              <Button colorScheme="teal" width="100%" onClick={handleAddToCart}>Rent Now</Button>
             </Box>
           </Stack>
         </VStack>

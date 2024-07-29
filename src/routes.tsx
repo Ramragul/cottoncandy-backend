@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue, AboutUs,ProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue, AboutUs,ProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -28,6 +28,13 @@ export const routes = [
     name: "rentalCatalogue",
     path: "/rentalCatalogue",
     element: <RentalCatalogue />,
+    visible: false,
+  },
+  {
+    icon: CheckBadgeIcon,
+    name: "purchaseCatalogue",
+    path: "/purchaseCatalogue",
+    element: <PurchaseCatalogue />,
     visible: false,
   },
   {
