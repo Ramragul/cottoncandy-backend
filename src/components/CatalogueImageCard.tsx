@@ -1,3 +1,5 @@
+// Version 1 : Working Version 
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -34,7 +36,7 @@ const CatalogueImageCard: React.FC<Props> = ({ product,productType }) => {
         <Image
           src={firstImageURL}
           alt={product.ProductName}
-          objectFit="cover"
+          objectFit="contain"
           position="absolute"
           top="0"
           left="0"
@@ -66,4 +68,5 @@ const CatalogueImageCard: React.FC<Props> = ({ product,productType }) => {
 };
 
 export default CatalogueImageCard;
+
 
