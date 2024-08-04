@@ -24,7 +24,7 @@ export const Home = () => {
       {/* Header Description */}
       <Box textAlign="center" py={10}>
         <Text fontSize="3xl" fontWeight="bold" color="pink.600">Welcome to Cotton Candy</Text>
-        <Text mt={2} fontSize="lg" fontWeight="bold" color="pink.900">Your one-stop solution for Tailoring and Rental needs.</Text>
+        <Text mt={2} fontSize="lg" fontWeight="bold" color="pink.900">Your one-stop solution for all your fashion needs.</Text>
       </Box>
 
       {/* Image Container for Tailoring and Rental */}
