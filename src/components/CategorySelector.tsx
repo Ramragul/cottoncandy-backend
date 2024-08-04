@@ -43,6 +43,49 @@
 
 // Version 2 - Type script fix
 
+// import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+// import React from 'react';
+// import { BsChevronDown } from 'react-icons/bs';
+// import useCatalogueCategory, { Category } from '../hooks/useCatalogueCategory';
+
+// interface Props {
+//     onCategorySelect: (category: Category) => void;
+//     selectedCategory: Category | null;
+// }
+// // interface Props {
+// //     onCategorySelect: (categoryName: string) => void;
+// //     selectedCategory: string | null;
+// // }
+
+// const CategorySelector = ({ onCategorySelect, selectedCategory }: Props) => {
+//     const { data: categories, error, isLoading } = useCatalogueCategory();
+    
+
+//     // Handle error and loading states
+//     if (isLoading) return <Button isLoading>Loading...</Button>;
+//     if (error) return <Button colorScheme="red">Error loading categories</Button>;
+
+//     return (
+//         <Menu>
+//             <MenuButton as={Button} rightIcon={<BsChevronDown />}>
+//                 {selectedCategory ? selectedCategory.CategoryName : 'Select Category'}
+//             </MenuButton>
+//             <MenuList>
+//                 {categories.map((category) => (
+//                     <MenuItem key={category.CategoryID} onClick={() => onCategorySelect(category)}>
+//                         {category.CategoryName}
+//                     </MenuItem>
+//                 ))}
+//             </MenuList>
+//         </Menu>
+//     );
+// }
+
+// export default CategorySelector;
+
+
+// Version 3 : Version 2 is working code, 3 is an enhancement of passing product type (small devices)
+
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import React from 'react';
 import { BsChevronDown } from 'react-icons/bs';
@@ -51,14 +94,20 @@ import useCatalogueCategory, { Category } from '../hooks/useCatalogueCategory';
 interface Props {
     onCategorySelect: (category: Category) => void;
     selectedCategory: Category | null;
+    productType : string | null;
+    apiPath : string ;
 }
 // interface Props {
 //     onCategorySelect: (categoryName: string) => void;
 //     selectedCategory: string | null;
 // }
 
-const CategorySelector = ({ onCategorySelect, selectedCategory }: Props) => {
-    const { data: categories, error, isLoading } = useCatalogueCategory();
+const CategorySelector = ({ onCategorySelect, selectedCategory , productType , apiPath }: Props) => {
+    //const { data: categories, error, isLoading } = useCatalogueCategory();
+
+    const { data: categories, error, isLoading } = useCatalogueCategory(apiPath,productType);
+
+    
 
     // Handle error and loading states
     if (isLoading) return <Button isLoading>Loading...</Button>;
@@ -81,3 +130,4 @@ const CategorySelector = ({ onCategorySelect, selectedCategory }: Props) => {
 }
 
 export default CategorySelector;
+

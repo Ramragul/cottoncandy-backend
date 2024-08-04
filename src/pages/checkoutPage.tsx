@@ -788,3 +788,253 @@ export const CheckoutPage: React.FC = () => {
 
 export default CheckoutPage;
 
+
+// Version 11 - Version 10 is a working version. This rev has design enhancment for mobile devices
+
+// import React, { useState, useEffect } from 'react';
+// import { Box, Heading, VStack, HStack, Text, Input, Radio, RadioGroup, Checkbox, Button, Badge, useBreakpointValue } from '@chakra-ui/react';
+// import { useNavigate, useLocation } from 'react-router-dom';
+// import { useForm, Controller } from 'react-hook-form';
+// import Lottie from 'react-lottie';
+// import successAnimation from '../animations/success.json';
+// import errorAnimation from '../animations/error.json';
+// import loadingAnimation from '../animations/loading.json';
+// import '../css/CheckoutPage.css'; // Import your CSS file
+// import usePostData from '../hooks/usePostData';
+// import { useCart } from '../contexts/CartContext';
+// import { useAuth } from '../contexts/AuthContext';
+// import { keyframes } from '@emotion/react';
+
+// const bounceAnimation = keyframes`
+//   0%, 100% {
+//     transform: scale(1);
+//   }
+//   50% {
+//     transform: scale(1.2);
+//   }
+// `;
+
+// interface CheckoutPageProps {
+//   cart: {
+//     id: number;
+//     name: string;
+//     price: number;
+//     selectedSize: string;
+//     selectedDuration: string;
+//     quantity: number;
+//   }[];
+//   totals: {
+//     productsPrice: number;
+//     securityDeposit: number;
+//     totalAmount: number;
+//   };
+// }
+
+// interface LocationState {
+//   cart: CheckoutPageProps['cart'];
+//   totals: CheckoutPageProps['totals'];
+// }
+
+// interface DeliveryDetails {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   mobileNumber: string;
+//   address: string;
+//   landmark: string;
+//   city: string;
+//   pincode: string;
+//   orderNotes?: string;
+//   deliveryType: 'homeDelivery' | 'showroomPickup';
+//   returnPickup: boolean;
+//   returnAddress?: string;
+//   returnLandmark?: string;
+//   returnCity?: string;
+//   returnPincode?: string;
+// }
+
+// export const CheckoutPage: React.FC = () => {
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const state = location.state as LocationState;
+//   const { cart = [], totals = { productsPrice: 0, securityDeposit: 0, totalAmount: 0 } } = state || {};
+//   const { clearCart } = useCart();
+//   const { authState } = useAuth();
+
+//   const { register, handleSubmit, control, formState: { errors } } = useForm<DeliveryDetails>();
+//   const [isReturnPickup, setIsReturnPickup] = useState(false);
+//   const [showAnimation, setShowAnimation] = useState(false);
+//   const [animationType, setAnimationType] = useState<'success' | 'error' | 'loading' | null>(null);
+
+//   const { data, error, isLoading, postData, responseData } = usePostData<{ deliveryDetails: DeliveryDetails, cart: typeof cart, totals: typeof totals }>('/api/cc/order');
+
+//   const onSubmit = async (data: DeliveryDetails) => {
+//     const userId = authState.userId;
+//     const payload = {
+//       deliveryDetails: data,
+//       cart: cart,
+//       totals: totals,
+//       userId: userId
+//     };
+
+//     setShowAnimation(true);
+//     setAnimationType('loading');
+//     await postData(payload);
+//   };
+
+//   const handleGoBackToCart = () => {
+//     navigate('/cart'); // Navigate back to cart page
+//   };
+
+//   useEffect(() => {
+//     if (responseData) {
+//       if (responseData.status === 201) {
+//         clearCart();
+//         setAnimationType('success');
+//         setTimeout(() => {
+//           navigate('/home'); // Navigate to home page after 3 seconds
+//         }, 3000);
+//       } else {
+//         setAnimationType('error');
+//       }
+//     } else if (error) {
+//       setAnimationType('error');
+//       setTimeout(() => {
+//         navigate('/cart'); // Navigate back to checkout page after a few seconds
+//       }, 3000);
+//     }
+//   }, [responseData, error, navigate]);
+
+//   // Define responsive column layout
+//   const columnLayout = useBreakpointValue({ base: 'column', md: 'row' });
+
+//   return (
+//     <Box className="checkoutContainer">
+//       {showAnimation && (
+//         <Box className="animationContainer">
+//           {animationType === 'loading' && (
+//             <Lottie options={{ loop: true, autoplay: true, animationData: loadingAnimation }} style={{ width: '150px', height: '150px' }} />
+//           )}
+//           {animationType === 'success' && (
+//             <Box textAlign="center">
+//               <Lottie options={{ loop: false, autoplay: true, animationData: successAnimation }} style={{ width: '150px', height: '150px' }} />
+//               <Text>Your order has been successfully placed!</Text>
+//             </Box>
+//           )}
+//           {animationType === 'error' && (
+//             <Box textAlign="center">
+//               <Lottie options={{ loop: false, autoplay: true, animationData: errorAnimation }} style={{ width: '150px', height: '150px' }} />
+//               <Text>{error || "An error occurred, please try again."}</Text>
+//             </Box>
+//           )}
+//         </Box>
+//       )}
+//       {!showAnimation && (
+//         <>
+//           <Box className="checkoutLeft">
+//             <Heading mb={4}>Delivery Details</Heading>
+//             <VStack spacing={4} align="stretch">
+//               <VStack spacing={4} align="stretch" direction={columnLayout}>
+//                 <Input type="text" placeholder="First Name" {...register('firstName', { required: 'First Name is required' })} />
+//                 {errors.firstName && <Text color="red.500">{errors.firstName.message}</Text>}
+//                 <Input type="text" placeholder="Last Name" {...register('lastName')} />
+//               </VStack>
+//               <VStack spacing={4} align="stretch" direction={columnLayout}>
+//                 <Input type="email" placeholder="Email Address" {...register('email')} />
+//                 <Input type="tel" placeholder="Mobile Number" {...register('mobileNumber', { required: 'Mobile Number is required' })} />
+//                 {errors.mobileNumber && <Text color="red.500">{errors.mobileNumber.message}</Text>}
+//               </VStack>
+//               <Input type="text" placeholder="Address" {...register('address', { required: 'Address is required' })} />
+//               {errors.address && <Text color="red.500">{errors.address.message}</Text>}
+//               <Input type="text" placeholder="Landmark" {...register('landmark')} />
+//               <VStack spacing={4} align="stretch" direction={columnLayout}>
+//                 <Input type="text" placeholder="City" {...register('city', { required: 'City is required' })} />
+//                 {errors.city && <Text color="red.500">{errors.city.message}</Text>}
+//                 <Input type="text" placeholder="Pincode" {...register('pincode', { required: 'Pincode is required' })} />
+//                 {errors.pincode && <Text color="red.500">{errors.pincode.message}</Text>}
+//               </VStack>
+//               <Input type="text" placeholder="Order Notes" {...register('orderNotes')} />
+
+//               <Controller
+//                 name="deliveryType"
+//                 control={control}
+//                 defaultValue="homeDelivery"
+//                 rules={{ required: 'Delivery Type is required' }}
+//                 render={({ field }) => (
+//                   <RadioGroup {...field}>
+//                     <VStack spacing={2} align="stretch">
+//                       <Text fontWeight="bold">Delivery Type:</Text>
+//                       <HStack spacing={4}>
+//                         <Radio value="homeDelivery">Home Delivery</Radio>
+//                         <Radio value="showroomPickup">Showroom Pickup</Radio>
+//                       </HStack>
+//                     </VStack>
+//                   </RadioGroup>
+//                 )}
+//               />
+
+//               <Controller
+//                 name="returnPickup"
+//                 control={control}
+//                 render={({ field }) => (
+//                   <Checkbox
+//                     isChecked={field.value as boolean}
+//                     onChange={(e) => {
+//                       const checked = e.target.checked;
+//                       field.onChange(checked);
+//                       setIsReturnPickup(checked);
+//                     }}
+//                     colorScheme="pink"
+//                   >
+//                     Return Pick Up Address Different from the Delivery Address
+//                   </Checkbox>
+//                 )}
+//               />
+
+//               {isReturnPickup && (
+//                 <>
+//                   <Heading mt={4} mb={2}>Return Pick Up Address</Heading>
+//                   <Input type="text" placeholder="Return Address" {...register('returnAddress')} />
+//                   <Input type="text" placeholder="Return Landmark" {...register('returnLandmark')} />
+//                   <VStack spacing={4} align="stretch" direction={columnLayout}>
+//                     <Input type="text" placeholder="Return City" {...register('returnCity')} />
+//                     <Input type="text" placeholder="Return Pincode" {...register('returnPincode')} />
+//                   </VStack>
+//                 </>
+//               )}
+
+//               <Button colorScheme="pink" width="100%" onClick={handleSubmit(onSubmit)} isDisabled={Object.keys(errors).length > 0}>
+//                 Proceed to Booking
+//               </Button>
+//             </VStack>
+//           </Box>
+
+//           <Box className="checkoutRight" mt={4}>
+//             <Heading mb={4}>Order Summary</Heading>
+//             <VStack spacing={4} align="stretch">
+//               {cart.map((item) => (
+//                 <Box key={item.id} p={4} borderWidth="1px" borderRadius="md">
+//                   <Text fontWeight="bold">{item.name}</Text>
+//                   <Text>Size: {item.selectedSize}</Text>
+//                   <Text>Duration: {item.selectedDuration}</Text>
+//                   <Text>Quantity: {item.quantity}</Text>
+//                   {/* <Text>Price: ₹{item.price.toFixed(2)}</Text> */}
+//                   <Text>Price: ₹{item.price}</Text>
+//                 </Box>
+//               ))}
+//               <Box p={4} borderWidth="1px" borderRadius="md">
+//                 <Text fontWeight="bold">Total:</Text>
+//                 <Text>Products Price: ₹{totals.productsPrice.toFixed(2)}</Text>
+//                 <Text>Security Deposit: ₹{totals.securityDeposit.toFixed(2)}</Text>
+//                 <Text fontWeight="bold">Grand Total: ₹{totals.totalAmount.toFixed(2)}</Text>
+//               </Box>
+//               <Badge colorScheme="pink" variant="solid">
+//                 Free Delivery
+//               </Badge>
+//             </VStack>
+//           </Box>
+//         </>
+//       )}
+//     </Box>
+//   );
+// };

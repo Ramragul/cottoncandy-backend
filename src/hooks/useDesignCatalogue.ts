@@ -13,11 +13,12 @@ export interface Catalogue {
 }
 
 //const useDesignCatalogue = (catalogueQuery : CatalogueQuery , apiPath : string) => useData <Catalogue>("/api/cc/designcatalogue",
-const useDesignCatalogue = (catalogueQuery : CatalogueQuery , apiPath : string) => useData <Catalogue>(apiPath,
+const useDesignCatalogue = (catalogueQuery : CatalogueQuery , apiPath : string , productType: string | null) => useData <Catalogue>(apiPath,
 {
     params:{
         category:catalogueQuery.category?.CategoryName,
-        occasion:catalogueQuery.occasion
+        occasion:catalogueQuery.occasion,
+        productType : productType
     }
 },
 [catalogueQuery]

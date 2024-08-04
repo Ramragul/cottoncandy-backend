@@ -350,10 +350,10 @@ const Navbar: React.FC = () => {
                 ))}
               </MenuList>
             </Menu>
-            <FilterSelectComponent
+            {/* <FilterSelectComponent
               onSelectCategory={handleSelectCategory}
               selectedCategory={selectedCategory}
-            />
+            /> */}
             {authState.isAuthenticated && (
               <Button
                 mt={2}

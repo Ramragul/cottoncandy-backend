@@ -156,6 +156,51 @@
 
 // Version 2 - Build Fix
 
+// import { useState } from 'react';
+// import { Box, Heading, VStack, Text, Image, HStack, Button, List, ListItem } from '@chakra-ui/react';
+// import React from 'react';
+// import useCatalogueCategory, { Category } from '../hooks/useCatalogueCategory';
+
+// interface Props {
+//   onSelectCategory: (category: Category) => void;
+//   selectedCategory: Category | null;
+// }
+
+// const FilterComponent: React.FC<Props> = ({ onSelectCategory, selectedCategory }) => {
+//   const { data: categories, error, isLoading } = useCatalogueCategory();
+
+//   if (isLoading) return <div>Loading...</div>;
+//   if (error) return <div>Error loading categories</div>;
+
+//   return (
+//     <>
+//       <Heading size="md" mb={4} color="pink.800">Filters</Heading>
+//       <List>
+//         {categories.map((category) => (
+//           <ListItem key={category.CategoryID} paddingY='5px' marginTop='20px'>
+//             <HStack>
+//               <Image boxSize='50px' borderRadius={8} src={category.CategoryImageURL} alt={category.CategoryName} />
+//               <Button
+//                 fontWeight={(category.CategoryID === selectedCategory?.CategoryID) ? 'bold' : 'normal'}
+//                 fontSize='lg'
+//                 variant='link'
+//                 onClick={() => onSelectCategory(category)}
+//               >
+//                 {category.CategoryName}
+//               </Button>
+//             </HStack>
+//           </ListItem>
+//         ))}
+//       </List>
+//     </>
+//   );
+// };
+
+// export default FilterComponent;
+
+
+// Version 3 , Version 2 is working version, this is an enhanced version with jewellery category addition
+
 import { useState } from 'react';
 import { Box, Heading, VStack, Text, Image, HStack, Button, List, ListItem } from '@chakra-ui/react';
 import React from 'react';
@@ -164,10 +209,12 @@ import useCatalogueCategory, { Category } from '../hooks/useCatalogueCategory';
 interface Props {
   onSelectCategory: (category: Category) => void;
   selectedCategory: Category | null;
+  apiPath : string ;
+  productType : string | null;
 }
 
-const FilterComponent: React.FC<Props> = ({ onSelectCategory, selectedCategory }) => {
-  const { data: categories, error, isLoading } = useCatalogueCategory();
+const FilterComponent: React.FC<Props> = ({ onSelectCategory, selectedCategory,productType , apiPath}) => {
+  const { data: categories, error, isLoading } = useCatalogueCategory(apiPath,productType);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading categories</div>;
@@ -197,4 +244,6 @@ const FilterComponent: React.FC<Props> = ({ onSelectCategory, selectedCategory }
 };
 
 export default FilterComponent;
+
+
 

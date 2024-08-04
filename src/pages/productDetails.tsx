@@ -154,7 +154,7 @@ const ProductImageURL = "https://picsum.photos/seed/picsum/200/300,https://picsu
 export const ProductDetails: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { product } = location.state || {};
+  const { product , productType } = location.state || {};
   const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [selectedDuration, setSelectedDuration] = useState(durations[0]);
@@ -172,12 +172,16 @@ export const ProductDetails: React.FC = () => {
     return <div>Product not found</div>;
   }
 
+
+
   const handleAddToCart = () => {
+
+
     const cartItem = {
       id : product.ProductID,
       //id: new Date().getTime(), // Ensure unique ID for each item
       name: product.ProductName,
-      size: selectedSize,
+      size: (productType == "Jewellery") ? "Free Size" : selectedSize,
       duration: selectedDuration,
       deliveryDate,
       returnDate,
@@ -221,7 +225,9 @@ export const ProductDetails: React.FC = () => {
           <Heading>{product.ProductName}</Heading>
           <Text>{product.description}</Text>
           <Text fontWeight="bold" color="pink.600">{product.ProductPrice}</Text>
-
+          
+          {productType === 'Apparel' && (
+            <>
           <Text mt={4} fontWeight="bold">Sizes</Text>
           <HStack spacing={2} mt={2} wrap="wrap">
             {sizes.map(size => (
@@ -235,7 +241,8 @@ export const ProductDetails: React.FC = () => {
               </Button>
             ))}
           </HStack>
-
+          </>
+          )}
           <Text mt={4} fontWeight="bold">Duration</Text>
           <HStack spacing={2} mt={2} wrap="wrap">
             {durations.map(duration => (

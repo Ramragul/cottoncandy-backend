@@ -4,8 +4,21 @@ import { Link } from 'react-router-dom';
 import TailoringPhoto from '../assets/homePage/TailoringPhoto.jpeg'
 import RentalPhoto from '../assets/homePage/RentalPhoto4.jpeg'
 import PurchasePhoto from '../assets/homePage/PurchasePhoto2.jpeg'
+import JewelsPhoto from '../assets/homePage/Jewels.jpeg'
 
 export const Home = () => {
+
+  const jewelNav = { 
+    pathname: "/rentalCatalogue", 
+    state: {
+      "category" :"Jewels" 
+    }
+  };
+  const clothNav = { 
+    pathname: "/rentalCatalogue", 
+    type: "Cloth" 
+  };
+
   return (
     <Box bg="pink.50" minHeight="100vh" py={10}>
       {/* Header Description */}
@@ -34,26 +47,10 @@ export const Home = () => {
             <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Tailoring</Text>
           </Link>
         </GridItem> */}
-        {/* <GridItem>
-          <Link to="/purchaseCatalogue">
-            <Box
-              p={6}
-              borderWidth="1px"
-              borderRadius="lg"
-              overflow="hidden"
-              textAlign="center"
-              _hover={{ transform: 'scale(1.05)', transition: 'transform 0.2s' }}
-              height={{ base: "300px", md: "400px" }}
-              backgroundImage={`url(${PurchasePhoto})`}
-              backgroundSize="cover"
-              backgroundPosition="center"
-            >
-            </Box>
-            <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Purchase</Text>
-          </Link>
-        </GridItem> */}
+
         <GridItem>
-          <Link to="/rentalCatalogue">
+          {/* <Link to="/rentalCatalogue"> */}
+          <Link to = "/rentalCatalogue?productType=Apparel">
             <Box
               p={6}
               borderWidth="1px"
@@ -67,7 +64,29 @@ export const Home = () => {
               backgroundPosition="center"
             >    
             </Box>
-            <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Rental</Text>
+            <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Dress</Text>
+          </Link>
+        </GridItem>
+
+        <GridItem>
+          {/* <Link to="/rentalCatalogue"> */}
+          <Link to = "/rentalCatalogue?productType=Jewellery">
+
+          
+            <Box
+              p={6}
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              textAlign="center"
+              _hover={{ transform: 'scale(1.05)', transition: 'transform 0.2s' }}
+              height={{ base: "300px", md: "400px" }}
+              backgroundImage={`url(${JewelsPhoto})`}
+              backgroundSize="cover"
+              backgroundPosition="center"
+            >
+            </Box>
+            <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Fashion Jewellery</Text>
           </Link>
         </GridItem>
       </Grid>

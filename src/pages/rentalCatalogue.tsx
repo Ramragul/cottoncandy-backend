@@ -144,9 +144,14 @@ import { Grid, GridItem, HStack, Show } from '@chakra-ui/react';
 import { CatalogueQuery } from '../App';
 import { Category } from '../hooks/useCatalogueCategory';
 import CategorySelector from '../components/CategorySelector';
+import { useLocation } from 'react-router-dom';
 
 export const RentalCatalogue: React.FC = () => {
   const [catalogueQuery, setCatalogueQuery] = useState<CatalogueQuery>({} as CatalogueQuery);
+
+const location = useLocation ();
+const queryParams = new URLSearchParams(location.search);
+const productType = queryParams.get('productType');
 
   const handleCategorySelect = (category: Category) => {
     setCatalogueQuery({ ...catalogueQuery, category });
@@ -171,6 +176,8 @@ export const RentalCatalogue: React.FC = () => {
           <FilterComponent
             selectedCategory={catalogueQuery.category}
             onSelectCategory={handleCategorySelect}
+            apiPath = {"/api/cc/categories"}
+            productType = {productType}
           />
         </GridItem>
       </Show>
@@ -181,6 +188,8 @@ export const RentalCatalogue: React.FC = () => {
             selectedCategory={catalogueQuery.category}
             //onCategorySelect={(category) => setCatalogueQuery({ ...catalogueQuery, category })}
             onCategorySelect={(category) => setCatalogueQuery({ ...catalogueQuery, category })}
+            productType={productType}
+            apiPath = {"/api/cc/categories"}
             />
             </Show>
           <OccasionSelector
@@ -191,7 +200,7 @@ export const RentalCatalogue: React.FC = () => {
           <SortSelector />
           </Show>
         </HStack>
-        <CatalogueGrid catalogueQuery={catalogueQuery} apiPath={"api/cc/rental/product"} />
+        <CatalogueGrid catalogueQuery={catalogueQuery} apiPath={"api/cc/rental/product"} productType={productType} />
       </GridItem>
     </Grid>
   );

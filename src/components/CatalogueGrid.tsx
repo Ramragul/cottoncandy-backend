@@ -66,12 +66,13 @@ import { CatalogueQuery } from '../App';
 interface Props {
   catalogueQuery: CatalogueQuery;
   apiPath: string;
+  productType : string | null;
 }
 
-const CatalogueGrid: React.FC<Props> = ({ catalogueQuery, apiPath }) => {
+const CatalogueGrid: React.FC<Props> = ({ catalogueQuery, apiPath , productType }) => {
   console.log("selected Occasion from Grid Catalogue query object " + catalogueQuery.occasion);
 
-  const { data, error, isLoading } = useDesignCatalogue(catalogueQuery, apiPath);
+  const { data, error, isLoading } = useDesignCatalogue(catalogueQuery, apiPath,productType);
   const skeletons = [1, 2, 3, 4, 5, 6];
 
   return (
@@ -89,7 +90,7 @@ const CatalogueGrid: React.FC<Props> = ({ catalogueQuery, apiPath }) => {
       <Box w={{ base: '100%', md: '98%' }}>
         <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
           {data?.map((product) => (
-            <CatalogueImageCard key={product.ProductID} product={product} />
+            <CatalogueImageCard key={product.ProductID} product={product} productType = {productType} />
           ))}
         </Grid>
       </Box>

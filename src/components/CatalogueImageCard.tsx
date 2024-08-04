@@ -11,13 +11,15 @@ import { Catalogue } from '../hooks/useDesignCatalogue';
 
 interface Props {
   product: Catalogue;
+  productType : string | null;
 }
 
-const CatalogueImageCard: React.FC<Props> = ({ product }) => {
+const CatalogueImageCard: React.FC<Props> = ({ product,productType }) => {
   const navigate = useNavigate();
+  
 
   const handleProductClick = (product: Catalogue) => {
-    navigate(`/productDetails`, { state: { product } });
+    navigate(`/productDetails`, { state: { product , productType } });
   };
 
   // Split the image URLs by comma and use the first URL
@@ -46,8 +48,10 @@ const CatalogueImageCard: React.FC<Props> = ({ product }) => {
         <Text color="gray.500" p={2}>{product.ProductPrice} INR</Text>
         <Button
           mt={2}
-          bg="black"
-          color="pink.200"
+          //bg="black"
+          bg="#c32f8c"
+          //color="pink.200"
+          color="white"
           _hover={{ bg: 'gray.700' }}
           borderRadius="md"
           px={4}

@@ -6,6 +6,15 @@ export interface Category {
     CategoryImageURL : string;
 }
 
-const useCatalogueCategory = () => useData <Category>("/api/cc/categories")
+//const useCatalogueCategory = () => useData <Category>("/api/cc/categories")
+
+const useCatalogueCategory = ( apiPath : string , productType: string | null) => useData <Category>(apiPath,
+    {
+        params:{
+            productType : productType
+        }
+    },
+    [productType]
+    );
 
 export default useCatalogueCategory;
