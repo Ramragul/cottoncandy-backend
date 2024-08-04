@@ -64,7 +64,7 @@ export const Home = () => {
               backgroundPosition="center"
             >    
             </Box>
-            <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Dress</Text>
+            <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Clothing</Text>
           </Link>
         </GridItem>
 
