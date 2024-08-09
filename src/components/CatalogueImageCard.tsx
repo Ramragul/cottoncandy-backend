@@ -47,7 +47,7 @@ const CatalogueImageCard: React.FC<Props> = ({ product,productType }) => {
       </Box>
       <Box position="relative" bottom="0" left="0" right="0" bg="rgba(255, 255, 255, 0.0)" p={4} borderRadius="md">
         <Text color="pink.900" fontWeight="bold" mb={2} p={2}>{product.ProductName}</Text>
-        <Text color="gray.500" p={2}>{product.ProductPrice} INR</Text>
+        <Text color="gray.500" p={2}>₹ {product.ProductPrice} </Text>
         <Button
           mt={2}
           //bg="black"

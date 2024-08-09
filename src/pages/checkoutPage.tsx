@@ -199,20 +199,20 @@
 //                 {cart.map((item) => (
 //                   <HStack key={item.id} justifyContent="space-between">
 //                     <Text>{item.name}</Text>
-//                     <Text>${item.price}</Text>
+//                     <Text>₹{item.price}</Text>
 //                   </HStack>
 //                 ))}
 //                 <HStack justifyContent="space-between">
 //                   <Text fontWeight="bold" color="pink.500">Products Price:</Text>
-//                   <Text fontWeight="bold" color="pink.500">${totals.productsPrice.toFixed(2)}</Text>
+//                   <Text fontWeight="bold" color="pink.500">₹{totals.productsPrice.toFixed(2)}</Text>
 //                 </HStack>
 //                 <HStack justifyContent="space-between">
 //                   <Text fontWeight="bold" color="pink.500">Security Deposit:</Text>
-//                   <Text fontWeight="bold" color="pink.500">${totals.securityDeposit.toFixed(2)}</Text>
+//                   <Text fontWeight="bold" color="pink.500">₹{totals.securityDeposit.toFixed(2)}</Text>
 //                 </HStack>
 //                 <HStack justifyContent="space-between">
 //                   <Text fontWeight="bold" color="pink.500">Total Amount:</Text>
-//                   <Text fontWeight="bold" color="pink.500">${totals.totalAmount.toFixed(2)}</Text>
+//                   <Text fontWeight="bold" color="pink.500">₹{totals.totalAmount.toFixed(2)}</Text>
 //                 </HStack>
 //               </VStack>
 //               <Button colorScheme="pink" width="100%" onClick={handleSubmit(onSubmit)} isDisabled={Object.keys(errors).length > 0}>
@@ -467,20 +467,20 @@
 //                 {cart.map((item: CheckoutPageProps['cart'][number]) => (
 //                   <HStack key={item.id} justifyContent="space-between">
 //                     <Text>{item.name}</Text>
-//                     <Text>${item.price}</Text>
+//                     <Text>₹{item.price}</Text>
 //                   </HStack>
 //                 ))}
 //                 <HStack justifyContent="space-between">
 //                   <Text fontWeight="bold" color="pink.500">Products Price:</Text>
-//                   <Text fontWeight="bold" color="pink.500">${totals.productsPrice.toFixed(2)}</Text>
+//                   <Text fontWeight="bold" color="pink.500">₹{totals.productsPrice.toFixed(2)}</Text>
 //                 </HStack>
 //                 <HStack justifyContent="space-between">
 //                   <Text fontWeight="bold" color="pink.500">Security Deposit:</Text>
-//                   <Text fontWeight="bold" color="pink.500">${totals.securityDeposit.toFixed(2)}</Text>
+//                   <Text fontWeight="bold" color="pink.500">₹{totals.securityDeposit.toFixed(2)}</Text>
 //                 </HStack>
 //                 <HStack justifyContent="space-between">
 //                   <Text fontWeight="bold" color="pink.500">Total Amount:</Text>
-//                   <Text fontWeight="bold" color="pink.500">${totals.totalAmount.toFixed(2)}</Text>
+//                   <Text fontWeight="bold" color="pink.500">₹{totals.totalAmount.toFixed(2)}</Text>
 //                 </HStack>
 //               </VStack>
 //               <Button colorScheme="pink" width="100%" onClick={handleSubmit(onSubmit)} isDisabled={Object.keys(errors).length > 0}>
@@ -747,20 +747,20 @@ export const CheckoutPage: React.FC = () => {
                 {cart.map((item: CheckoutPageProps['cart'][number]) => (
                   <HStack key={item.id} justifyContent="space-between">
                     <Text>{item.name}</Text>
-                    <Text>${item.price}</Text>
+                    <Text>₹{item.price}</Text>
                   </HStack>
                 ))}
                 <HStack justifyContent="space-between">
                   <Text fontWeight="bold" color="pink.500">Products Price:</Text>
-                  <Text fontWeight="bold" color="pink.500">${totals.productsPrice.toFixed(2)}</Text>
+                  <Text fontWeight="bold" color="pink.500">₹{totals.productsPrice.toFixed(2)}</Text>
                 </HStack>
                 <HStack justifyContent="space-between">
                   <Text fontWeight="bold" color="pink.500">Security Deposit:</Text>
-                  <Text fontWeight="bold" color="pink.500">${totals.securityDeposit.toFixed(2)}</Text>
+                  <Text fontWeight="bold" color="pink.500">₹{totals.securityDeposit.toFixed(2)}</Text>
                 </HStack>
                 <HStack justifyContent="space-between">
                   <Text fontWeight="bold" color="pink.500">Total Amount:</Text>
-                  <Text fontWeight="bold" color="pink.500">${totals.totalAmount.toFixed(2)}</Text>
+                  <Text fontWeight="bold" color="pink.500">₹{totals.totalAmount.toFixed(2)}</Text>
                 </HStack>
                 <HStack justifyContent="space-between" mt={4}>
             <Badge
@@ -768,7 +768,7 @@ export const CheckoutPage: React.FC = () => {
               fontSize="lg"
               p={2}
               borderRadius="md"
-              animation={`${bounceAnimation} 1s infinite`}
+              animation={`₹{bounceAnimation} 1s infinite`}
             >
               Free Delivery
             </Badge>

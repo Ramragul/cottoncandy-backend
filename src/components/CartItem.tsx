@@ -37,8 +37,8 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQuantity })
           <Text>{item.name}</Text>
           <Text>Size: {item.size}</Text>
           <Text>Duration: {item.duration}</Text>
-          <Text>Price: ${item.price}</Text>
-          <Text>Deposit: ${calculateDeposit(item)}</Text>
+          <Text>Price: ₹{item.price}</Text>
+          <Text>Deposit: ₹{calculateDeposit(item)}</Text>
           <Text mt={2}>
             <Button size="sm" colorScheme="red" onClick={() => onRemove(item.id)}>
               Remove
@@ -56,7 +56,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQuantity })
           />
         </Box>
         <Box className="cartItemSubtotal">
-          <Text>Subtotal: ${calculateSubtotal(item)}</Text>
+          <Text>Subtotal: ₹{calculateSubtotal(item)}</Text>
         </Box>
       </Flex>
       <Divider mt={4} />
