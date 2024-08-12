@@ -122,7 +122,7 @@ export const Home = () => {
 
       {/* Footer */}
       <Box textAlign="center" py={6} bg="pink.600" color="white">
-        <Text fontSize="lg">Contact Us: 123-456-7890 | email@example.com</Text>
+        <Text fontSize="lg">Contact Us: 9629705557 | iotprograms@gmail.com</Text>
         <Text mt={2}>© 2023 Cotton Candy. All rights reserved.</Text>
       </Box>
     </Box>

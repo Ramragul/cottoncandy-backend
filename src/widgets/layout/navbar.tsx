@@ -195,7 +195,7 @@ import logo1 from '../../assets/navbar/logo1.jpg';
 import useCatalogueCategory, { Category } from '../../hooks/useCatalogueCategory';
 import FilterSelectComponent from '../../components/FilterSelectComponent';
 
-const cities = ["New York", "Los Angeles", "Chicago", "Houston"];
+const cities = ["Chennai", "Coimbatore", "Trichy"];
 
 const Navbar: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

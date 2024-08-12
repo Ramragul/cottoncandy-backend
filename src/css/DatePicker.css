@@ -11,7 +11,8 @@
     border: 1px solid #d53f8c; /* Pink border */
     border-radius: 4px;
     padding: 8px;
-    color: #d53f8c; /* Pink color for text */
+   color: #d53f8c; 
+    
   }
   
   .custom-datepicker__input:focus {
@@ -66,7 +67,8 @@
     padding: 5px; /* Adjust padding to make it smaller */
     border: 1px solid pink;
     border-radius: 5px;
-    color: pink;
+    /* color: pink; */
+    color : black;
   }
   
   .custom-datepicker:focus {
