@@ -10,3 +10,5 @@ export * from "./loginPage";
 export * from "./registerPage";
 export * from "./yourOrdersPage";
 export * from "./purchaseCatalogue";
+export * from "./orderManagement";
+export * from "./orderManagementDetails";

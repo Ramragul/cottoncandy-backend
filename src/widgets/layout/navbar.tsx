@@ -306,7 +306,7 @@ const Navbar: React.FC = () => {
                 </Box>
                 <MenuDivider />
                 <MenuItem onClick={() => navigate('/account')}>Your Account</MenuItem>
-                <MenuItem onClick={() => navigate('/orders')}>Your Orders</MenuItem>
+                <MenuItem onClick={() => navigate('/yourOrders')}>Your Orders</MenuItem>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={logout} as={Button} variant="solid" colorScheme="pink">Logout</MenuItem>

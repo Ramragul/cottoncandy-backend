@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue, AboutUs,ProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue, AboutUs,ProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -90,8 +90,22 @@ export const routes = [
   {
     icon: UsersIcon,
     name: "YourOrdersPage",
-    path: "/orders",
+    path: "/yourOrders",
     element: <YourOrdersPage />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "OrderManagement",
+    path: "/orders",
+    element: <OrderManagement />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "OrderManagementDetails",
+    path: "/orderDetails/:order_id",
+    element: <OrderManagementDetails />,
     visible: false,
   },
 
