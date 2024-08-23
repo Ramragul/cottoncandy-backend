@@ -1,0 +1,64 @@
+/* SpinWheel.css */
+.wheel-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid #ddd;
+    position: relative;
+    overflow: hidden;
+}
+
+.wheel-segment {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    transform-origin: 100% 100%;
+    backface-visibility: hidden;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.wheel-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid red;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+@keyframes flowColors {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+.celebration-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ff6f61, #ffcc5c, #d4a5a5, #61c0bf);
+    background-size: 400% 400%;
+    animation: flowColors 10s ease infinite;
+    z-index: -1; /* Make sure it’s behind other content */
+}

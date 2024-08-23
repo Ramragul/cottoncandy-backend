@@ -194,7 +194,7 @@ import { useNavigate } from 'react-router-dom';
 import logo1 from '../../assets/navbar/logo1.jpg';
 import useCatalogueCategory, { Category } from '../../hooks/useCatalogueCategory';
 import FilterSelectComponent from '../../components/FilterSelectComponent';
-
+import { keyframes } from '@chakra-ui/react';
 const cities = ["Chennai", "Coimbatore", "Trichy"];
 
 const Navbar: React.FC = () => {
@@ -218,6 +218,19 @@ const Navbar: React.FC = () => {
 
   const { data: categories, error, isLoading } = useCatalogueCategory();
 
+  // animation effect
+
+  const pulseAnimation = keyframes`
+  0%, 100% {
+    transform: scale(1);
+    background-color: #F687B3; // Pink color
+  }
+  50% {
+    transform: scale(1.1); // Slightly larger scale
+    background-color: #F6AD55; // Slightly different color to give a pulsating feel
+  }
+`;
+
   return (
     <Box bg="white" px={4} boxShadow="md">
       <Flex h={16} alignItems="center" justifyContent="space-between">
@@ -229,7 +242,7 @@ const Navbar: React.FC = () => {
           onClick={isOpen ? onClose : onOpen}
         />
         <HStack spacing={8} alignItems="center" display={{ base: 'none', lg: 'flex' }}>
-          <Menu>
+          {/* <Menu>
             <MenuButton as={Link} _hover={{ textDecoration: 'none' }}>
               {selectedCity} <ChevronDownIcon />
             </MenuButton>
@@ -240,7 +253,7 @@ const Navbar: React.FC = () => {
                 </MenuItem>
               ))}
             </MenuList>
-          </Menu>
+          </Menu> */}
         </HStack>
         <HStack spacing={8} alignItems="center" justifyContent={{ base: 'center', lg: 'space-between' }}>
           <HStack as="nav" spacing={4} display={{ base: 'none', lg: 'flex' }} color="pink.600">
@@ -259,6 +272,56 @@ const Navbar: React.FC = () => {
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
               Contact Us
             </Link>
+            {( authState.isAuthenticated &&
+            // <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/spinwheel">
+            //   Play & Win
+            // </Link> 
+            
+//             <Link
+//   px={3}
+//   py={2}
+//   rounded="full"
+//   bg="pink.400"
+//   color="white"
+//   fontWeight="bold"
+//   _hover={{ textDecoration: 'none', bg: 'pink.500' }}
+//   _active={{ bg: 'pink.600', transform: 'scale(0.98)' }}
+//   href="/spinwheel"
+//   transition="all 0.2s ease-in-out"
+//   boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
+// >
+//   🎉 Play & Win 🎉
+// </Link>
+
+
+<Link
+  px={{ base: 2, md: 3 }}   // Smaller padding for mobile
+  py={{ base: 1, md: 2 }}   // Smaller padding for mobile
+  rounded="full"
+  bg="pink.400"
+  color="white"
+  fontWeight="bold"
+  animation={`${pulseAnimation} 2s infinite`}  // Pulsating animation
+  _hover={{ 
+    textDecoration: 'none', 
+    bg: 'pink.500',
+    transform: 'scale(1.1)',  // Slightly larger on hover
+  }}
+  _active={{ 
+    bg: 'pink.600', 
+    transform: 'scale(0.98)'  // Slightly smaller on active click
+  }}
+  href="/spinwheel"
+  transition="all 0.2s ease-in-out"
+  boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
+  textAlign="center"
+  mx="auto"  // Center the link on mobile devices
+  maxW={{ base: '80%', md: 'auto' }} // Restrict max width on mobile
+  display="inline-block" // Keeps the element inline and prevents it from taking full width
+>
+  🎉 Play & Win 🎉
+</Link>            
+            )}
           </HStack>
         </HStack>
 
@@ -338,7 +401,7 @@ const Navbar: React.FC = () => {
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
               Contact Us
             </Link>
-            <Menu>
+            {/* <Menu>
               <MenuButton as={Link} _hover={{ textDecoration: 'none' }}>
                 {selectedCity} <ChevronDownIcon />
               </MenuButton>
@@ -349,7 +412,37 @@ const Navbar: React.FC = () => {
                   </MenuItem>
                 ))}
               </MenuList>
-            </Menu>
+            </Menu> */}
+{ authState.isAuthenticated && (
+  <Link
+  px={{ base: 2, md: 3 }}   // Smaller padding for mobile
+  py={{ base: 1, md: 2 }}   // Smaller padding for mobile
+  rounded="full"
+  bg="pink.400"
+  color="white"
+  fontWeight="bold"
+  animation={`${pulseAnimation} 2s infinite`}  // Pulsating animation
+  _hover={{ 
+    textDecoration: 'none', 
+    bg: 'pink.500',
+    transform: 'scale(1.1)',  // Slightly larger on hover
+  }}
+  _active={{ 
+    bg: 'pink.600', 
+    transform: 'scale(0.98)'  // Slightly smaller on active click
+  }}
+  href="/spinwheel"
+  transition="all 0.2s ease-in-out"
+  boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
+  textAlign="center"
+  mx="auto"  // Center the link on mobile devices
+  maxW={{ base: '80%', md: 'auto' }} // Restrict max width on mobile
+  display="inline-block" // Keeps the element inline and prevents it from taking full width
+>
+  🎉 Play & Win 🎉
+</Link>
+
+      )}
             {/* <FilterSelectComponent
               onSelectCategory={handleSelectCategory}
               selectedCategory={selectedCategory}

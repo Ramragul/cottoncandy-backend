@@ -12,3 +12,5 @@ export * from "./yourOrdersPage";
 export * from "./purchaseCatalogue";
 export * from "./orderManagement";
 export * from "./orderManagementDetails";
+export * from "./spinWheel";
+export * from "./scratchCard";

@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue, AboutUs,ProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue, AboutUs,ProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -106,6 +106,20 @@ export const routes = [
     name: "OrderManagementDetails",
     path: "/orderDetails/:order_id",
     element: <OrderManagementDetails />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "SpinWheel",
+    path: "/spinwheel",
+    element: <SpinWheel />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "ScratchCard",
+    path: "/scratchcard",
+    element: <ScratchCard />,
     visible: false,
   },
 
