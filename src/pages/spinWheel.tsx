@@ -1019,429 +1019,452 @@
 
 // Version 5 : Working Version 
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Box, Text, keyframes, Button } from '@chakra-ui/react';
-import { useAuth } from '../contexts/AuthContext';
-import usePostData from '../hooks/usePostData'; // Import the usePostData hook
-import celebrationAnimationData from '../animations/celebration.json'; // Path to your celebration Lottie animation
-import Lottie from 'lottie-react';
+// import React, { useState, useRef, useEffect } from 'react';
+// import { Box, Text, keyframes, Button } from '@chakra-ui/react';
+// import { useAuth } from '../contexts/AuthContext';
+// import usePostData from '../hooks/usePostData'; // Import the usePostData hook
+// import celebrationAnimationData from '../animations/celebration.json'; // Path to your celebration Lottie animation
+// import Lottie from 'lottie-react';
 
-// Prize list
-const prizes = [
-    'Better Luck Next Time',
-    'Congrats You have Entered into Lucky Draw'
-];
+// // Prize list
+// const prizes = [
+//     'Better Luck Next Time',
+//     'Congrats You have Entered into Lucky Draw'
+// ];
 
-const prizeCount = prizes.length;
+// const prizeCount = prizes.length;
 
-// Keyframes for animations
-const revealAnimation = keyframes`
-    0% { transform: scale(0); opacity: 0; }
-    50% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
-`;
+// // Keyframes for animations
+// const revealAnimation = keyframes`
+//     0% { transform: scale(0); opacity: 0; }
+//     50% { transform: scale(1.1); opacity: 1; }
+//     100% { transform: scale(1); opacity: 1; }
+// `;
 
-const messageAnimation = keyframes`
-0% { transform: scale(1); }
-50% { transform: scale(1.05); }
-100% { transform: scale(1); }
-`;
+// // const messageAnimation = keyframes`
+// // 0% { transform: scale(1); }
+// // 50% { transform: scale(1.05); }
+// // 100% { transform: scale(1); }
+// // `;
 
-// Define a keyframes animation for the box
-const prizeMessageAnimation = keyframes`
-0% { transform: scale(1); }
-50% { transform: scale(1.05); }
-100% { transform: scale(1); }
-`;
+// const messageAnimation = keyframes`
+//     0% { opacity: 0; transform: translateY(20px); }
+//     100% { opacity: 1; transform: translateY(0); }
+// `;
 
-export const SpinWheel: React.FC = () => {
-    const { authState } = useAuth();
-    const [isSpinning, setIsSpinning] = useState(false);
-    const [rotation, setRotation] = useState(0);
-    const [winningPrize, setWinningPrize] = useState('');
-    const [isRevealing, setIsRevealing] = useState(false);
-    const [revealPrize, setRevealPrize] = useState('');
-    const [showSavingMessage, setShowSavingMessage] = useState(false);
-    const [showCelebration, setShowCelebration] = useState(false); // State for celebration animation
-    const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
-    const celebrationAudioRef = useRef<HTMLAudioElement | null>(null); // Ref for celebration sound
+// // Define a keyframes animation for the box
+// const prizeMessageAnimation = keyframes`
+// 0% { transform: scale(1); }
+// 50% { transform: scale(1.05); }
+// 100% { transform: scale(1); }
+// `;
 
-    // Using the usePostData hook
-    const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/luckydraw');
+// export const SpinWheel: React.FC = () => {
+//     const { authState } = useAuth();
+//     const [isSpinning, setIsSpinning] = useState(false);
+//     const [rotation, setRotation] = useState(0);
+//     const [winningPrize, setWinningPrize] = useState('');
+//     const [isRevealing, setIsRevealing] = useState(false);
+//     const [revealPrize, setRevealPrize] = useState('');
+//     const [showSavingMessage, setShowSavingMessage] = useState(false);
+//     const [showCelebration, setShowCelebration] = useState(false); // State for celebration animation
+//     const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
+//     const audioRef = useRef<HTMLAudioElement | null>(null);
+//     const celebrationAudioRef = useRef<HTMLAudioElement | null>(null); // Ref for celebration sound
 
-    const playSound = () => {
-        if (audioRef.current) {
-            audioRef.current.currentTime = 0;
-            audioRef.current.play();
-        }
-    };
+//     // Using the usePostData hook
+//     const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/luckydraw');
 
-    const stopSound = () => {
-        if (audioRef.current) {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-        }
-    };
+//     const playSound = () => {
+//         if (audioRef.current) {
+//             audioRef.current.currentTime = 0;
+//             audioRef.current.play();
+//         }
+//     };
 
-    const playCelebrationSound = () => {
-        if (celebrationAudioRef.current) {
-            celebrationAudioRef.current.currentTime = 0;
-            celebrationAudioRef.current.play();
-        }
-    };
+//     const stopSound = () => {
+//         if (audioRef.current) {
+//             audioRef.current.pause();
+//             audioRef.current.currentTime = 0;
+//         }
+//     };
 
-    const stopCelebrationSound = () => {
-        if (celebrationAudioRef.current) {
-            celebrationAudioRef.current.pause();
-            celebrationAudioRef.current.currentTime = 0;
-        }
-    };
+//     const playCelebrationSound = () => {
+//         if (celebrationAudioRef.current) {
+//             celebrationAudioRef.current.currentTime = 0;
+//             celebrationAudioRef.current.play();
+//         }
+//     };
 
-    const generateReferenceNumber = () => {
-        return 'REF-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-    };
+//     const stopCelebrationSound = () => {
+//         if (celebrationAudioRef.current) {
+//             celebrationAudioRef.current.pause();
+//             celebrationAudioRef.current.currentTime = 0;
+//         }
+//     };
 
-    const handleSpin = () => {
-        if (isSpinning) return;
+//     const generateReferenceNumber = () => {
+//         return 'REF-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+//     };
 
-        const spins = 5; // Number of full rotations
-        const prizeDegree = 360 / prizeCount;
-        const randomIndex = Math.floor(Math.random() * prizeCount);
-        const randomDegree = randomIndex * prizeDegree;
-        const totalRotation = 360 * spins + randomDegree;
+//     const handleSpin = () => {
+//         if (isSpinning) return;
 
-        setIsSpinning(true);
-        setIsRevealing(false);
-        setWinningPrize('');
-        setRevealPrize('');
-        setShowSavingMessage(false);
-        setShowCelebration(false); // Reset celebration animation
+//         const spins = 5; // Number of full rotations
+//         const prizeDegree = 360 / prizeCount;
+//         const randomIndex = Math.floor(Math.random() * prizeCount);
+//         const randomDegree = randomIndex * prizeDegree;
+//         const totalRotation = 360 * spins + randomDegree;
 
-        // Play the spinning sound
-        playSound();
+//         setIsSpinning(true);
+//         setIsRevealing(false);
+//         setWinningPrize('');
+//         setRevealPrize('');
+//         setShowSavingMessage(false);
+//         setShowCelebration(false); // Reset celebration animation
 
-        let startTime: number;
-        const duration = 3000; // Spin duration in ms
+//         // Play the spinning sound
+//         playSound();
 
-        const animate = (time: number) => {
-            if (!startTime) startTime = time;
-            const elapsed = time - startTime;
+//         let startTime: number;
+//         const duration = 3000; // Spin duration in ms
 
-            let progress = elapsed / duration;
-            if (progress > 1) progress = 1;
+//         const animate = (time: number) => {
+//             if (!startTime) startTime = time;
+//             const elapsed = time - startTime;
 
-            // Ease-out effect for more realistic stopping
-            const easeOut = (progress: number) => 1 - Math.pow(1 - progress, 3);
+//             let progress = elapsed / duration;
+//             if (progress > 1) progress = 1;
 
-            const currentRotation = totalRotation * easeOut(progress);
-            setRotation(currentRotation);
+//             // Ease-out effect for more realistic stopping
+//             const easeOut = (progress: number) => 1 - Math.pow(1 - progress, 3);
 
-            if (elapsed < duration) {
-                requestAnimationFrame(animate);
-            } else {
-                const finalRotation = currentRotation % 360;
-                setRotation(finalRotation);
-                setIsSpinning(false);
-                stopSound(); // Stop the sound after the spin ends
+//             const currentRotation = totalRotation * easeOut(progress);
+//             setRotation(currentRotation);
 
-                // Calculate the winning prize index based on the 90-degree position
-                const adjustedRotation = (finalRotation + 90) % 360;
-                const calculatedIndex = Math.floor(adjustedRotation / prizeDegree);
-                const wonPrize = prizes[calculatedIndex];
-                setWinningPrize(wonPrize);
+//             if (elapsed < duration) {
+//                 requestAnimationFrame(animate);
+//             } else {
+//                 const finalRotation = currentRotation % 360;
+//                 setRotation(finalRotation);
+//                 setIsSpinning(false);
+//                 stopSound(); // Stop the sound after the spin ends
 
-                // Trigger reveal animation
-                setIsRevealing(true);
-                setRevealPrize(wonPrize);
+//                 // Calculate the winning prize index based on the 90-degree position
+//                 const adjustedRotation = (finalRotation + 90) % 360;
+//                 const calculatedIndex = Math.floor(adjustedRotation / prizeDegree);
+//                 const wonPrize = prizes[calculatedIndex];
+//                 setWinningPrize(wonPrize);
 
-                // Show saving message for 3 seconds then display reference number if applicable
-                setShowSavingMessage(true);
-                setTimeout(() => {
-                    setShowSavingMessage(false);
-                    if (wonPrize !== 'Better Luck Next Time') {
-                        playCelebrationSound();
-                        const refNumber = generateReferenceNumber();
-                        setReferenceNumber(refNumber);
-                        setShowCelebration(true); //  celebration animation
-                        setTimeout(() => {
-                            setShowCelebration(false);
-                        }, 3000);
+//                 // Trigger reveal animation
+//                 setIsRevealing(true);
+//                 setRevealPrize(wonPrize);
 
-                        // Save spin result to database
-                        const spinData = {
-                            userId: authState.userId, // Get userId from authState
-                            prize: wonPrize,
-                            eventType: 'SpinWheel',
-                            // participationDate: new Date().toISOString(), // Current date-time in ISO format
-                            referenceNumber: refNumber // Include reference number in payload
-                        };
+//                 // Show saving message for 3 seconds then display reference number if applicable
+//                 setShowSavingMessage(true);
+//                 setTimeout(() => {
+//                     setShowSavingMessage(false);
+//                     if (wonPrize !== 'Better Luck Next Time') {
+//                         playCelebrationSound();
+//                         const refNumber = generateReferenceNumber();
+//                         setReferenceNumber(refNumber);
+//                         setShowCelebration(true); //  celebration animation
+//                         setTimeout(() => {
+//                             setShowCelebration(false);
+//                         }, 3000);
 
-                        postData(spinData); // Use the postData function to send the spin data to the backend
-                    } else {
-                        setReferenceNumber(null); // No reference number for "Better Luck Next Time"
-                        const spinData = {
-                            userId: authState.userId, // Get userId from authState
-                            prize: wonPrize,
-                            eventType: 'SpinWheel',
-                            // participationDate: new Date().toISOString(), // Current date-time in ISO format
-                            referenceNumber: "" // Include reference number in payload
-                        };
+//                         // Save spin result to database
+//                         const spinData = {
+//                             userId: authState.userId, // Get userId from authState
+//                             prize: wonPrize,
+//                             eventType: 'SpinWheel',
+//                             // participationDate: new Date().toISOString(), // Current date-time in ISO format
+//                             referenceNumber: refNumber // Include reference number in payload
+//                         };
 
-                        postData(spinData); // Use the postData function to send the spin data to the backend
-                    }
-                }, 3000);
-            }
-        };
+//                         postData(spinData); // Use the postData function to send the spin data to the backend
+//                     } else {
+//                         setReferenceNumber(null); // No reference number for "Better Luck Next Time"
+//                         const spinData = {
+//                             userId: authState.userId, // Get userId from authState
+//                             prize: wonPrize,
+//                             eventType: 'SpinWheel',
+//                             // participationDate: new Date().toISOString(), // Current date-time in ISO format
+//                             referenceNumber: "" // Include reference number in payload
+//                         };
 
-        requestAnimationFrame(animate);
-    };
+//                         postData(spinData); // Use the postData function to send the spin data to the backend
+//                     }
+//                 }, 3000);
+//             }
+//         };
 
-    useEffect(() => {
-        if (responseData) {
-            console.log('Spin data saved successfully:', responseData);
-        }
-        if (error) {
-            console.error('Failed to save spin data:', error);
-        }
-    }, [responseData, error]);
+//         requestAnimationFrame(animate);
+//     };
 
-    return (
-        <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            height="100vh"
-            backgroundColor={authState.isAuthenticated ? "#f0f8ff" : "#f0f0f0"}
-            padding="10px"
-            boxSizing="border-box"
-            animation={authState.isAuthenticated ? `${messageAnimation} 2s ease-in-out` : 'none'}
-        >
-            {/* Lucky Draw Announcement Banner */}
+//     useEffect(() => {
+//         if (responseData) {
+//             console.log('Spin data saved successfully:', responseData);
+//         }
+//         if (error) {
+//             console.error('Failed to save spin data:', error);
+//         }
+//     }, [responseData, error]);
 
-            
-            <Box
-                width="100%"
-                backgroundColor="#b5edbd"
-                padding="10px"
-                textAlign="center"
-                color="#black"
-                fontSize={{ base: 'md', md: 'lg' }}
-                fontWeight="bold"
-                marginBottom="20px"
-                borderRadius="md"
-                animation={`${messageAnimation} 2s ease-in-out`}
-            >
-                🎉 Lucky Draw Result Announcement on August 31 at 6pm! Stay tuned! Spin as much as You can and Win 🎉
-            </Box>
+//     return (
+//         <Box
+//             display="flex"
+//             flexDirection="column"
+//             alignItems="center"
+//             justifyContent="center"
+//             height="100vh"
+//             backgroundColor={authState.isAuthenticated ? "#f0f8ff" : "#f0f0f0"}
+//             padding="10px"
+//             boxSizing="border-box"
+//             animation={authState.isAuthenticated ? `${messageAnimation} 2s ease-in-out` : 'none'}
+//         >
+//             {/* Lucky Draw Announcement Banner */}
+
+//             {/* <Box
+//                 width="100%"
+//                 backgroundColor="#b5edbd"
+//                 padding="10px"
+//                 textAlign="center"
+//                 color="#black"
+//                 fontSize={{ base: 'md', md: 'lg' }}
+//                 fontWeight="bold"
+//                 marginBottom="20px"
+//                 borderRadius="md"
+//                 animation={`${messageAnimation} 2s ease-in-out`}
+//             >
+//                 🎉 Lucky Draw Result Announcement on August 31 at 6pm! Stay tuned! Spin as much as You can and Win 🎉
+//             </Box> */}
+
+// <Box
+//     width="100%"
+//     padding="10px 0" // Reduced top and bottom padding
+//     marginTop="0"    // Ensure no extra top margin is adding space
+//     textAlign="center"
+//     backgroundColor='#b5edbd'
+//     color="black"
+//     fontSize={{ base: 'md', md: 'lg' }}
+//     fontWeight="bold"
+//     marginBottom="20px"
+//     borderRadius="md"
+//     animation={`${messageAnimation} 2s ease-in-out`}
+// >
+//     🎁 You have a chance to win incredible prizes worth up to ₹1,00,000! Premium Lehengas, American Diamond Chokers, Rings, Bangles, and Necklaces await you! 🎁
+// </Box>
+
+
+
 
           
-            {/* Promotional Message Section */}
-            {/* <Box
-                width="100%"
-                backgroundColor="#4caf50"
-                padding="15px"
-                textAlign="center"
-                color="#fff"
-                fontSize={{ base: 'md', md: 'lg' }}
-                fontWeight="bold"
-                marginBottom="20px"
-                borderRadius="md"
-                animation={`${messageAnimation} 2s ease-in-out`}
-            >
-                🎁 You have a chance to win incredible prizes worth up to ₹1,00,000! Premium Lehengas, American Diamond Chokers, Rings, Bangles, and Necklaces await you! 🎁
-            </Box> */}
+//             {/* Promotional Message Section */}
+//             {/* <Box
+//                 width="100%"
+//                 backgroundColor="#4caf50"
+//                 padding="15px"
+//                 textAlign="center"
+//                 color="#fff"
+//                 fontSize={{ base: 'md', md: 'lg' }}
+//                 fontWeight="bold"
+//                 marginBottom="20px"
+//                 borderRadius="md"
+//                 animation={`${messageAnimation} 2s ease-in-out`}
+//             >
+//                 🎁 You have a chance to win incredible prizes worth up to ₹1,00,000! Premium Lehengas, American Diamond Chokers, Rings, Bangles, and Necklaces await you! 🎁
+//             </Box> */}
 
-<Box
-    width="100%"
-    background="#1a1a2e"  // Darker background for better contrast
-    padding="20px"
-    textAlign="center"
-    color="#f0e68c"  // Light golden color for readability
-    fontSize={{ base: 'lg', md: 'xl' }}
-    fontWeight="bold"
-    marginBottom="30px"
-    borderRadius="lg"
-    boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
-    border="2px solid #ffcc00"  // Bright gold border to complement the dark background
-    animation={`${messageAnimation} 4s ease-in-out infinite`}
->
-    🎁 <span style={{ color: '#ffd700' }}>You have a chance to win incredible prizes</span> worth up to 
-    <span style={{ fontSize: '1.2em', color: '#ffeb3b' }}> ₹1,00,000</span>! 
-    <span style={{ color: '#ffd700' }}>Premium Lehengas, American Diamond Chokers, Rings, Bangles,</span> 
-     <span style={{ color: '#ffd700' }}>Necklaces and Many more Exciting Gifts</span> await you! 🎁
-</Box>
+// <Box
+//     width="100%"
+//     background="#1a1a2e"  // Darker background for better contrast
+//     padding="20px"
+//     textAlign="center"
+//     color="#f0e68c"  // Light golden color for readability
+//     fontSize={{ base: 'lg', md: 'xl' }}
+//     fontWeight="bold"
+//     marginBottom="30px"
+//     borderRadius="lg"
+//     boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
+//     border="2px solid #ffcc00"  // Bright gold border to complement the dark background
+//     animation={`${messageAnimation} 4s ease-in-out infinite`}
+// >
+//     🎁 <span style={{ color: '#ffd700' }}>You have a chance to win incredible prizes</span> worth up to 
+//     <span style={{ fontSize: '1.2em', color: '#ffeb3b' }}> ₹1,00,000</span>! 
+//     <span style={{ color: '#ffd700' }}>Premium Lehengas, American Diamond Chokers, Rings, Bangles,</span> 
+//      <span style={{ color: '#ffd700' }}>Necklaces and Many more Exciting Gifts</span> await you! 🎁
+// </Box>
 
-            {authState.isAuthenticated ? (
-                <>
-                    <Box 
-                        position="relative" 
-                        width="80vw" 
-                        height="80vw"
-                        maxWidth="400px"
-                        maxHeight="400px"
-                    >
-                        <Box
-                            width="100%"
-                            height="100%"
-                            borderRadius="50%"
-                            background="conic-gradient(
-                                #FFDDC1 0% 20%, 
-                                #C1FFD8 20% 40%, 
-                                #C1E4FF 40% 60%, 
-                                #F0C1FF 60% 80%, 
-                                #FFDCB0 80% 100%)"
-                            border="4px solid #000"
-                            transform={`rotate(${rotation}deg)`}
-                            transition="transform 0.1s ease"
-                            position="absolute"
-                            top="0"
-                            left="0"
-                            zIndex="1"
-                        />
-                        {isRevealing && (
-                            <Box
-                                position="absolute"
-                                top="50%"
-                                left="50%"
-                                transform="translate(-50%, -50%)"
-                                width="70%"
-                                height="70%"
-                                borderRadius="50%"
-                                backgroundColor="white"
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                                boxShadow="0 0 25px rgba(0, 255, 0, 0.7)"
-                                zIndex="2"
-                                overflow="hidden"
-                                animation={`${revealAnimation} 1s ease-in-out`}
-                            >
-                                <Text
-                                    fontSize={{ base: 'lg', md: 'xl' }}
-                                    fontWeight="bold"
-                                    color="#000"
-                                    textAlign="center"
-                                    padding="10px"
-                                    backgroundColor="#FFF"
-                                    borderRadius="md"
-                                    boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
-                                >
-                                    {revealPrize}
-                                </Text>
-                            </Box>
-                        )}
-                    </Box>
-                    <Box marginTop="20px">
-                        <Button 
-                            onClick={handleSpin} 
-                            isDisabled={isSpinning}
-                            colorScheme="pink"
-                            size="lg"
-                            padding="15px 30px"
-                            fontSize="lg"
-                            borderRadius="md"
-                            boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
-                            transition="background-color 0.2s, transform 0.2s"
-                            _hover={{ backgroundColor: 'pink.600', transform: 'scale(1.50)' }}
-                            _active={{ backgroundColor: 'green.700', transform: 'scale(0.95)' }}
-                        >
-                            {isSpinning ? 'Spinning...' : 'Spin'}
-                        </Button>
-                    </Box>
-                    {showSavingMessage && (
-                        <Box 
-                            position="relative" 
-                            marginTop="20px"
-                            backgroundColor="#4caf50"
-                            padding="15px"
-                            borderRadius="md"
-                            boxShadow="0 0 10px rgba(0, 0, 0, 0.5)"
-                            zIndex="999"
-                            color="white"
-                            textAlign="center"
-                            fontSize={{ base: 'md', md: 'lg' }}
-                            fontWeight="bold"
-                        >
-                            <Text>Saving your spin result...</Text>
-                        </Box>
-                    )}
-                    {!showSavingMessage && referenceNumber && (
-                        <Box 
-                            position="relative" 
-                            marginTop="20px"
-                            backgroundColor="#2196f3"
-                            padding="15px"
-                            borderRadius="md"
-                            boxShadow="0 0 10px rgba(0, 0, 0, 0.5)"
-                            zIndex="999"
-                            color="white"
-                            textAlign="center"
-                            fontSize={{ base: 'md', md: 'lg' }}
-                            fontWeight="bold"
-                        >
-                            {/* <Text>Your Reference Number: {referenceNumber}</Text> */}
-                            <Text>
-                            Your Reference Number: {referenceNumber}. Please make sure to keep a note of your reference number. Kindly visit our site on August 31, 2024, at 6 PM to check the results. All the best!
-                            </Text>
+//             {authState.isAuthenticated ? (
+//                 <>
+//                     <Box 
+//                         position="relative" 
+//                         width="80vw" 
+//                         height="80vw"
+//                         maxWidth="400px"
+//                         maxHeight="400px"
+//                     >
+//                         <Box
+//                             width="100%"
+//                             height="100%"
+//                             borderRadius="50%"
+//                             background="conic-gradient(
+//                                 #FFDDC1 0% 20%, 
+//                                 #C1FFD8 20% 40%, 
+//                                 #C1E4FF 40% 60%, 
+//                                 #F0C1FF 60% 80%, 
+//                                 #FFDCB0 80% 100%)"
+//                             border="4px solid #000"
+//                             transform={`rotate(${rotation}deg)`}
+//                             transition="transform 0.1s ease"
+//                             position="absolute"
+//                             top="0"
+//                             left="0"
+//                             zIndex="1"
+//                         />
+//                         {isRevealing && (
+//                             <Box
+//                                 position="absolute"
+//                                 top="50%"
+//                                 left="50%"
+//                                 transform="translate(-50%, -50%)"
+//                                 width="70%"
+//                                 height="70%"
+//                                 borderRadius="50%"
+//                                 backgroundColor="white"
+//                                 display="flex"
+//                                 alignItems="center"
+//                                 justifyContent="center"
+//                                 boxShadow="0 0 25px rgba(0, 255, 0, 0.7)"
+//                                 zIndex="2"
+//                                 overflow="hidden"
+//                                 animation={`${revealAnimation} 1s ease-in-out`}
+//                             >
+//                                 <Text
+//                                     fontSize={{ base: 'lg', md: 'xl' }}
+//                                     fontWeight="bold"
+//                                     color="#000"
+//                                     textAlign="center"
+//                                     padding="10px"
+//                                     backgroundColor="#FFF"
+//                                     borderRadius="md"
+//                                     boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
+//                                 >
+//                                     {revealPrize}
+//                                 </Text>
+//                             </Box>
+//                         )}
+//                     </Box>
+//                     <Box marginTop="20px">
+//                         <Button 
+//                             onClick={handleSpin} 
+//                             isDisabled={isSpinning}
+//                             colorScheme="pink"
+//                             size="lg"
+//                             padding="15px 30px"
+//                             fontSize="lg"
+//                             borderRadius="md"
+//                             boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+//                             transition="background-color 0.2s, transform 0.2s"
+//                             _hover={{ backgroundColor: 'pink.600', transform: 'scale(1.50)' }}
+//                             _active={{ backgroundColor: 'green.700', transform: 'scale(0.95)' }}
+//                         >
+//                             {isSpinning ? 'Spinning...' : 'Spin'}
+//                         </Button>
+//                     </Box>
+//                     {showSavingMessage && (
+//                         <Box 
+//                             position="relative" 
+//                             marginTop="20px"
+//                             backgroundColor="#4caf50"
+//                             padding="15px"
+//                             borderRadius="md"
+//                             boxShadow="0 0 10px rgba(0, 0, 0, 0.5)"
+//                             zIndex="999"
+//                             color="white"
+//                             textAlign="center"
+//                             fontSize={{ base: 'md', md: 'lg' }}
+//                             fontWeight="bold"
+//                         >
+//                             <Text>Saving your spin result...</Text>
+//                         </Box>
+//                     )}
+//                     {!showSavingMessage && referenceNumber && (
+//                         <Box 
+//                             position="relative" 
+//                             marginTop="20px"
+//                             backgroundColor="#2196f3"
+//                             padding="15px"
+//                             borderRadius="md"
+//                             boxShadow="0 0 10px rgba(0, 0, 0, 0.5)"
+//                             zIndex="999"
+//                             color="white"
+//                             textAlign="center"
+//                             fontSize={{ base: 'md', md: 'lg' }}
+//                             fontWeight="bold"
+//                         >
+//                             {/* <Text>Your Reference Number: {referenceNumber}</Text> */}
+//                             <Text>
+//                             Your Reference Number: {referenceNumber}. Please make sure to keep a note of your reference number. Kindly visit our site on August 31, 2024, at 6 PM to check the results. All the best!
+//                             </Text>
 
-                        </Box>
-                    )}
-                    <audio ref={audioRef} src="/spinning-sound.mp3" />
-                    <audio ref={celebrationAudioRef} src="/celebration.mp3" />
+//                         </Box>
+//                     )}
+//                     <audio ref={audioRef} src="/spinning-sound.mp3" />
+//                     <audio ref={celebrationAudioRef} src="/celebration.mp3" />
 
                 
 
-                    {showCelebration && (
-                        <Box
-                            position="fixed"
-                            top="0"
-                            left="0"
-                            width="100%"
-                            height="100%"
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            backgroundColor="rgba(255, 255, 255, 0.8)"
-                            zIndex="9999"
-                        >
-                            <Lottie 
-                                animationData={celebrationAnimationData}
-                                style={{ width: '80%', maxWidth: '500px' }}
-                            />
-                        </Box>
-                    )}
-                </>
-            ) : (
-                // <Text fontSize="lg" fontWeight="bold">
-                //     Please log in to participate in the Lucky Draw.
-                // </Text>
+//                     {showCelebration && (
+//                         <Box
+//                             position="fixed"
+//                             top="0"
+//                             left="0"
+//                             width="100%"
+//                             height="100%"
+//                             display="flex"
+//                             justifyContent="center"
+//                             alignItems="center"
+//                             backgroundColor="rgba(255, 255, 255, 0.8)"
+//                             zIndex="9999"
+//                         >
+//                             <Lottie 
+//                                 animationData={celebrationAnimationData}
+//                                 style={{ width: '80%', maxWidth: '500px' }}
+//                             />
+//                         </Box>
+//                     )}
+//                 </>
+//             ) : (
+//                 // <Text fontSize="lg" fontWeight="bold">
+//                 //     Please log in to participate in the Lucky Draw.
+//                 // </Text>
                
 
-                <Box
-                    width="100%"
-                    padding="20px"
-                    backgroundColor="pink.500" // Bright, warm background color
-                    borderRadius="md"
-                    textAlign="center"
-                    boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
-                >
-                    <Text
-                        fontSize={{ base: "xl", md: "2xl" }} // Increased font size
-                        fontWeight="bold"
-                        color="#ffffff" // White text color for better contrast
-                        letterSpacing="wider"
-                    >
-                        🔒 Please <span style={{ color: "#ffeb3b" }}>log in</span> to participate in the <span style={{ color: "#ffeb3b" }}>Lucky Draw</span>! 🎉
-                    </Text>
-                </Box>
+//                 <Box
+//                     width="100%"
+//                     padding="20px"
+//                     backgroundColor="pink.500" // Bright, warm background color
+//                     borderRadius="md"
+//                     textAlign="center"
+//                     boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
+//                 >
+//                     <Text
+//                         fontSize={{ base: "xl", md: "2xl" }} // Increased font size
+//                         fontWeight="bold"
+//                         color="#ffffff" // White text color for better contrast
+//                         letterSpacing="wider"
+//                     >
+//                         🔒 Please <span style={{ color: "#ffeb3b" }}>log in</span> to participate in the <span style={{ color: "#ffeb3b" }}>Lucky Draw</span>! 🎉
+//                     </Text>
+//                 </Box>
                 
 
-            )}
-        </Box>
-    );
-};
+//             )}
+//         </Box>
+//     );
+// };
 
 
 
@@ -1774,4 +1797,441 @@ export const SpinWheel: React.FC = () => {
 
 
 
+// version 7 , enhancement of versiion 5
 
+import React, { useState, useRef, useEffect } from 'react';
+import { Box, Text, keyframes, Button } from '@chakra-ui/react';
+import { useAuth } from '../contexts/AuthContext';
+import usePostData from '../hooks/usePostData'; // Import the usePostData hook
+import celebrationAnimationData from '../animations/celebration.json'; // Path to your celebration Lottie animation
+import Lottie from 'lottie-react';
+
+// Prize list
+const prizes = [
+    'Better Luck Next Time',
+    'Congrats You have Entered into Lucky Draw'
+];
+
+const prizeCount = prizes.length;
+
+// Keyframes for animations
+const revealAnimation = keyframes`
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+`;
+
+const messageAnimation = keyframes`
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+`;
+
+// Define a keyframes animation for the box
+const prizeMessageAnimation = keyframes`
+0% { transform: scale(1); }
+50% { transform: scale(1.05); }
+100% { transform: scale(1); }
+`;
+
+export const SpinWheel: React.FC = () => {
+    const { authState } = useAuth();
+    const [isSpinning, setIsSpinning] = useState(false);
+    const [rotation, setRotation] = useState(0);
+    const [winningPrize, setWinningPrize] = useState('');
+    const [isRevealing, setIsRevealing] = useState(false);
+    const [revealPrize, setRevealPrize] = useState('');
+    const [showSavingMessage, setShowSavingMessage] = useState(false);
+    const [showCelebration, setShowCelebration] = useState(false); // State for celebration animation
+    const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const celebrationAudioRef = useRef<HTMLAudioElement | null>(null); // Ref for celebration sound
+
+    // Using the usePostData hook
+    const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/luckydraw');
+
+    const playSound = () => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            audioRef.current.play();
+        }
+    };
+
+    const stopSound = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+        }
+    };
+
+    const playCelebrationSound = () => {
+        if (celebrationAudioRef.current) {
+            celebrationAudioRef.current.currentTime = 0;
+            celebrationAudioRef.current.play();
+        }
+    };
+
+    const stopCelebrationSound = () => {
+        if (celebrationAudioRef.current) {
+            celebrationAudioRef.current.pause();
+            celebrationAudioRef.current.currentTime = 0;
+        }
+    };
+
+    const generateReferenceNumber = () => {
+        return 'REF-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    };
+
+    const handleSpin = () => {
+        if (isSpinning) return;
+
+        const spins = 5; // Number of full rotations
+        const prizeDegree = 360 / prizeCount;
+        const randomIndex = Math.floor(Math.random() * prizeCount);
+        const randomDegree = randomIndex * prizeDegree;
+        const totalRotation = 360 * spins + randomDegree;
+
+        setIsSpinning(true);
+        setIsRevealing(false);
+        setWinningPrize('');
+        setRevealPrize('');
+        setShowSavingMessage(false);
+        setShowCelebration(false); // Reset celebration animation
+
+        // Play the spinning sound
+        playSound();
+
+        let startTime: number;
+        const duration = 3000; // Spin duration in ms
+
+        const animate = (time: number) => {
+            if (!startTime) startTime = time;
+            const elapsed = time - startTime;
+
+            let progress = elapsed / duration;
+            if (progress > 1) progress = 1;
+
+            // Ease-out effect for more realistic stopping
+            const easeOut = (progress: number) => 1 - Math.pow(1 - progress, 3);
+
+            const currentRotation = totalRotation * easeOut(progress);
+            setRotation(currentRotation);
+
+            if (elapsed < duration) {
+                requestAnimationFrame(animate);
+            } else {
+                const finalRotation = currentRotation % 360;
+                setRotation(finalRotation);
+                setIsSpinning(false);
+                stopSound(); // Stop the sound after the spin ends
+
+                // Calculate the winning prize index based on the 90-degree position
+                const adjustedRotation = (finalRotation + 90) % 360;
+                const calculatedIndex = Math.floor(adjustedRotation / prizeDegree);
+                const wonPrize = prizes[calculatedIndex];
+                setWinningPrize(wonPrize);
+
+                // Trigger reveal animation
+                setIsRevealing(true);
+                setRevealPrize(wonPrize);
+
+                // Show saving message for 3 seconds then display reference number if applicable
+                setShowSavingMessage(true);
+                setTimeout(() => {
+                    setShowSavingMessage(false);
+                    if (wonPrize !== 'Better Luck Next Time') {
+                        playCelebrationSound();
+                        const refNumber = generateReferenceNumber();
+                        setReferenceNumber(refNumber);
+                        setShowCelebration(true); // Show celebration animation
+                        setTimeout(() => {
+                            setShowCelebration(false);
+                        }, 3000);
+
+                        // Save spin result to database
+                        const spinData = {
+                            userId: authState.userId, // Get userId from authState
+                            prize: wonPrize,
+                            eventType: 'SpinWheel',
+                            referenceNumber: refNumber // Include reference number in payload
+                        };
+
+                        postData(spinData); // Use the postData function to send the spin data to the backend
+                    } else {
+                        setReferenceNumber(null); // No reference number for "Better Luck Next Time"
+                        const spinData = {
+                            userId: authState.userId, // Get userId from authState
+                            prize: wonPrize,
+                            eventType: 'SpinWheel',
+                            referenceNumber: "" // Include reference number in payload
+                        };
+
+                        postData(spinData); // Use the postData function to send the spin data to the backend
+                    }
+                }, 3000);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    };
+
+    useEffect(() => {
+        if (responseData) {
+            console.log('Spin data saved successfully:', responseData);
+        }
+        if (error) {
+            console.error('Failed to save spin data:', error);
+        }
+    }, [responseData, error]);
+
+    return (
+        <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            height="100vh"
+            backgroundColor={authState.isAuthenticated ? "#f0f8ff" : "#f0f0f0"}
+            padding="10px"
+            boxSizing="border-box"
+            animation={authState.isAuthenticated ? `${messageAnimation} 2s ease-in-out` : 'none'}
+        >
+            {/* Lucky Draw Announcement Banner */}
+            <Box
+                width="100%"
+                padding={{ base: "5px", md: "10px" }} // Adjust padding for smaller devices
+                textAlign="center"
+                backgroundColor='#b5edbd'
+                color="black"
+                fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} // Responsive font size
+                fontWeight="bold"
+                marginBottom="10px"
+                borderRadius="md"
+                animation={`${messageAnimation} 2s ease-in-out`}
+                display={{ base: 'none', md: 'block' }} // Hide on small devices
+            >
+                🎉 Lucky Draw Result Announcement on August 31 at 6pm! Stay tuned! Spin as much as You can and Win 🎉
+            </Box>
+
+            {/* Promotional Message Section */}
+            <Box
+                width="100%"
+                background="#1a1a2e"
+                padding={{ base: "10px", md: "20px" }} // Adjust padding for smaller devices
+                textAlign="center"
+                color="#f0e68c"
+                fontSize={{ base: 'sm', md: 'lg', lg: 'xl' }} // Responsive font size
+                fontWeight="bold"
+                marginBottom={{ base: "10px", md: "30px" }} // Reduced margin for mobile
+                borderRadius="lg"
+                boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+                animation={`${messageAnimation} 2s ease-in-out`}
+            >
+                🎁 Spin the wheel, test your luck, and win exciting prizes! 🎁
+            </Box>
+
+            {/* Spin Wheel Container */}
+            <Box
+                position="relative"
+                width="300px"
+                height="300px"
+                marginBottom="20px"
+                boxShadow="0 0 10px rgba(0,0,0,0.2)"
+                borderRadius="50%"
+                overflow="hidden"
+            >
+                {/* Spin Wheel */}
+                {/* <Box
+                    as="div"
+                    position="absolute"
+                    top="0"
+                    left="0"
+                    width="100%"
+                    height="100%"
+                    borderRadius="50%"
+                    // backgroundImage="conic-gradient(#fdd835 0%, #fdd835 50%, #ff7043 50%, #ff7043 100%)"
+                    backgroundImage="conic-gradient(#ff69b4 0%, #ff69b4 25%, #ff1493 25%, #ff1493 50%, #ff69b4 50%, #ff69b4 75%, #ff1493 75%, #ff1493 100%)"
+                    transform={`rotate(${rotation}deg)`}
+                    transition="transform 2s ease-out"
+                    pointerEvents={isSpinning ? 'none' : 'auto'}
+                /> */}
+
+<Box
+    as="div"
+    position="absolute"
+    top="0"
+    left="0"
+    width="100%"
+    height="100%"
+    borderRadius="50%"
+    backgroundImage="conic-gradient(
+        #ff69b4 0%, 
+        #ff69b4 15%, 
+        #ff1493 15%, 
+        #ff1493 30%, 
+        #8a2be2 30%, 
+        #8a2be2 45%, 
+        #00ff7f 45%, 
+        #00ff7f 60%, 
+        #ffd700 60%, 
+        #ffd700 75%, 
+        #00bfff 75%, 
+        #00bfff 90%, 
+        #ff69b4 90%, 
+        #ff69b4 100%
+    )"
+    transform={`rotate(${rotation}deg)`}
+    transition="transform 2s ease-out"
+    pointerEvents={isSpinning ? 'none' : 'auto'}
+/>
+
+                
+
+                {/* Center Button */}
+                {/* <Button
+                    position="absolute"
+                    top="50%"
+                    left="50%"
+                    transform="translate(-50%, -50%)"
+                    zIndex="1"
+                    colorScheme="black"
+                    color="#d2d8e8"
+                    size="lg"
+                    onClick={handleSpin}
+                    isDisabled={isSpinning}
+                >
+                    Spin
+                </Button> */}
+
+{/* <Button
+    position="absolute"
+    top="50%"
+    left="50%"
+    transform="translate(-50%, -50%)"
+    zIndex="1"
+    bgGradient="linear(to-r, #c0c0c0, #dcdcdc)"
+    color="#333" // Dark text color for contrast
+    _hover={{ bgGradient: 'linear(to-r, #dcdcdc, #c0c0c0)', color: '#000' }} // Hover effect
+    size="lg"
+    onClick={handleSpin}
+    isDisabled={isSpinning}
+    border="1px solid #a9a9a9" // Optional: to give a metallic look
+>
+    Spin
+</Button> */}
+
+<Button
+    position="absolute"
+    top="50%"
+    left="50%"
+    transform="translate(-50%, -50%)"
+    zIndex="1"
+    bgGradient="linear(to-r, #4f4f4f, #2c2c2c)" // Dark gray gradient
+    color="#fff" // White text color for contrast
+    _hover={{ bgGradient: 'linear(to-r, #2c2c2c, #4f4f4f)', color: '#fff' }} // Reverse gradient on hover
+    size="lg"
+    onClick={handleSpin}
+    isDisabled={isSpinning}
+    border="1px solid #1f1f1f" // Border for a defined look
+>
+    Spin
+</Button>
+
+
+
+            </Box>
+
+                        {/* Celebration animation */}
+                        {showCelebration && (
+                <Lottie
+                    animationData={celebrationAnimationData}
+                    style={{ width: 150, height: 150, marginTop: 20 }}
+                />
+            )}
+
+            {/* Display Winning Prize */}
+            {winningPrize && (
+                <Box
+                    padding="20px"
+                    backgroundColor="white"
+                    borderRadius="md"
+                    boxShadow="0 4px 8px rgba(0,0,0,0.1)"
+                    animation={`${revealAnimation} 1s ease-in-out`}
+                    textAlign="center"
+                    color={winningPrize === 'Better Luck Next Time' ? 'red' : 'green'}
+                    fontSize={{ base: 'lg', md: 'xl' }} // Responsive font size
+                    fontWeight="bold"
+                >
+                    {winningPrize}
+                </Box>
+            )}
+
+            {/* Show reference number if applicable */}
+            {referenceNumber && (
+                <>
+                <Box
+                    padding="10px"
+                    backgroundColor="#f0f8ff"
+                    borderRadius="md"
+                    boxShadow="0 2px 4px rgba(0,0,0,0.1)"
+                    // animation={`${prizeMessageAnimation} 2s infinite`}
+                    textAlign="center"
+                    color="blue"
+                    fontSize={{ base: 'md', md: 'lg' }} // Responsive font size
+                    fontWeight="bold"
+                    marginTop="20px"
+                >
+                    Your Reference Number: {referenceNumber}
+                </Box>
+
+               
+
+<Box
+padding="10px"
+backgroundColor="#f0f8ff"
+borderRadius="md"
+boxShadow="0 2px 4px rgba(0,0,0,0.1)"
+// animation={`${prizeMessageAnimation} 2s infinite`}
+textAlign="center"
+color="blue.500"
+fontSize={{ base: 'md', md: 'lg' }} // Responsive font size
+fontWeight="bold"
+marginTop="20px"
+>
+🌟 Save the Date! 🌟
+
+Mark your calendars for August 31st at 6 PM! 🎉✨
+
+Head over to our website to find out if you're the lucky winner of our exciting Lucky Draw. Fingers crossed and best of luck! 🩷🍀
+</Box>
+
+
+
+</>
+
+            )}
+
+            {/* Saving message */}
+            {showSavingMessage && (
+                <Box
+                    padding="10px"
+                    backgroundColor="yellow.200"
+                    borderRadius="md"
+                    boxShadow="0 2px 4px rgba(0,0,0,0.1)"
+                    textAlign="center"
+                    color="black"
+                    fontSize={{ base: 'md', md: 'lg' }} // Responsive font size
+                    fontWeight="bold"
+                    marginTop="20px"
+                >
+                    Saving your result...
+                </Box>
+            )}
+
+
+
+            {/* Audio elements */}
+            <audio ref={audioRef} src="/spinning-sound.mp3" />
+            <audio ref={celebrationAudioRef} src="/celebration.mp3" />
+        </Box>
+    );
+};
