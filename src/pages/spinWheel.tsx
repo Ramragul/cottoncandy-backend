@@ -1023,6 +1023,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Box, Text, keyframes, Button } from '@chakra-ui/react';
 import { useAuth } from '../contexts/AuthContext';
 import usePostData from '../hooks/usePostData'; // Import the usePostData hook
+import celebrationAnimationData from '../animations/celebration.json'; // Path to your celebration Lottie animation
+import Lottie from 'lottie-react';
 
 // Prize list
 const prizes = [
@@ -1040,8 +1042,16 @@ const revealAnimation = keyframes`
 `;
 
 const messageAnimation = keyframes`
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+0% { transform: scale(1); }
+50% { transform: scale(1.05); }
+100% { transform: scale(1); }
+`;
+
+// Define a keyframes animation for the box
+const prizeMessageAnimation = keyframes`
+0% { transform: scale(1); }
+50% { transform: scale(1.05); }
+100% { transform: scale(1); }
 `;
 
 export const SpinWheel: React.FC = () => {
@@ -1052,8 +1062,10 @@ export const SpinWheel: React.FC = () => {
     const [isRevealing, setIsRevealing] = useState(false);
     const [revealPrize, setRevealPrize] = useState('');
     const [showSavingMessage, setShowSavingMessage] = useState(false);
+    const [showCelebration, setShowCelebration] = useState(false); // State for celebration animation
     const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const celebrationAudioRef = useRef<HTMLAudioElement | null>(null); // Ref for celebration sound
 
     // Using the usePostData hook
     const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/luckydraw');
@@ -1069,6 +1081,20 @@ export const SpinWheel: React.FC = () => {
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
+        }
+    };
+
+    const playCelebrationSound = () => {
+        if (celebrationAudioRef.current) {
+            celebrationAudioRef.current.currentTime = 0;
+            celebrationAudioRef.current.play();
+        }
+    };
+
+    const stopCelebrationSound = () => {
+        if (celebrationAudioRef.current) {
+            celebrationAudioRef.current.pause();
+            celebrationAudioRef.current.currentTime = 0;
         }
     };
 
@@ -1090,6 +1116,7 @@ export const SpinWheel: React.FC = () => {
         setWinningPrize('');
         setRevealPrize('');
         setShowSavingMessage(false);
+        setShowCelebration(false); // Reset celebration animation
 
         // Play the spinning sound
         playSound();
@@ -1133,8 +1160,13 @@ export const SpinWheel: React.FC = () => {
                 setTimeout(() => {
                     setShowSavingMessage(false);
                     if (wonPrize !== 'Better Luck Next Time') {
+                        playCelebrationSound();
                         const refNumber = generateReferenceNumber();
                         setReferenceNumber(refNumber);
+                        setShowCelebration(true); //  celebration animation
+                        setTimeout(() => {
+                            setShowCelebration(false);
+                        }, 3000);
 
                         // Save spin result to database
                         const spinData = {
@@ -1187,23 +1219,26 @@ export const SpinWheel: React.FC = () => {
             animation={authState.isAuthenticated ? `${messageAnimation} 2s ease-in-out` : 'none'}
         >
             {/* Lucky Draw Announcement Banner */}
+
+            
             <Box
                 width="100%"
-                backgroundColor="#ff5722"
+                backgroundColor="#b5edbd"
                 padding="10px"
                 textAlign="center"
-                color="#fff"
+                color="#black"
                 fontSize={{ base: 'md', md: 'lg' }}
                 fontWeight="bold"
                 marginBottom="20px"
                 borderRadius="md"
                 animation={`${messageAnimation} 2s ease-in-out`}
             >
-                🎉 Lucky Draw Result Announcement on August 31 at 6pm! Stay tuned! 🎉
+                🎉 Lucky Draw Result Announcement on August 31 at 6pm! Stay tuned! Spin as much as You can and Win 🎉
             </Box>
 
+          
             {/* Promotional Message Section */}
-            <Box
+            {/* <Box
                 width="100%"
                 backgroundColor="#4caf50"
                 padding="15px"
@@ -1216,7 +1251,27 @@ export const SpinWheel: React.FC = () => {
                 animation={`${messageAnimation} 2s ease-in-out`}
             >
                 🎁 You have a chance to win incredible prizes worth up to ₹1,00,000! Premium Lehengas, American Diamond Chokers, Rings, Bangles, and Necklaces await you! 🎁
-            </Box>
+            </Box> */}
+
+<Box
+    width="100%"
+    background="#1a1a2e"  // Darker background for better contrast
+    padding="20px"
+    textAlign="center"
+    color="#f0e68c"  // Light golden color for readability
+    fontSize={{ base: 'lg', md: 'xl' }}
+    fontWeight="bold"
+    marginBottom="30px"
+    borderRadius="lg"
+    boxShadow="0 4px 8px rgba(0, 0, 0, 0.3)"
+    border="2px solid #ffcc00"  // Bright gold border to complement the dark background
+    animation={`${messageAnimation} 4s ease-in-out infinite`}
+>
+    🎁 <span style={{ color: '#ffd700' }}>You have a chance to win incredible prizes</span> worth up to 
+    <span style={{ fontSize: '1.2em', color: '#ffeb3b' }}> ₹1,00,000</span>! 
+    <span style={{ color: '#ffd700' }}>Premium Lehengas, American Diamond Chokers, Rings, Bangles,</span> 
+     <span style={{ color: '#ffd700' }}>Necklaces and Many more Exciting Gifts</span> await you! 🎁
+</Box>
 
             {authState.isAuthenticated ? (
                 <>
@@ -1282,15 +1337,15 @@ export const SpinWheel: React.FC = () => {
                         <Button 
                             onClick={handleSpin} 
                             isDisabled={isSpinning}
-                            colorScheme="blue"
+                            colorScheme="pink"
                             size="lg"
                             padding="15px 30px"
                             fontSize="lg"
                             borderRadius="md"
                             boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
                             transition="background-color 0.2s, transform 0.2s"
-                            _hover={{ backgroundColor: 'blue.600', transform: 'scale(1.05)' }}
-                            _active={{ backgroundColor: 'blue.700', transform: 'scale(0.95)' }}
+                            _hover={{ backgroundColor: 'pink.600', transform: 'scale(1.50)' }}
+                            _active={{ backgroundColor: 'green.700', transform: 'scale(0.95)' }}
                         >
                             {isSpinning ? 'Spinning...' : 'Spin'}
                         </Button>
@@ -1326,15 +1381,63 @@ export const SpinWheel: React.FC = () => {
                             fontSize={{ base: 'md', md: 'lg' }}
                             fontWeight="bold"
                         >
-                            <Text>Your Reference Number: {referenceNumber}</Text>
+                            {/* <Text>Your Reference Number: {referenceNumber}</Text> */}
+                            <Text>
+                            Your Reference Number: {referenceNumber}. Please make sure to keep a note of your reference number. Kindly visit our site on August 31, 2024, at 6 PM to check the results. All the best!
+                            </Text>
+
                         </Box>
                     )}
-                    <audio ref={audioRef} src="/spinning-sound1.mp3" />
+                    <audio ref={audioRef} src="/spinning-sound.mp3" />
+                    <audio ref={celebrationAudioRef} src="/celebration.mp3" />
+
+                
+
+                    {showCelebration && (
+                        <Box
+                            position="fixed"
+                            top="0"
+                            left="0"
+                            width="100%"
+                            height="100%"
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            backgroundColor="rgba(255, 255, 255, 0.8)"
+                            zIndex="9999"
+                        >
+                            <Lottie 
+                                animationData={celebrationAnimationData}
+                                style={{ width: '80%', maxWidth: '500px' }}
+                            />
+                        </Box>
+                    )}
                 </>
             ) : (
-                <Text fontSize="lg" fontWeight="bold">
-                    Please log in to participate in the Lucky Draw.
-                </Text>
+                // <Text fontSize="lg" fontWeight="bold">
+                //     Please log in to participate in the Lucky Draw.
+                // </Text>
+               
+
+                <Box
+                    width="100%"
+                    padding="20px"
+                    backgroundColor="pink.500" // Bright, warm background color
+                    borderRadius="md"
+                    textAlign="center"
+                    boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
+                >
+                    <Text
+                        fontSize={{ base: "xl", md: "2xl" }} // Increased font size
+                        fontWeight="bold"
+                        color="#ffffff" // White text color for better contrast
+                        letterSpacing="wider"
+                    >
+                        🔒 Please <span style={{ color: "#ffeb3b" }}>log in</span> to participate in the <span style={{ color: "#ffeb3b" }}>Lucky Draw</span>! 🎉
+                    </Text>
+                </Box>
+                
+
             )}
         </Box>
     );
