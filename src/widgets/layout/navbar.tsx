@@ -413,7 +413,7 @@ const Navbar: React.FC = () => {
                 ))}
               </MenuList>
             </Menu> */}
-{ authState.isAuthenticated && (
+
   <Link
   px={{ base: 2, md: 3 }}   // Smaller padding for mobile
   py={{ base: 1, md: 2 }}   // Smaller padding for mobile
@@ -442,7 +442,7 @@ const Navbar: React.FC = () => {
   🎉 Play & Win 🎉
 </Link>
 
-      )}
+     
             {/* <FilterSelectComponent
               onSelectCategory={handleSelectCategory}
               selectedCategory={selectedCategory}
