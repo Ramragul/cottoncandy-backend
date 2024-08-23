@@ -33,7 +33,6 @@
     "react-lottie": "^1.2.4",
     "react-router-dom": "^6.26.0",
     "react-slick": "^0.30.2",
-    "react-wheel-of-prizes": "^1.1.0",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
