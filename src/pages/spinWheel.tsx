@@ -1141,7 +1141,7 @@ export const SpinWheel: React.FC = () => {
                             userId: authState.userId, // Get userId from authState
                             prize: wonPrize,
                             eventType: 'SpinWheel',
-                            spinDate: new Date().toISOString(), // Current date-time in ISO format
+                            // participationDate: new Date().toISOString(), // Current date-time in ISO format
                             referenceNumber: refNumber // Include reference number in payload
                         };
 
