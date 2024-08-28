@@ -272,26 +272,9 @@ const Navbar: React.FC = () => {
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
               Contact Us
             </Link>
-            {( authState.isAuthenticated &&
-            // <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/spinwheel">
-            //   Play & Win
-            // </Link> 
+            {/* {( authState.isAuthenticated && */}
             
-//             <Link
-//   px={3}
-//   py={2}
-//   rounded="full"
-//   bg="pink.400"
-//   color="white"
-//   fontWeight="bold"
-//   _hover={{ textDecoration: 'none', bg: 'pink.500' }}
-//   _active={{ bg: 'pink.600', transform: 'scale(0.98)' }}
-//   href="/spinwheel"
-//   transition="all 0.2s ease-in-out"
-//   boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"
-// >
-//   🎉 Play & Win 🎉
-// </Link>
+
 
 
 <Link
@@ -321,7 +304,7 @@ const Navbar: React.FC = () => {
 >
   🎉 Play & Win 🎉
 </Link>            
-            )}
+            
           </HStack>
         </HStack>
 
