@@ -2973,7 +2973,7 @@ Head over to our website to find out if you're the lucky winner of our exciting 
                         lineHeight="1.5"
                     >
                         <Box as="li" mb="8px">
-                            <Text as="span">Sign in to your account.</Text>
+                            <Text as="span">Register / Sign in to your account.</Text>
                         </Box>
                         <Box as="li" mb="8px">
                             <Text as="span">After logging in, navigate back to the <strong>Play & Win</strong> section.</Text>
