@@ -2572,7 +2572,7 @@ export const SpinWheel: React.FC = () => {
 
                         const refNumber = generateReferenceNumber();
                         setReferenceNumber(refNumber);
-                        setShowCelebration(true); // Show celebration animation
+                        setShowCelebration(true); // Show celebration anipostdatamation
                         setTimeout(() => {
                             setShowCelebration(false);
                         }, 3000);
@@ -2727,7 +2727,7 @@ export const SpinWheel: React.FC = () => {
                 animation={`${messageAnimation} 2s ease-in-out`}
                 display={{ base: 'none', md: 'block' }} // Hide on small devices
             >
-                🎉 Lucky Draw Result Announcement on August 31 at 6pm! Stay tuned! Spin as much as You can and Win 🎉
+                🎉 Lucky Draw Result Announcement on September 14 at 6pm! Stay tuned! Spin as much as You can and Win 🎉
             </Box>
 
             {/* Promotional Message Section */}
@@ -2922,7 +2922,7 @@ marginTop="20px"
 >
 🌟 Save the Date! 🌟
 
-Mark your calendars for August 31st at 6 PM! 🎉✨
+Mark your calendars for September 14 at 6 PM! 🎉✨
 
 Head over to our website to find out if you're the lucky winner of our exciting Lucky Draw. Fingers crossed and best of luck! 🩷🍀
 </Box>

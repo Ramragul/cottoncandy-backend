@@ -15,3 +15,4 @@ export * from "./orderManagementDetails";
 export * from "./spinWheel";
 export * from "./scratchCard";
 export * from "./aboutUs";
+export * from "./tailoringHome";
