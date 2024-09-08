@@ -279,7 +279,7 @@ export const RegisterPage = () => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                
+                required
               />
             </FormControl>
             <FormControl id="city" mb={4}>
@@ -289,7 +289,7 @@ export const RegisterPage = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
-                
+                required
               />
             </FormControl>
             <FormControl id="password" mb={6}>
@@ -299,7 +299,7 @@ export const RegisterPage = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                
+                required
               />
             </FormControl>
             <Button type="submit" colorScheme="pink" width="full" mb={4}>

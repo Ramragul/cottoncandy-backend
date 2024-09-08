@@ -2403,8 +2403,12 @@ import Lottie from 'lottie-react';
 
 
 // Prize list
+// const prizes = [
+//     'Better Luck Next Time','Better Luck Next Time','Better Luck Next Time','Better Luck Next Time','Better Luck Next Time','You Have Entered Lucky Draw'
+// ];
+
 const prizes = [
-    'Better Luck Next Time','Better Luck Next Time','Better Luck Next Time','Better Luck Next Time','Better Luck Next Time','You Have Entered Lucky Draw'
+    'Better Luck Next Time','You Have Entered Lucky Draw'
 ];
 
 const prizeCount = prizes.length;
@@ -2446,6 +2450,8 @@ export const SpinWheel: React.FC = () => {
 
     const { authState } = useAuth();
     const userId = authState?.userId; // Fetch userId from authState
+    const userName = authState?.userName;
+    const userEmail = authState?.userEmail;
     //const { data: orders = [], error, isLoading } = useGetWinStatus(authState.userId, 'api/cc/user/orders');
    
 
@@ -2580,6 +2586,8 @@ export const SpinWheel: React.FC = () => {
                         // Save spin result to database
                         const spinData = {
                             userId: userId, // Use userId from authState
+                            userName: userName,
+                            userEmail: userEmail,
                             prize: wonPrize,
                             eventType: 'SpinWheel',
                             referenceNumber: refNumber, // Include reference number in payload
@@ -2594,6 +2602,8 @@ export const SpinWheel: React.FC = () => {
                         setReferenceNumber(null); // No reference number for "Better Luck Next Time"
                         const spinData = {
                             userId: userId, // Use userId from authState
+                            userName: userName,
+                            userEmail: userEmail,
                             prize: wonPrize,
                             eventType: 'SpinWheel',
                             referenceNumber: "", // Include reference number in payload

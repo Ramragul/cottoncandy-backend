@@ -137,7 +137,7 @@ export const LoginPage = () => {
       const response = await axios.post('https://admee.in:3003/login', { username, password });
       const user = response.data; // Assuming the response contains user data with an ID
       console.log("Response From Login Server" +JSON.stringify(user));
-      login(user.userName, user.userId); // Store the user ID and username
+      login(user.userName, user.userId, user.userEmail); // Store the user ID and username
       setSuccess(true);
       // setTimeout(() => navigate(-1), 5000); // Navigate to the previous page after 3 seconds
       setTimeout(() => navigate('/home'), 5000);
