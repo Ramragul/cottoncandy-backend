@@ -287,6 +287,70 @@
 
 // Version 4 : Design Enhancement to version 3
 
+// import React from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { Box, GridItem, Text, Image, Button, HStack } from '@chakra-ui/react';
+// import { Catalogue } from '../hooks/useDesignCatalogue';
+
+// interface Props {
+//   product: Catalogue;
+//   productType: string | null;
+// }
+
+// const CatalogueImageCard: React.FC<Props> = ({ product, productType }) => {
+//   const navigate = useNavigate();
+
+//   const handleProductClick = (product: Catalogue) => {
+//     navigate(`/productDetails`, { state: { product, productType } });
+//   };
+
+//   // Split the image URLs by comma and use the first URL
+//   const firstImageURL = product.ProductImageURL.split(',')[0];
+
+//   return (
+//     <GridItem key={product.ProductID} position="relative" m={{ base: 2, md: 0 }}>
+//       <Box height="0" pt="100%" position="relative" onClick={() => handleProductClick(product)}>
+//         <Image
+//           src={firstImageURL}
+//           alt={product.ProductName}
+//           objectFit="contain"
+//           position="absolute"
+//           top="0"
+//           left="0"
+//           width="100%"
+//           height="100%"
+//           borderRadius="md"
+//         />
+//       </Box>
+//       <Box position="relative" bottom="0" left="0" right="0" bg="rgba(255, 255, 255, 0.0)" p={3} borderRadius="md" mt="-8px">
+//         <Text color="pink.900" fontWeight="bold" mb={1} p={2}>{product.ProductName}</Text>
+//         <HStack>
+//           <Text as="s" color="gray.500" p={2} fontSize="lg">₹ {product.ProductPurchasePrice}</Text>
+//           <Text color="pink.900" fontWeight="bold" p={2} fontSize="xl">₹ {product.ProductPrice}</Text>
+//         </HStack>
+//         <Button
+//           mt={2}
+//           bg="#c32f8c"
+//           color="white"
+//           _hover={{ bg: 'gray.700' }}
+//           borderRadius="md"
+//           px={4}
+//           py={2}
+//           onClick={() => handleProductClick(product)}
+//         >
+//           Rent Now
+//         </Button>
+//       </Box>
+//     </GridItem>
+//   );
+// };
+
+// export default CatalogueImageCard;
+
+
+
+// Version 5 - Enhancement to version 4
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, GridItem, Text, Image, Button, HStack } from '@chakra-ui/react';
@@ -295,13 +359,17 @@ import { Catalogue } from '../hooks/useDesignCatalogue';
 interface Props {
   product: Catalogue;
   productType: string | null;
+  purchaseType: string | null
 }
 
-const CatalogueImageCard: React.FC<Props> = ({ product, productType }) => {
+const CatalogueImageCard: React.FC<Props> = ({ product, productType , purchaseType}) => {
   const navigate = useNavigate();
 
+  const navigationURL = (purchaseType == 'Rent Now') ? `/rentalProductDetails` : `/tailoringProductDetails`
+
   const handleProductClick = (product: Catalogue) => {
-    navigate(`/productDetails`, { state: { product, productType } });
+    // navigate(`/productDetails`, { state: { product, productType ,purchaseType } });
+    navigate(navigationURL, { state: { product, productType ,purchaseType } });
   };
 
   // Split the image URLs by comma and use the first URL
@@ -338,7 +406,7 @@ const CatalogueImageCard: React.FC<Props> = ({ product, productType }) => {
           py={2}
           onClick={() => handleProductClick(product)}
         >
-          Rent Now
+          {purchaseType}
         </Button>
       </Box>
     </GridItem>
@@ -346,6 +414,11 @@ const CatalogueImageCard: React.FC<Props> = ({ product, productType }) => {
 };
 
 export default CatalogueImageCard;
+
+
+
+
+
 
 
 

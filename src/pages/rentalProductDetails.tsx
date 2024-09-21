@@ -189,10 +189,12 @@ import { useCart } from '../contexts/CartContext';
 const sizes = ['XS', 'S (36 inch)', 'M (38 inch)', 'L (40 inch)', 'XL (42 inch)', 'XXL (44 inch)'];
 const durations = [1, 2, 4, 5, 7, 10];
 
-export const ProductDetails: React.FC = () => {
+export const RentalProductDetails: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { product, productType } = location.state || {};
+  const { product, productType , purchaseType} = location.state || {};
+
+   console.log("Purchase Type from Details Page" +purchaseType)
   const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [selectedDuration, setSelectedDuration] = useState(durations[0]);
@@ -481,7 +483,7 @@ export const ProductDetails: React.FC = () => {
             <Button colorScheme="pink" width={buttonMinWidth} onClick={handleAddToCart}>
               Add to Cart
             </Button>
-            <Button colorScheme="pink" width={buttonMinWidth} variant="outline">
+            <Button colorScheme="pink" width={buttonMinWidth} variant="outline" onClick={handleAddToCart}>
               Rent Now
             </Button>
           </Stack>

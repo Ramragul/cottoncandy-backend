@@ -7,6 +7,7 @@ export interface Catalogue {
     ProductName : string;
     ProductImageURL : string;
     ProductPrice : string;
+    ProductCategory : string;
  
 
 
