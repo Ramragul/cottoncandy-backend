@@ -169,13 +169,18 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { Box, Text, Spinner, FormLabel, Input, Button, Select, Image, Grid, Stack, Divider } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { OrderItem } from '../types';
 import usePostData from '../hooks/usePostData';
 import usePatchData from '../hooks/usePatchData';
 import { useAuth } from '../contexts/AuthContext';
+
+import Lottie from 'react-lottie';
+import successAnimation from '../animations/success.json';
+import errorAnimation from '../animations/error.json';
+import loadingAnimation from '../animations/loading.json';
 
 export const OrderManagementDetails = () => {
     const location = useLocation();
@@ -191,6 +196,9 @@ export const OrderManagementDetails = () => {
     const [orderStatus, setOrderStatus] = useState(order?.order_status || '');
     const [orderAssignment, setOrderAssignment] = useState(order?.order_assignment || '');
 
+    const [showAnimation, setShowAnimation] = useState(false);
+    const [animationType, setAnimationType] = useState<'success' | 'error' | 'loading' | null>(null);
+
     const handleSave = () => {
         console.log('Saving order:', { orderStatus, orderAssignment });
         var data  = {}
@@ -198,8 +206,29 @@ export const OrderManagementDetails = () => {
         data.orderAssignment = orderAssignment;
         data.updatedBy = authState?.userId;
         console.log ("Data value" +JSON.stringify(data))
+        setShowAnimation(true);
+        setAnimationType('loading');
          patchData(data);
     };
+
+    useEffect(() => {
+        if (responseData) {
+          if (responseData.status === 201) {
+            
+            setAnimationType('success');
+            setTimeout(() => {
+              navigate('/orders'); // Navigate to home page after 3 seconds
+            }, 3000);
+          } else {
+            setAnimationType('error');
+          }
+        } else if (error) {
+          setAnimationType('error');
+          setTimeout(() => {
+            navigate('/orders'); // Navigate back to checkout page after a few seconds
+          }, 3000);
+        }
+      }, [responseData, error, navigate]);
 
     if (!order) return <Spinner size="xl" />;
 
@@ -208,6 +237,28 @@ export const OrderManagementDetails = () => {
 
     return (
         <Box padding="4" maxW="1200px" margin="auto">
+
+{showAnimation && (
+        <Box className="animationContainer">
+          {animationType === 'loading' && (
+            <Lottie options={{ loop: true, autoplay: true, animationData: loadingAnimation }} style={{ width: '150px', height: '150px' }} />
+          )}
+          {animationType === 'success' && (
+            <Box textAlign="center">
+              <Lottie options={{ loop: false, autoplay: true, animationData: successAnimation }} style={{ width: '150px', height: '150px' }} />
+              <Text>order has been updated successfully!</Text>
+            </Box>
+          )}
+          {animationType === 'error' && (
+            <Box textAlign="center">
+              <Lottie options={{ loop: false, autoplay: true, animationData: errorAnimation }} style={{ width: '150px', height: '150px' }} />
+              <Text>{error || "An error occurred, please try again."}</Text>
+            </Box>
+          )}
+        </Box>
+      )}
+      {!showAnimation && (
+        <>
             <Button mb="4" onClick={() => navigate('/orders')}>Back to Order Management</Button>
             <Text fontSize="2xl" fontWeight="bold" mb="6" textAlign="center">Order Details: {order?.order_id}</Text>
 
@@ -271,6 +322,8 @@ export const OrderManagementDetails = () => {
             </Stack>
 
             <Button mt="8" colorScheme="teal" size="lg" width="100%" onClick={handleSave}>Save Changes</Button>
+            </>
+            )}
         </Box>
     );
 };

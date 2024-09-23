@@ -266,8 +266,8 @@ const Navbar: React.FC = () => {
             <Box>
               <img src={logo1} alt="Cotton Candy Logo" style={{ height: '55px' }} />
             </Box>
-            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/services">
-              Our Services
+            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/businessPartnerForm">
+            Business Partners
             </Link>
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
               Contact Us
@@ -379,7 +379,7 @@ const Navbar: React.FC = () => {
               About Us
             </Link>
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/services">
-              Our Services
+              Business Partners
             </Link>
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
               Contact Us
