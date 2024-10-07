@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -149,6 +149,13 @@ export const routes = [
     name: "RentalProductUploadForm",
     path: "/rentalProductUpload",
     element: <RentalProductUploadForm />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "TailoringProductUploadForm",
+    path: "/tailoringProductUpload",
+    element: <TailoringProductUploadForm />,
     visible: false,
   },
   {

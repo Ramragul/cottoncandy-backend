@@ -30,12 +30,13 @@ import usePostData from "../../hooks/usePostData";
 import { useAuth } from '../../contexts/AuthContext';
 
 
-export const RentalProductUploadForm = () => {
+export const TailoringProductUploadForm = () => {
     const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit , setValue} = useForm();
  // const [responseData, setResponseData] = useState('');
  // const [responseStatus, setResponseStatus] = useState('');
   const [selectedProductCategories, setSelectedProductCategories] = useState([]);
+  const [selectedOccasions, setSelectedOccasions] = useState<string[]>([]);
   const { authState } = useAuth();
 
   const userId = authState.userId;
@@ -45,23 +46,20 @@ export const RentalProductUploadForm = () => {
 
   const productPriceBand = ["A", "B", "C", "D", "E", "F", "G"];
   const productType = ["Apparel", "Jewellery"];
-  const productCategory = [
-    { "id": 1, "name": "Blazer" },
-    { "id": 2, "name": "IndoWestern" },
-    { "id": 3, "name": "Pyjama" },
-    { "id": 4, "name": "Sherwani" },
-    { "id": 5, "name": "Suits" },
-    { "id": 6, "name": "Lehenga" },
-    { "id": 7, "name": "Choker" },
-    { "id": 8, "name": "Bangles" },
-    { "id": 9, "name": "BridalSet" },
-  ];
+  var productCategory = [
+    {"id": 1 , "name" : "Blouse"},
+    {"id": 2 , "name" : "Aari"},
+    {"id": 3 , "name" : "Chudi"},
+    {"id": 4 , "name" : "Lehenga"},
+    {"id": 5 , "name" : "Shirt"},
+    {"id": 6 , "name" : "Pant"},
+]
   const productUsageOccasion = ["Party", "Festival", "Wedding", "Celebrations", "Casual", "Formal", "Regular", "Trendy", "Traditional", "Glamour", "Bridal"];
 
   const [showAnimation, setShowAnimation] = useState(false);
   const [animationType, setAnimationType] = useState<'success' | 'error' | 'loading' | null>(null);
 
-  const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/rental/product/upload');
+  const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/designcatalogue');
 
 
 
@@ -80,19 +78,22 @@ export const RentalProductUploadForm = () => {
     } else if (error) {
       setAnimationType('error');
       setTimeout(() => {
-        navigate('/rentalProductUpload'); // Navigate back to checkout page after a few seconds
+        navigate('/adminDashboard'); // Navigate back to checkout page after a few seconds
       }, 3000);
     }
   }, [responseData, error, navigate]);
 
+  const handleProductUsageOccasionCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    const updatedOccasions = checked
+      ? [...selectedOccasions, value]
+      : selectedOccasions.filter((occasion) => occasion !== value);
 
-  const handleProductUsageOccasionCheckboxChange = (event) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      setSelectedProductCategories([...selectedProductCategories, value]);
-    } else {
-      setSelectedProductCategories(selectedProductCategories.filter((category) => category !== value));
-    }
+    setSelectedOccasions(updatedOccasions);
+
+    // Join selected values as a comma-separated string and set it to productUsageOccasion
+    const commaSeparatedOccasions = updatedOccasions.join(", ");
+    setValue("productUsageOccasion", commaSeparatedOccasions);
   };
 
   const onSubmit = async (data) => {
@@ -100,6 +101,7 @@ export const RentalProductUploadForm = () => {
     await backendConnection(data);
     //setAlert(true);
   };
+
 
   const backendConnection = async (data) => {
     const formData = new FormData();
@@ -128,6 +130,8 @@ export const RentalProductUploadForm = () => {
     setAnimationType('loading');
 
     data.owningAuthority = pId;
+
+    console.log(data.productUsageOccasion)
     await postData(data);
       
 
@@ -228,17 +232,25 @@ export const RentalProductUploadForm = () => {
           <Input {...register('productUsageGender')} type="text" placeholder="Enter Gender" />
         </FormControl>
         <FormControl mb={4}>
-          <FormLabel>Product Usage Occasion</FormLabel>
-          <CheckboxGroup>
-            <Stack spacing={2}>
-              {productUsageOccasion.map((occasion, index) => (
-                <Checkbox key={index} value={occasion} onChange={handleProductUsageOccasionCheckboxChange} {...register('productUsageOccasion')}>
-                  {occasion}
-                </Checkbox>
-              ))}
-            </Stack>
-          </CheckboxGroup>
-        </FormControl>
+      <FormLabel>Product Usage Occasion</FormLabel>
+      <CheckboxGroup>
+        <Stack spacing={2}>
+          {productUsageOccasion.map((occasion, index) => (
+            <Checkbox
+              key={index}
+              value={occasion}
+              onChange={handleProductUsageOccasionCheckboxChange}
+              {...register('productUsageOccasion')}
+            >
+              {occasion}
+            </Checkbox>
+          ))}
+        </Stack>
+      </CheckboxGroup>
+    </FormControl>
+
+
+
         <FormControl mb={4}>
           <FormLabel>Price Band</FormLabel>
           <Select {...register('productPriceBand')} placeholder="Select Price Band">
@@ -247,17 +259,29 @@ export const RentalProductUploadForm = () => {
             ))}
           </Select>
         </FormControl>
-        <FormControl mb={4}>
+        {/* <FormControl mb={4}>
           <FormLabel>Product Purchase Price</FormLabel>
           <Input {...register('productPurchasePrice')} type="text" placeholder="Enter Purchase Price" />
-        </FormControl>
+        </FormControl> */}
         <FormControl mb={4}>
-          <FormLabel>Product Rental Price</FormLabel>
+          <FormLabel>Product Price</FormLabel>
           <Input {...register('productPrice')} type="text" placeholder="Enter Rental Price" />
         </FormControl>
         <FormControl mb={4}>
           <FormLabel>Remarks</FormLabel>
           <Textarea {...register('remarks')} placeholder="Enter any remarks" rows={5} />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Design Details</FormLabel>
+          <Textarea {...register('productDesignDetails')} placeholder="Enter Design Details" rows={5} />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Work Description</FormLabel>
+          <Textarea {...register('productWorkDescription')} placeholder="Enter Product Work Descriptions" rows={5} />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Possible Alterations</FormLabel>
+          <Textarea {...register('productAlterations')} placeholder="Enter Possible Product Alterations" rows={5} />
         </FormControl>
         <Button colorScheme="pink" type="submit" width="full" mt={4}>
           Upload Product
@@ -269,4 +293,4 @@ export const RentalProductUploadForm = () => {
   );
 };
 
-export default RentalProductUploadForm;
+export default TailoringProductUploadForm;

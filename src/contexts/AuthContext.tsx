@@ -68,7 +68,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 // Define the shape of the auth context
 interface AuthContextProps {
   authState: AuthState;
-  login: (userId: string, userName: string, userEmail: string) => void;
+  login: (userId: string, userName: string, userEmail: string,pId: string, userRole: string) => void;
   logout: () => void;
 }
 
@@ -78,6 +78,8 @@ interface AuthState {
   userId?: string;
   userName?: string;
   userEmail?: string;
+  pId?: string;
+  userRole?: string;
 }
 
 // Create the AuthContext with a default value
@@ -93,12 +95,13 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     localStorage.setItem('authState', JSON.stringify(authState));
   }, [authState]);
 
-  const login = (userName: string, userId: string, userEmail: string) => {
+  const login = (userName: string, userId: string, userEmail: string, pId:string , userRole : string) => {
     console.log("UserName value from Auth Context "+userName)
     console.log("UserId value from Auth Context "+userId)
     console.log("User Email id :" +userEmail)
+    console.log("PID: "+ pId)
     
-    setAuthState({ isAuthenticated: true, userId, userName , userEmail});
+    setAuthState({ isAuthenticated: true, userId, userName , userEmail, pId, userRole});
   };
 
   const logout = () => {

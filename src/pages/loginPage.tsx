@@ -130,6 +130,7 @@ export const LoginPage = () => {
   const { login } = useAuth();
   const toast = useToast();
 
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -137,10 +138,13 @@ export const LoginPage = () => {
       const response = await axios.post('https://admee.in:3003/login', { username, password });
       const user = response.data; // Assuming the response contains user data with an ID
       console.log("Response From Login Server" +JSON.stringify(user));
-      login(user.userName, user.userId, user.userEmail); // Store the user ID and username
+      console.log("User Role" +user.userRole)
+      const navigateURL = (user.userRole === "user") ? "/home" : "/adminDashboard"
+    
+      login(user.userName, user.userId, user.userEmail, user.pId , user.userRole); // Store the user ID and username
       setSuccess(true);
       // setTimeout(() => navigate(-1), 5000); // Navigate to the previous page after 3 seconds
-      setTimeout(() => navigate('/home'), 5000);
+      setTimeout(() => navigate(navigateURL), 5000);
     } catch (error) {
       setError('Invalid credentials. Please try again.');
       toast({

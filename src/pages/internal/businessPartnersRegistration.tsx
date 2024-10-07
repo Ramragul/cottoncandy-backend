@@ -1,5 +1,6 @@
-import React from 'react';
+import React , {useState , useEffect}  from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -10,26 +11,51 @@ import {
   InputLeftElement,
   Select,
   Stack,
+  Text,
   Textarea,
-  useToast,
 } from '@chakra-ui/react';
-import { FaUser, FaEnvelope, FaPhone, FaLocationArrow, FaCalendarAlt } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaLocationArrow, FaCalendarAlt, FaLock } from 'react-icons/fa';
 import axios from 'axios';
+import usePostData from '../../hooks/usePostData';
+
+import Lottie from 'react-lottie';
+import successAnimation from '../../animations/success.json';
+import errorAnimation from '../../animations/error.json';
+import loadingAnimation from '../../animations/loading.json';
 
 export const BusinessPartnerRegistration = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const toast = useToast();
+
+
+  const { postData, data, error, isLoading, responseData } = usePostData('/api/businessPartnerRegistration');
+
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [animationType, setAnimationType] = useState<'success' | 'error' | 'loading' | null>(null);
+
+
+  useEffect(() => {
+    if (responseData) {
+      if (responseData.status === 201) {
+        
+        setAnimationType('success');
+        setTimeout(() => {
+          navigate('/login'); // Navigate to home page after 3 seconds
+        }, 3000);
+      } else {
+        setAnimationType('error');
+      }
+    } else if (error) {
+      setAnimationType('error');
+      setTimeout(() => {
+        navigate('/businessPartnerForm'); // Navigate back to checkout page after a few seconds
+      }, 3000);
+    }
+  }, [responseData, error, navigate]);
 
   const onSubmit = (data) => {
    
-    toast({
-      title: 'Registration Successful!',
-      description: "We've received your details and will contact you shortly.",
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-      position: 'top',
-    });
+
    // reset();
     backendConnection(data);
 
@@ -62,12 +88,19 @@ export const BusinessPartnerRegistration = () => {
         });
         console.log(s3Response.data);
         data.aadharImageURL = s3Response.data.imageURLs
+        data.user_type = "bp"
+        data.role = "partner"
         console.log("Custom IMage URL :" +data.aadharImageURL)
         console.log('Form Data:', data);
   } catch (error) {
     console.error('Error uploading images to AWS S3:', error);
+   
    // setResponseData(error)
   }
+  setShowAnimation(true);
+  setAnimationType('loading');
+  await postData(data);
+  
   }
   return (
     <Box
@@ -81,6 +114,29 @@ export const BusinessPartnerRegistration = () => {
       borderColor="#b82d92"
       borderWidth="2px"
     >
+
+{showAnimation && (
+        <Box className="animationContainer">
+          {animationType === 'loading' && (
+            <Lottie options={{ loop: true, autoplay: true, animationData: loadingAnimation }} style={{ width: '150px', height: '150px' }} />
+          )}
+          {animationType === 'success' && (
+            <Box textAlign="center">
+              <Lottie options={{ loop: false, autoplay: true, animationData: successAnimation }} style={{ width: '150px', height: '150px' }} />
+              <Text>Your order has been successfully placed!</Text>
+            </Box>
+          )}
+          {animationType === 'error' && (
+            <Box textAlign="center">
+              <Lottie options={{ loop: false, autoplay: true, animationData: errorAnimation }} style={{ width: '150px', height: '150px' }} />
+              <Text>{error || "An error occurred, please try again."}</Text>
+            </Box>
+          )}
+        </Box>
+      )}
+
+{!showAnimation && (
+        <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           {/* Name */}
@@ -131,10 +187,10 @@ export const BusinessPartnerRegistration = () => {
                 <FaPhone color="#b82d92" />
               </InputLeftElement>
               <Input
-                {...register('contact', {
+                {...register('mobile', {
                   required: 'Contact number is required',
                   minLength: {
-                    value: 10,
+                    value: 1,
                     message: 'Contact number should be at least 10 digits',
                   },
                 })}
@@ -171,6 +227,34 @@ export const BusinessPartnerRegistration = () => {
             />
           </FormControl>
 
+          {/* City */}
+
+          <FormControl isInvalid={errors.city}>
+            <FormLabel>City</FormLabel>
+            <Select
+              {...register('city', { required: 'Please select the city' })}
+              placeholder="Select City"
+              borderColor="grey"
+            >
+              <option value="trichy">Trichy</option>
+              <option value="chennai">Chennai</option>
+              <option value="coimbatore">Coimbatore</option>
+              <option value="Madurai">Madurai</option>
+            </Select>
+          </FormControl>
+
+          {/* Pincode   */}
+
+          <FormControl isInvalid={errors.address}>
+            <FormLabel>Pincode</FormLabel>
+            <Textarea
+              {...register('pincode', { required: 'Pincode is required' })}
+              placeholder="Enter your pincode"
+              borderColor="grey"
+              _placeholder={{ color: 'grey' }}
+            />
+          </FormControl>
+
           {/* Type of Business Partner */}
           <FormControl isInvalid={errors.partnerType}>
             <FormLabel>Type of Business</FormLabel>
@@ -185,6 +269,8 @@ export const BusinessPartnerRegistration = () => {
               <option value="boutique-designer">Boutique Designer (Aari Work)</option>
             </Select>
           </FormControl>
+
+        
 
           {/* Availability */}
           <FormControl isInvalid={errors.availability}>
@@ -203,6 +289,22 @@ export const BusinessPartnerRegistration = () => {
             </InputGroup>
           </FormControl>
 
+          <FormControl isInvalid={errors.password}>
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <FaLock color="#b82d92" />
+              </InputLeftElement>
+              <Input
+                {...register('password', { required: 'Password is required' })}
+                type="password"
+                placeholder="Create Your Own Password"
+                borderColor="grey"
+                _placeholder={{ color: 'grey' }}
+              />
+            </InputGroup>
+          </FormControl>
+
           {/* Submit Button */}
           <Button
             type="submit"
@@ -215,6 +317,8 @@ export const BusinessPartnerRegistration = () => {
           </Button>
         </Stack>
       </form>
+      </>
+)}
     </Box>
   );
 };

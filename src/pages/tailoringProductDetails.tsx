@@ -39,8 +39,10 @@ const productId = product.ProductID;
 const productName = product.ProductName;
 const productCategory = product.ProductCategory;
 const productImageURL = product.ProductImageURL;
+const owningAuthority = product.OwningAuthority;
 
-("Product Category Value from tailoring product details page " +productCategory)
+//("Product Category Value from tailoring product details page " +productCategory)
+console.log("Owning Authority from  Product Details Page" +owningAuthority)
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isSmallScreen = useBreakpointValue({ base: true, md: false });
 
@@ -54,7 +56,7 @@ const productImageURL = product.ProductImageURL;
   };
 
 const handleClick = () => {
-  navigate('/tailoringHome' , {state: {productName , productId , productCategory, productImageURL}})
+  navigate('/tailoringHome' , {state: {productName , productId , productCategory, productImageURL, owningAuthority}})
 }
 
   return (
@@ -201,13 +203,13 @@ const handleClick = () => {
 
             <TabPanels>
               <TabPanel>
-                <Text>Detailed description of the design, including fabric, style, and unique elements.</Text>
+                <Text>{product.ProductDesignDetails}</Text>
               </TabPanel>
               <TabPanel>
-                <Text>Description of the specific tailoring works to be done, like stitching, embroidery, etc.</Text>
+                <Text>{product.ProductWorkDescription}.</Text>
               </TabPanel>
               <TabPanel>
-                <Text>Information about possible alterations and customizations available for this design.</Text>
+                <Text>{product.productAlterations}</Text>
               </TabPanel>
             </TabPanels>
           </Tabs>

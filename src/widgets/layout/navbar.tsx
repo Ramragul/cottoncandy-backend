@@ -206,6 +206,9 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const cartLength = cartState.items.length;
+  const userRole = authState.userRole;
+
+  console.log("User Role " +userRole)
 
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
@@ -267,8 +270,11 @@ const Navbar: React.FC = () => {
               <img src={logo1} alt="Cotton Candy Logo" style={{ height: '55px' }} />
             </Box>
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/businessPartnerForm">
-            Business Partners
+            Partner With Us
             </Link>
+            {(userRole != 'user' && userRole != undefined) && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/adminDashboard">
+            Admin Dashboard
+            </Link> ) }
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
               Contact Us
             </Link>
@@ -378,9 +384,12 @@ const Navbar: React.FC = () => {
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/aboutUs">
               About Us
             </Link>
-            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/services">
-              Business Partners
+            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/businessPartnerForm">
+             Partner With Us
             </Link>
+            {(userRole != 'user') && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/adminDashboard">
+            Admin Dashboard
+            </Link> ) }
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
               Contact Us
             </Link>

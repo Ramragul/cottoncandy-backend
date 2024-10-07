@@ -17,6 +17,7 @@ export * from "./scratchCard";
 export * from "./aboutUs";
 export * from "./tailoringHome";
 export * from "./tailoringProductDetails";
-export * from "./businessPartnersRegistration";
+export * from "./internal/businessPartnersRegistration";
 export * from "./internal/rentalProductUploadForm";
 export * from "./internal/adminDashboard";
+export * from "./internal/tailoringProductUploadForm";

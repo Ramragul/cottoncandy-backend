@@ -716,9 +716,9 @@ import { useForm , Controller } from "react-hook-form";
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
-import city1 from "../assets/cities/city1.jpg";
-import city2 from "../assets/cities/city2.jpg";
-import city3 from "../assets/cities/city3.jpg";
+import doorstepConsultation from "../assets/tailoring/tailoring1.jpg";
+import measurementsCollection from "../assets/tailoring/tailoring2.jpg";
+import doorstepDelivery from "../assets/tailoring/tailoring3.jpg";
 import axios from "axios";
 
 import Lottie from 'react-lottie';
@@ -739,16 +739,18 @@ export const TailoringHome = () => {
     productName = '', 
     productId = '', 
     productCategory = '', 
-    productImageURL = '' 
+    productImageURL = '' ,
+    owningAuthority = ''
   } = location.state || {};
   
 
   console.log("Proudct Name and ID from tailoring booking page "+productName + "," +productId + "," +productCategory)
   const { register, handleSubmit, setValue ,control} = useForm();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = [city1, city2, city3];
+  const images = [doorstepConsultation, measurementsCollection, doorstepDelivery];
 
-  const [appointmentDate, setAppointmentDate] = useState<Date | null>(null);
+  //const [appointmentDate, setAppointmentDate] = useState<Date | null>(null);
+  const [appointmentDate, setAppointmentDate] = useState<string | null>(null);
 
   const [showAnimation, setShowAnimation] = useState(false);
   const [animationType, setAnimationType] = useState<'success' | 'error' | 'loading' | null>(null);
@@ -763,6 +765,9 @@ export const TailoringHome = () => {
     data.productName = (productName) ? productName : "";
     data.productImageURL = (productImageURL) ? productImageURL : "";
     data.productId = (productId) ? productId : "";
+    data.owningAuthority = (owningAuthority) ? owningAuthority : "";
+
+  
  
 
     // if (productName && productImageURL)
@@ -771,23 +776,36 @@ export const TailoringHome = () => {
     //     data.productName = productName;
     //     data.productImageURL = productImageURL
     //   }
-      console.log("Data from Form: ", data);
+      console.log("Appointment Data from Form: ", data.appointmentDate);
     backendConnection(data);
     //setAlert(true);
 };
 
  
 
+  // const handleAppointmentDateChange = (date: Date | null) => {
+  //   if (!date) return;
+  
+  //   const istDate = new Date(date);
+  //   istDate.setHours(istDate.getHours() + 5);
+  //   istDate.setMinutes(istDate.getMinutes() + 30);
+  
+  //   setAppointmentDate(istDate); // Update local state
+  //   setValue('appointmentDate', istDate); // Update React Hook Form state
+  // };
+
   const handleAppointmentDateChange = (date: Date | null) => {
     if (!date) return;
   
-    const istDate = new Date(date);
-    istDate.setHours(istDate.getHours() + 5);
-    istDate.setMinutes(istDate.getMinutes() + 30);
+    // Convert the date to IST timezone
+    const istDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+
+    const formattedISTDate = istDate.toISOString();
   
-    setAppointmentDate(istDate); // Update local state
-    setValue('appointmentDate', istDate); // Update React Hook Form state
+    setAppointmentDate(formattedISTDate); // Update local state
+    setValue('appointmentDate', formattedISTDate); // Update React Hook Form state
   };
+  
 
 
   const toast = useToast(); // Chakra UI toast for notifications
