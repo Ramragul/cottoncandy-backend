@@ -29,7 +29,7 @@ export const Home = () => {
 
       {/* Image Container for Tailoring and Rental */}
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={16} p={16}>
-        {/* <GridItem>
+        <GridItem>
           <Link to="/tailoringCatalogue">
             <Box
               p={6}
@@ -46,7 +46,7 @@ export const Home = () => {
             </Box>
             <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Tailoring</Text>
           </Link>
-        </GridItem> */}
+        </GridItem>
 
         <GridItem>
           {/* <Link to="/rentalCatalogue"> */}
