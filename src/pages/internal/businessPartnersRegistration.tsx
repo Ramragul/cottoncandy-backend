@@ -123,7 +123,7 @@ export const BusinessPartnerRegistration = () => {
           {animationType === 'success' && (
             <Box textAlign="center">
               <Lottie options={{ loop: false, autoplay: true, animationData: successAnimation }} style={{ width: '150px', height: '150px' }} />
-              <Text>Your order has been successfully placed!</Text>
+              <Text>Your account has been successfully created</Text>
             </Box>
           )}
           {animationType === 'error' && (
@@ -148,6 +148,21 @@ export const BusinessPartnerRegistration = () => {
               </InputLeftElement>
               <Input
                 {...register('name', { required: 'Name is required' })}
+                type="text"
+                placeholder="Enter your name"
+                borderColor="grey"
+                _placeholder={{ color: 'grey' }}
+              />
+            </InputGroup>
+          </FormControl>
+          <FormControl isInvalid={errors.name}>
+            <FormLabel>Business Name</FormLabel>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <FaUser color="#b82d92" />
+              </InputLeftElement>
+              <Input
+                {...register('businessName', { required: 'Business Name is required' })}
                 type="text"
                 placeholder="Enter your name"
                 borderColor="grey"

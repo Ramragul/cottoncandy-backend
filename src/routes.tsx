@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -165,6 +165,29 @@ export const routes = [
     element: <AdminDashboard />,
     visible: false,
   },
+  {
+    icon: UsersIcon,
+    name: "MehendiArtistList",
+    path: "/mehendiartist",
+    element: <MehendiArtistList />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "ServiceUploadForm",
+    path: "/service/upload",
+    element: <ServiceUploadForm />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "ServiceBookingPage",
+    path: "/service/booking",
+    element: <ServiceBookingPage />,
+    visible: false,
+  },
+
+
 
 
 ];

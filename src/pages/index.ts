@@ -21,3 +21,8 @@ export * from "./internal/businessPartnersRegistration";
 export * from "./internal/rentalProductUploadForm";
 export * from "./internal/adminDashboard";
 export * from "./internal/tailoringProductUploadForm";
+export * from "./services/MehendiArtistCard";
+export * from "./services/MehendiArtistList";
+export * from "./services/MehendiArtistDetail";
+export * from "./services/ServiceUploadForm"
+export * from "./services/serviceBookingPage"
