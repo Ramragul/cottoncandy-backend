@@ -560,7 +560,11 @@ export const ServiceBookingPage = () => {
                 // borderColor="grey"
                 required
               >
+                <option value="chennai">Chennai</option>
                 <option value="trichy">Trichy</option>
+                <option value="madurai">Madurai</option>
+                <option value="coimbatore">Coimbatore</option>
+                <option value="Tirunelveli">Tirunelveli</option>
                 {/* <option value="suit">Suit</option>
                 <option value="dress">Dress</option> */}
               </Select>
