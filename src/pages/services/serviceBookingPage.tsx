@@ -314,12 +314,13 @@ export const ServiceBookingPage = () => {
   useEffect(() => {
     if (responseData) {
       console.log("Response Data Status Value : "+responseData.status)
+      console.log("Response Order Id : "+responseData.orderId)
       if (responseData.status === 201) {
        
         setAnimationType('success');
         setTimeout(() => {
           navigate('/home'); // Navigate to home page after 3 seconds
-        }, 3000);
+        }, 7000);
       } else {
         setAnimationType('error');
         setTimeout(() => {
@@ -381,7 +382,11 @@ export const ServiceBookingPage = () => {
           {animationType === 'success' && (
             <Box textAlign="center">
               <Lottie options={{ loop: false, autoplay: true, animationData: successAnimation }} style={{ width: '150px', height: '150px' }} />
-              <Text>Your order has been successfully placed!</Text>
+              <Text>
+  Your order has been successfully placed! Please check your email for more details regarding your order. 
+  If you have any further questions or need assistance, feel free to reach out to us at support@cottoncandy.co.in or call us at +91 9629705557.
+</Text>
+
             </Box>
           )}
           {animationType === 'error' && (
@@ -397,7 +402,7 @@ export const ServiceBookingPage = () => {
         <>
       <Alert status="success" variant="solid" mb={5} borderRadius="md">
         <AlertIcon />
-        🎉 Diwali Special! Stunning Mehendi for just ₹49 – Hurry, offer expires soon! Book Now! 🎉
+        🎉 Diwali Special! Stunning Mehendi for just ₹99 – Hurry, offer expires soon! Book Now! 🎉
 
       </Alert>
 
@@ -429,7 +434,7 @@ export const ServiceBookingPage = () => {
           {/* <VStack spacing={4} align="stretch" as="form" onSubmit={handleSubmit}> */}
           <VStack spacing={4} align="stretch">
             <Heading as="h2" size="lg" textAlign="center" mb={5} color="pink.500">
-              Mehendi Service Booking Form
+              Mehendi Service Booking 
             </Heading>
 
            {/* {productName && <FormControl>
@@ -757,7 +762,7 @@ export const ServiceBookingPage = () => {
           </Flex>
           <Flex align="center">
             <FaEnvelope color="#b82d92" />
-            <Text align='start' ml={2}>support@cottoncandy.com</Text>
+            <Text align='start' ml={2}>support@cottoncandy.co.in</Text>
           </Flex>
           <Flex align="center">
             <FaGlobe color="#b82d92" />
@@ -785,15 +790,15 @@ export const ServiceBookingPage = () => {
         <VStack align="start" spacing={2} mb={4}>
           <Flex align="center">
             <MdCheckCircle color="green" />
-            <Text ml={2}>Book your appointment online.</Text>
+            <Text ml={2}>Book your service online with just a few clicks.</Text>
           </Flex>
           <Flex align="center">
             <MdCheckCircle color="green" />
-            <Text align='start' ml={2}>Our tailor visits your location for measurements.</Text>
+            <Text align='start' ml={2}>Our skilled Mehendi artist visits your location to create stunning designs.</Text>
           </Flex>
           <Flex align="center">
             <MdCheckCircle color="green" />
-            <Text align = 'start' ml={2}>Your custom dress is delivered within 7 days.</Text>
+            <Text align = 'start' ml={2}>Enjoy your perfect Mehendi, all in the comfort of your home.</Text>
           </Flex>
         </VStack>
 
@@ -804,16 +809,16 @@ export const ServiceBookingPage = () => {
         <VStack align="start" spacing={2} mb={4}>
           <Flex align="center">
             <FaClock color="green" />
-            <Text ml={2}>Monday - Friday: 10:00 AM - 6:00 PM</Text>
+            <Text ml={2}>Monday - Sunday: 10:00 AM - 7:00 PM</Text>
           </Flex>
-          <Flex align="center">
+          {/* <Flex align="center">
             <FaClock color="green" />
             <Text align='start' ml={2}>Saturday: 11:00 AM - 4:00 PM</Text>
           </Flex>
           <Flex align="center">
             <FaClock color="orange" />
             <Text align = 'start' ml={2} color='red'>Sunday: Closed</Text>
-          </Flex>
+          </Flex> */}
         </VStack>
 
 
@@ -830,7 +835,7 @@ export const ServiceBookingPage = () => {
           </Flex>
           <Flex align="center">
             <FaEnvelope color="#b82d92" />
-            <Text align='start' ml={2}>support@cottoncandy.com</Text>
+            <Text align='start' ml={2}>support@cottoncandy.co.in</Text>
           </Flex>
           <Flex align="center">
             <FaGlobe color="#b82d92" />

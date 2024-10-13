@@ -16,6 +16,7 @@ export * from "./spinWheel";
 export * from "./scratchCard";
 export * from "./aboutUs";
 export * from "./tailoringHome";
+export * from "./contactUs";
 export * from "./tailoringProductDetails";
 export * from "./internal/businessPartnersRegistration";
 export * from "./internal/rentalProductUploadForm";

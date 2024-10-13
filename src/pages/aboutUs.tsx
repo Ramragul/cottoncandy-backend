@@ -395,10 +395,10 @@ export const AboutUs: React.FC = () => {
           _hover={{ boxShadow: 'xl', transform: 'scale(1.05)', transition: 'all 0.3s ease' }}
         >
           <Heading size="md" color="pink.500" marginBottom="2">
-            Door-Step Tailoring
+            Door-Step Fashion
           </Heading>
           <Text color="gray.600">
-            Enjoy bespoke tailoring services, right at your doorstep.
+            Enjoy bespoke fashion services, right at your doorstep.
           </Text>
         </Box>
       </HStack>
@@ -418,11 +418,10 @@ export const AboutUs: React.FC = () => {
           What Our Customers Say
         </Heading>
         <Text fontSize="md" color="gray.700" fontStyle="italic">
-          "Cotton Candy has redefined luxury for me. The door-step tailoring service is a game-changer, and their jewelry
-          collection is simply stunning!"
+          "Impressive and elegant collections …☺️✨"
         </Text>
         <Text fontSize="sm" color="gray.500">
-          - Priya Sharma
+          - Manisha
         </Text>
       </VStack>
     </Box>

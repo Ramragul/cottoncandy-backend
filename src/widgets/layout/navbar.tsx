@@ -276,7 +276,7 @@ const Navbar: React.FC = () => {
             {(userRole != 'user' && userRole != undefined) && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/adminDashboard">
             Admin Dashboard
             </Link> ) }
-            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
+            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contactUs">
               Contact Us
             </Link>
             {/* {( authState.isAuthenticated && */}
@@ -284,7 +284,7 @@ const Navbar: React.FC = () => {
 
 
 
-<Link
+{/* <Link
   px={{ base: 2, md: 3 }}   // Smaller padding for mobile
   py={{ base: 1, md: 2 }}   // Smaller padding for mobile
   rounded="full"
@@ -310,7 +310,7 @@ const Navbar: React.FC = () => {
   display="inline-block" // Keeps the element inline and prevents it from taking full width
 >
   🎉 Play & Win 🎉
-</Link>            
+</Link>             */}
             
           </HStack>
         </HStack>
@@ -391,7 +391,7 @@ const Navbar: React.FC = () => {
             {(userRole != 'user') && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/adminDashboard">
             Admin Dashboard
             </Link> ) }
-            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contact">
+            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contactUs">
               Contact Us
             </Link>
             {/* <Menu>
@@ -407,7 +407,7 @@ const Navbar: React.FC = () => {
               </MenuList>
             </Menu> */}
 
-  <Link
+  {/* <Link
   px={{ base: 2, md: 3 }}   // Smaller padding for mobile
   py={{ base: 1, md: 2 }}   // Smaller padding for mobile
   rounded="full"
@@ -433,7 +433,7 @@ const Navbar: React.FC = () => {
   display="inline-block" // Keeps the element inline and prevents it from taking full width
 >
   🎉 Play & Win 🎉
-</Link>
+</Link> */}
 
      
             {/* <FilterSelectComponent

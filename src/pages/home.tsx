@@ -124,8 +124,8 @@ export const Home = () => {
             boxShadow="sm"
             maxWidth="600px"
           >
-            <Text fontStyle="italic" color="pink.800">"Cotton Candy made my wedding day special with their beautiful rental dresses!"</Text>
-            <Text fontWeight="bold" color="pink.800" mt={2}>- Happy Client</Text>
+            <Text fontStyle="italic" color="pink.800">"I really liked all the collections they had in terms of jewellery and also the attires for special occasions. And the price is also very cheap. Great initiative!!"</Text>
+            <Text fontWeight="bold" color="pink.800" mt={2}>- Manoj Kumar</Text>
           </Box>
           <Box
             p={4}
@@ -135,8 +135,8 @@ export const Home = () => {
             boxShadow="sm"
             maxWidth="600px"
           >
-            <Text fontStyle="italic" color="pink.800">"Their tailoring services are top-notch and very reliable!"</Text>
-            <Text fontWeight="bold" mt={2} color="pink.800">- Satisfied Customer</Text>
+            <Text fontStyle="italic" color="pink.800">"As a Mua, I personally loved all the jewelry collections , almost I rented maximum jewelries from cottoncandy , and surely will recommend to all my future clients. ✨"</Text>
+            <Text fontWeight="bold" mt={2} color="pink.800">- Anandhi Chitra</Text>
           </Box>
         </VStack>
       </Box>
