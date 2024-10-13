@@ -5,6 +5,7 @@ import TailoringPhoto from '../assets/homePage/TailoringPhoto.jpeg'
 import RentalPhoto from '../assets/homePage/RentalPhoto4.jpeg'
 import PurchasePhoto from '../assets/homePage/PurchasePhoto2.jpeg'
 import JewelsPhoto from '../assets/homePage/Jewels.jpeg'
+import MehendiPhoto from '../assets/services/Mehendi.jpg'
 
 export const Home = () => {
 
@@ -47,6 +48,26 @@ export const Home = () => {
             <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Tailoring</Text>
           </Link>
         </GridItem> */}
+
+        <GridItem>
+          {/* <Link to="/rentalCatalogue"> */}
+          <Link to = "/service/home">
+            <Box
+              p={6}
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              textAlign="center"
+            _hover={{ transform: 'scale(1.05)', transition: 'transform 0.2s' }}
+              height={{ base: "300px", md: "400px" }}
+              backgroundImage={`url(${MehendiPhoto})`}
+              backgroundSize="cover"
+              backgroundPosition="center"
+            >    
+            </Box>
+            <Text fontSize="4xl" fontWeight="bold" color="pink.900" textAlign='center' marginTop={5}>Mehendi Service</Text>
+          </Link>
+        </GridItem>
 
         <GridItem>
           {/* <Link to="/rentalCatalogue"> */}

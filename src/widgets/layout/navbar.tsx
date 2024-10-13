@@ -194,7 +194,8 @@ import { useNavigate } from 'react-router-dom';
 import logo1 from '../../assets/navbar/logo1.jpg';
 import useCatalogueCategory, { Category } from '../../hooks/useCatalogueCategory';
 import FilterSelectComponent from '../../components/FilterSelectComponent';
-import { keyframes } from '@chakra-ui/react';
+ //import { keyframes } from '@chakra-ui/react';
+
 const cities = ["Chennai", "Coimbatore", "Trichy"];
 
 const Navbar: React.FC = () => {
@@ -223,16 +224,16 @@ const Navbar: React.FC = () => {
 
   // animation effect
 
-  const pulseAnimation = keyframes`
-  0%, 100% {
-    transform: scale(1);
-    background-color: #F687B3; // Pink color
-  }
-  50% {
-    transform: scale(1.1); // Slightly larger scale
-    background-color: #F6AD55; // Slightly different color to give a pulsating feel
-  }
-`;
+//   const pulseAnimation = keyframes`
+//   0%, 100% {
+//     transform: scale(1);
+//     background-color: #F687B3; // Pink color
+//   }
+//   50% {
+//     transform: scale(1.1); // Slightly larger scale
+//     background-color: #F6AD55; // Slightly different color to give a pulsating feel
+//   }
+// `;
 
   return (
     <Box bg="white" px={4} boxShadow="md">
@@ -290,7 +291,7 @@ const Navbar: React.FC = () => {
   bg="pink.400"
   color="white"
   fontWeight="bold"
-  animation={`${pulseAnimation} 2s infinite`}  // Pulsating animation
+ // animation={`${pulseAnimation} 2s infinite`}  // Pulsating animation
   _hover={{ 
     textDecoration: 'none', 
     bg: 'pink.500',

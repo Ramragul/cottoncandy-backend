@@ -26,3 +26,4 @@ export * from "./services/MehendiArtistList";
 export * from "./services/MehendiArtistDetail";
 export * from "./services/ServiceUploadForm"
 export * from "./services/serviceBookingPage"
+export * from "./services/mehendiHomePage";

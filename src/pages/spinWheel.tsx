@@ -2386,7 +2386,7 @@
 // Version 9 : Replica of version 7 , 8 dosen't have good design, but spin restriction functionality is there 
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Text, keyframes, Button , AlertDialog,
+import { Box, Text, Button , AlertDialog,
     AlertDialogBody,
     AlertDialogFooter,
     AlertDialogHeader,
@@ -2414,23 +2414,23 @@ const prizes = [
 const prizeCount = prizes.length;
 
 // Keyframes for animations
-const revealAnimation = keyframes`
-    0% { transform: scale(0); opacity: 0; }
-    50% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
-`;
+// const revealAnimation = keyframes`
+//     0% { transform: scale(0); opacity: 0; }
+//     50% { transform: scale(1.1); opacity: 1; }
+//     100% { transform: scale(1); opacity: 1; }
+// `;
 
-const messageAnimation = keyframes`
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-`;
+// const messageAnimation = keyframes`
+//     0% { opacity: 0; transform: translateY(20px); }
+//     100% { opacity: 1; transform: translateY(0); }
+// `;
 
-// Define a keyframes animation for the box
-const prizeMessageAnimation = keyframes`
-0% { transform: scale(1); }
-50% { transform: scale(1.05); }
-100% { transform: scale(1); }
-`;
+// // Define a keyframes animation for the box
+// const prizeMessageAnimation = keyframes`
+// 0% { transform: scale(1); }
+// 50% { transform: scale(1.05); }
+// 100% { transform: scale(1); }
+// `;
 
 export const SpinWheel: React.FC = () => {
 
