@@ -209,7 +209,7 @@ const handleClick = () => {
                 <Text>{product.ProductWorkDescription}.</Text>
               </TabPanel>
               <TabPanel>
-                <Text>{product.productAlterations}</Text>
+                <Text>{product.ProductAlterations}</Text>
               </TabPanel>
             </TabPanels>
           </Tabs>

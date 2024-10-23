@@ -140,7 +140,8 @@ const CatalogueGrid: React.FC<Props> = ({ catalogueQuery, apiPath , productType 
       <Box w={{ base: '100%', md: '98%' }}>
         <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
           {data?.map((product) => (
-            <CatalogueImageCard key={product.ProductID} product={product} productType = {productType} purchaseType = {purchaseType} />
+            //<CatalogueImageCard key={product.ProductID} product={product} productType = {productType} purchaseType = {purchaseType} />
+           (product.ProductStatus == 'Active') ? <CatalogueImageCard key={product.ProductID} product={product} productType = {productType} purchaseType = {purchaseType} /> : null
           ))}
         </Grid>
       </Box>

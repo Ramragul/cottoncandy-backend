@@ -9,6 +9,7 @@ export interface Catalogue {
     ProductPrice : string;
     ProductCategory : string;
     OwningAuthority : string;
+    ProductStatus : string;
  
 
 

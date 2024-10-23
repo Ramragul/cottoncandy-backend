@@ -32,7 +32,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 export const TailoringProductUploadForm = () => {
     const navigate = useNavigate();
-  const { register, handleSubmit , setValue} = useForm();
+  const { register, handleSubmit , setValue, getValues , watch} = useForm();
  // const [responseData, setResponseData] = useState('');
  // const [responseStatus, setResponseStatus] = useState('');
   const [selectedProductCategories, setSelectedProductCategories] = useState([]);
@@ -95,6 +95,14 @@ export const TailoringProductUploadForm = () => {
     const commaSeparatedOccasions = updatedOccasions.join(", ");
     setValue("productUsageOccasion", commaSeparatedOccasions);
   };
+
+
+
+
+
+
+
+  
 
   const onSubmit = async (data) => {
     console.log("Form Data: ", data);
@@ -231,24 +239,44 @@ export const TailoringProductUploadForm = () => {
           <FormLabel>Product Usage Gender</FormLabel>
           <Input {...register('productUsageGender')} type="text" placeholder="Enter Gender" />
         </FormControl>
-        <FormControl mb={4}>
+
+
+        {/* <FormControl mb={4}>
       <FormLabel>Product Usage Occasion</FormLabel>
       <CheckboxGroup>
         <Stack spacing={2}>
-          {productUsageOccasion.map((occasion, index) => (
+          {productUsageOccasion.map((occasion) => (
             <Checkbox
-              key={index}
-              value={occasion}
-              onChange={handleProductUsageOccasionCheckboxChange}
-              {...register('productUsageOccasion')}
+              key={occasion} // Use occasion as key
+              value={occasion} // Value for the checkbox
+              isChecked={selectedOccasions.includes(occasion)} // Determine if checked
+              onChange={handleProductUsageOccasionCheckboxChange} // Handle change
             >
-              {occasion}
+              {occasion} 
             </Checkbox>
           ))}
         </Stack>
       </CheckboxGroup>
-    </FormControl>
-
+    </FormControl> */}
+    
+<FormControl>
+<div className="form-group">
+                    <FormLabel>Product Usage Occasion</FormLabel>
+                    {productUsageOccasion.map((option, index) => (
+                    <div key={index}>
+                        <label>
+                        <input
+                            type="checkbox"
+                            value={option}
+                            onChange={handleProductUsageOccasionCheckboxChange}
+                            {...register('productUsageOccasion')}
+                        />
+                        {option}
+                        </label>
+                    </div>
+                    ))}
+                   </div>
+                   </FormControl>
 
 
         <FormControl mb={4}>
