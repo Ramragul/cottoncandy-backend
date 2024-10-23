@@ -227,7 +227,7 @@ export const RentalProductUploadForm = () => {
           <FormLabel>Product Usage Gender</FormLabel>
           <Input {...register('productUsageGender')} type="text" placeholder="Enter Gender" />
         </FormControl>
-        <FormControl mb={4}>
+        {/* <FormControl mb={4}>
           <FormLabel>Product Usage Occasion</FormLabel>
           <CheckboxGroup>
             <Stack spacing={2}>
@@ -238,7 +238,26 @@ export const RentalProductUploadForm = () => {
               ))}
             </Stack>
           </CheckboxGroup>
-        </FormControl>
+        </FormControl> */}
+<FormControl>
+<div className="form-group">
+                    <FormLabel>Product Usage Occasion</FormLabel>
+                    {productUsageOccasion.map((option, index) => (
+                    <div key={index}>
+                        <label>
+                        <input
+                            type="checkbox"
+                            value={option}
+                            onChange={handleProductUsageOccasionCheckboxChange}
+                            {...register('productUsageOccasion')}
+                        />
+                        {option}
+                        </label>
+                    </div>
+                    ))}
+                   </div>
+                   </FormControl>
+
         <FormControl mb={4}>
           <FormLabel>Price Band</FormLabel>
           <Select {...register('productPriceBand')} placeholder="Select Price Band">
