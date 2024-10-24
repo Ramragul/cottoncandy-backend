@@ -34,7 +34,7 @@ export const MehendiHomePage: React.FC = () => {
       bg={colorMode === 'light' ? 'white' : 'gray.800'}
     >
       <Heading as="h1" fontSize="4xl" color="pink.500" mb={4}>
-        Diwali Mehendi Offer - Just ₹99!
+        Diwali Mehendi Offer - Starting from Just ₹99!
       </Heading>
       <Text fontSize="lg" color="gray.600" mb={6}>
         Hurry up! Promotion ends soon. Don't miss out on this festive offer!
@@ -77,7 +77,8 @@ export const MehendiHomePage: React.FC = () => {
           onClick={() => navigate('/service/booking')}
           _hover={{ bg: 'pink.400' }}
         >
-          Book Now for ₹99
+          Book Now 
+          {/* Book Now for ₹99 */}
         </Button>
       </Flex>
     </Box>
