@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Grid, GridItem, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import TailoringPhoto from '../assets/homePage/TailoringPhoto.jpeg'
+import TailoringPhoto from '../assets/homePage/TailorigTile1.jpeg'
 import RentalPhoto from '../assets/homePage/RentalPhoto4.jpeg'
 import PurchasePhoto from '../assets/homePage/PurchasePhoto2.jpeg'
 import JewelsPhoto from '../assets/homePage/Jewels.jpeg'
