@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Grid, GridItem, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import TailoringPhoto from '../assets/homePage/TailorigTile1.jpeg'
+import TailoringTile from '../assets/homePage/TailorigTile1.jpeg'
 import RentalPhoto from '../assets/homePage/RentalPhoto4.jpeg'
 import PurchasePhoto from '../assets/homePage/PurchasePhoto2.jpeg'
 import JewelsPhoto from '../assets/homePage/Jewels.jpeg'
@@ -40,7 +40,7 @@ export const Home = () => {
               textAlign="center"
               _hover={{ transform: 'scale(1.05)', transition: 'transform 0.2s' }}
               height={{ base: "300px", md: "400px" }}
-              backgroundImage={`url(${TailoringPhoto})`}
+              backgroundImage={`url(${TailoringTile})`}
               backgroundSize="cover"
               backgroundPosition="center"
             >
