@@ -936,7 +936,7 @@ export const TailoringHome = () => {
         <>
       <Alert status="success" variant="solid" mb={5} borderRadius="md">
         <AlertIcon />
-        All Tailoring Services Free Until Nov 15, 2024! Book Now!
+        Best Service at an Affordable Price! Book Now!
       </Alert>
 
       {/* Image Slider for 'How We Work' Section */}
