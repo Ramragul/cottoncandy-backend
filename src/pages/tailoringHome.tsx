@@ -740,7 +740,8 @@ export const TailoringHome = () => {
     productId = '', 
     productCategory = '', 
     productImageURL = '' ,
-    owningAuthority = ''
+    owningAuthority = '',
+    productPrice = ''
   } = location.state || {};
   
 
@@ -766,6 +767,7 @@ export const TailoringHome = () => {
     data.productImageURL = (productImageURL) ? productImageURL : "";
     data.productId = (productId) ? productId : "";
     data.owningAuthority = (owningAuthority) ? owningAuthority : "";
+    data.productPrice = (productPrice) ?  productPrice : "";
 
   
  

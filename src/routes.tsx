@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -121,6 +121,20 @@ export const routes = [
     name: "OrderManagementDetails",
     path: "/orderDetails/:order_id",
     element: <OrderManagementDetails />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "TailoringOrderManagement",
+    path: "/tailoring/orders",
+    element: <TailoringOrderManagement />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "TailoringOrderManagementDetails",
+    path: "/tailoring/orderDetails/:order_id",
+    element: <TailoringOrderManagementDetails />,
     visible: false,
   },
   {
