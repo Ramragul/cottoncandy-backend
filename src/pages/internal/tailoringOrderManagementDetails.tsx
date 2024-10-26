@@ -46,7 +46,7 @@ export const TailoringOrderManagementDetails = () => {
             
             setAnimationType('success');
             setTimeout(() => {
-              navigate('tailoring/orders'); // Navigate to home page after 3 seconds
+              navigate('/tailoring/orders'); // Navigate to home page after 3 seconds
             }, 3000);
           } else {
             setAnimationType('error');
