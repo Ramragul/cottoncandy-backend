@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Grid, GridItem, Heading, Text, Icon, Button } from '@chakra-ui/react';
-import { FaUpload, FaUserTie, FaPaintBrush } from 'react-icons/fa'; // Sample icons for forms
+import { FaUpload, FaUserTie, FaPaintBrush, FaShip } from 'react-icons/fa'; // Sample icons for forms
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -29,6 +29,20 @@ export const AdminDashboard = () => {
       description: 'Upload boutique designer products.',
       icon: FaPaintBrush,
       navigate : '/tailoringProductUpload'
+    },
+    {
+      id: 4,
+      title: 'Rental Orders',
+      description: 'Rental Products Order Details',
+      icon: FaShip,
+      navigate : '/orders'
+    },
+    {
+      id: 5,
+      title: 'Tailoring Orders',
+      description: 'Tailoring Product Order Details',
+      icon: FaShip,
+      navigate : '/tailoring/orders'
     },
     // Add more forms as needed
   ];
