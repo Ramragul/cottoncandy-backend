@@ -20,7 +20,7 @@ export const TailoringOrderManagementDetails = () => {
 
     const orderId = order?.order_id;
 
-    const { patchData, data, error, isLoading, responseData } = usePatchData(`/api/orders/${orderId}/update`);
+    const { patchData, data, error, isLoading, responseData } = usePatchData(`/api/tailoring/orders/${orderId}/update`);
 
     const [orderStatus, setOrderStatus] = useState(order?.order_status || '');
     const [orderAssignment, setOrderAssignment] = useState(order?.order_assignment || '');
@@ -46,7 +46,7 @@ export const TailoringOrderManagementDetails = () => {
             
             setAnimationType('success');
             setTimeout(() => {
-              navigate('/orders'); // Navigate to home page after 3 seconds
+              navigate('tailoring/orders'); // Navigate to home page after 3 seconds
             }, 3000);
           } else {
             setAnimationType('error');
@@ -54,7 +54,7 @@ export const TailoringOrderManagementDetails = () => {
         } else if (error) {
           setAnimationType('error');
           setTimeout(() => {
-            navigate('/orders'); // Navigate back to checkout page after a few seconds
+            navigate('/tailoring/orders'); // Navigate back to checkout page after a few seconds
           }, 3000);
         }
       }, [responseData, error, navigate]);
@@ -97,40 +97,48 @@ export const TailoringOrderManagementDetails = () => {
                 <Box boxShadow="md" borderRadius="lg" p="6" bg="white">
                     <Text fontSize="lg" fontWeight="bold" mb="4">Product Details</Text>
                     <Image src={firstImageUrl} alt="Product Image" boxSize="150px" borderRadius="md" objectFit="cover" />
-                    <Text mt="4"><strong>Name:</strong> {order.product_name}</Text>
-                    <Text><strong>Size:</strong> {order.size}</Text>
-                    <Text><strong>Duration:</strong> {order.duration} days</Text>
-                    <Text><strong>Quantity:</strong> {order.quantity}</Text>
-                    <Text><strong>Price per item:</strong> ₹{order.price}</Text>
+                    <Text mt="4"><strong>Product ID:</strong> {order.product_id}</Text>
+                    <Text fontSize="lg" fontWeight="bold" mb="4">Order Info</Text>
+                    <Text><strong>Order Date:</strong> {new Date(order.order_date).toLocaleDateString()}</Text>
+                    <Text><strong>Appointment Date:</strong> {new Date(order.appointment_date).toLocaleDateString()}</Text>
+                    <Text><strong>Amount:</strong> ₹{order.products_price}</Text>
+                    
+                </Box>
+
+                <Box boxShadow="md" borderRadius="lg" p="6" bg="white">
+                    <Text fontSize="lg" fontWeight="bold" mb="4">Delivery Details</Text>
+                    <Text><strong>Delivery Address:</strong> {`${order.name}, ${order.address}, ${order.city}, ${order.pincode}`}</Text>
+                    <Text><strong>Email:</strong> {order.email}</Text>
+                    <Text><strong>Mobile Number:</strong> {order.phone}</Text>
                 </Box>
 
                 {/* Order Info */}
-                <Box boxShadow="md" borderRadius="lg" p="6" bg="white">
+                {/* <Box boxShadow="md" borderRadius="lg" p="6" bg="white">
                     <Text fontSize="lg" fontWeight="bold" mb="4">Order Info</Text>
                     <Text><strong>Order Date:</strong> {new Date(order.order_date).toLocaleDateString()}</Text>
-                    <Text><strong>Delivery Date:</strong> {new Date(order.delivery_date).toLocaleDateString()}</Text>
+                    <Text><strong>Appointment Date:</strong> {new Date(order.appointment_date).toLocaleDateString()}</Text>
                     <Text><strong>Return Date:</strong> {new Date(order.return_date).toLocaleDateString()}</Text>
-                    <Text><strong>Total Amount:</strong> ₹{order.total_amount}</Text>
-                    <Text><strong>Products Price:</strong> ₹{order.products_price}</Text>
-                    <Text><strong>Security Deposit:</strong> ₹{order.security_deposit}</Text>
-                </Box>
+                    
+                    <Text><strong>Amount:</strong> ₹{order.products_price}</Text>
+                   
+                </Box> */}
             </Grid>
 
-            <Grid templateColumns={['1fr', '1fr 1fr']} gap={6}>
+            {/* <Grid templateColumns={['1fr', '1fr 1fr']} gap={6}> */}
                 {/* Delivery Details */}
-                <Box boxShadow="md" borderRadius="lg" p="6" bg="white">
+                {/* <Box boxShadow="md" borderRadius="lg" p="6" bg="white">
                     <Text fontSize="lg" fontWeight="bold" mb="4">Delivery Details</Text>
                     <Text><strong>Delivery Address:</strong> {`${order.first_name} ${order.last_name}, ${order.address}, ${order.city}, ${order.pincode}`}</Text>
                     <Text><strong>Email:</strong> {order.email}</Text>
-                    <Text><strong>Mobile Number:</strong> {order.mobile_number}</Text>
-                </Box>
+                    <Text><strong>Mobile Number:</strong> {order.phone}</Text>
+                </Box> */}
 
                 {/* Return Address */}
-                <Box boxShadow="md" borderRadius="lg" p="6" bg="white">
+                {/* <Box boxShadow="md" borderRadius="lg" p="6" bg="white">
                     <Text fontSize="lg" fontWeight="bold" mb="4">Return Details</Text>
                     <Text><strong>Return Address:</strong> {`${order.return_address}, ${order.return_city}, ${order.return_pincode}`}</Text>
-                </Box>
-            </Grid>
+                </Box> */}
+            {/* </Grid> */}
 
             {/* Order Status and Assignment */}
             <Stack spacing={6} mt="8">

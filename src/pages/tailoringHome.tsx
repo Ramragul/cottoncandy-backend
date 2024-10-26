@@ -1076,7 +1076,7 @@ export const TailoringHome = () => {
                   <FaPhone color="#b82d92" />
                 </InputLeftElement>
                 <Input
-                {...register('phoneNumber')}
+                {...register('phone')}
                   type="tel"
                   
                   placeholder="Enter your phone number"
