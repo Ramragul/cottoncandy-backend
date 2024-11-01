@@ -30,3 +30,4 @@ export * from "./services/serviceBookingPage"
 export * from "./services/mehendiHomePage";
 export * from "./internal/tailoringOrderManagement";
 export * from "./internal/tailoringOrderManagementDetails";
+export * from "./winner";

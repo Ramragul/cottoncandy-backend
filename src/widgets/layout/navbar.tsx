@@ -279,6 +279,9 @@ const Navbar: React.FC = () => {
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contactUs">
               Contact Us
             </Link>
+            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/winner">
+              Diwali Giveaway Winner
+            </Link>
             {/* {( authState.isAuthenticated && */}
             
 
@@ -393,6 +396,9 @@ const Navbar: React.FC = () => {
             </Link> ) }
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contactUs">
               Contact Us
+            </Link>
+            <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/winner">
+              Diwali Giveaway Winner
             </Link>
             {/* <Menu>
               <MenuButton as={Link} _hover={{ textDecoration: 'none' }}>
