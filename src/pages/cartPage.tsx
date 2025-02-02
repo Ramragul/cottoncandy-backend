@@ -291,7 +291,8 @@ export const CartPage = () => {
 
   const calculateTotals = () => {
     const productsPrice = cartState.items.reduce((total, item) => total + item.price * item.quantity, 0);
-    const securityDeposit = cartState.items.reduce((total, item) => total + item.price * item.quantity, 0); // Example calculation
+    //const securityDeposit = cartState.items.reduce((total, item) => total + item.price * item.quantity, 0); // Example calculation
+    const securityDeposit = 0
     const totalAmount = productsPrice + securityDeposit;
     return { productsPrice, securityDeposit, totalAmount };
   };

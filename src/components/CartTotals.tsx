@@ -13,7 +13,8 @@ interface CartTotalsProps {
 
 const CartTotals: React.FC<CartTotalsProps> = ({ cart, onContinueShopping, onCheckout }) => {
   const calculateSubtotal = (item: CartItem) => item.price * item.quantity;
-  const calculateDeposit = (item: CartItem) => item.price * item.quantity;
+  //const calculateDeposit = (item: CartItem) => item.price * item.quantity;
+  const calculateDeposit = (item: CartItem) => 0;
   const calculateGrandTotal = () => cart.reduce((total, item) => total + calculateSubtotal(item) + calculateDeposit(item), 0);
 
   return (
@@ -22,15 +23,15 @@ const CartTotals: React.FC<CartTotalsProps> = ({ cart, onContinueShopping, onChe
       <VStack spacing={2} align="stretch">
         <HStack justifyContent="space-between">
           <Text fontWeight="bold" color="pink.500">Products Price:</Text>
-          <Text fontWeight="bold" color="pink.500">${cart.reduce((total, item) => total + calculateSubtotal(item), 0)}</Text>
+          <Text fontWeight="bold" color="pink.500">₹{cart.reduce((total, item) => total + calculateSubtotal(item), 0)}</Text>
         </HStack>
         <HStack justifyContent="space-between">
           <Text fontWeight="bold" color="pink.500">Security Deposit:</Text>
-          <Text fontWeight="bold" color="pink.500">${cart.reduce((total, item) => total + calculateDeposit(item), 0)}</Text>
+          <Text fontWeight="bold" color="pink.500">₹{cart.reduce((total, item) => total + calculateDeposit(item), 0)}</Text>
         </HStack>
         <HStack justifyContent="space-between">
           <Text fontWeight="bold" color="pink.500">Total Amount:</Text>
-          <Text fontWeight="bold" color="pink.500">${calculateGrandTotal()}</Text>
+          <Text fontWeight="bold" color="pink.500">₹{calculateGrandTotal()}</Text>
         </HStack>
       </VStack>
       <HStack mt={4} spacing={4}>

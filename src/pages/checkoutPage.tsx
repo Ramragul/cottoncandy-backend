@@ -1044,7 +1044,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, VStack, HStack, Text, Input, Radio, RadioGroup, Checkbox, Button, Badge } from '@chakra-ui/react';
+import { Box, Heading, VStack, HStack, Text, Input, Radio, RadioGroup, Checkbox, Button, Badge, Center } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import Lottie from 'react-lottie';
@@ -1119,6 +1119,7 @@ export const CheckoutPage: React.FC = () => {
   }, [responseData, error, navigate]);
 
   return (
+    <Center>
     <Box className="checkoutContainer">
       {showAnimation && (
         <Box className="animationContainer">
@@ -1264,6 +1265,7 @@ export const CheckoutPage: React.FC = () => {
         </>
       )}
     </Box>
+    </Center>
   );
 };
 

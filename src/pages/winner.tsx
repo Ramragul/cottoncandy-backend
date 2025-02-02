@@ -127,7 +127,7 @@
 
 
 import React from "react";
-import jewelPhoto from "../assets/homePage/jewel.jpeg";
+import jewelPhoto from "../assets/homePage/Jewels.jpeg";
 
 export const Winner: React.FC = () => {
   return (
