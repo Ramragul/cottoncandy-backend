@@ -24,6 +24,7 @@
     "dom-confetti": "^0.2.2",
     "framer-motion": "^11.11.8",
     "lottie-react": "^2.4.0",
+    "razorpay": "^2.9.5",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
     "react-datepicker": "^7.2.0",

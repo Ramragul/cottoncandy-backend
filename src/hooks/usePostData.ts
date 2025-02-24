@@ -77,7 +77,8 @@ const usePostData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig) =>
             setResponseData({
                 message: "Message",
                 status: response.status,
-                orderId : 1
+               // orderId : 1
+               orderId : response.data.order_id
               });
               console.log("Response Data" +responseData)
         } catch (err) {
