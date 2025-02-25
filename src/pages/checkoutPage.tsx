@@ -1377,7 +1377,7 @@ export const CheckoutPage: React.FC = () => {
               orderId: orderId, // Backend Order ID
               paymentId: response.razorpay_payment_id, // Razorpay Payment ID
               signature: response.razorpay_signature, // Razorpay Signature
-              paymentScenarioi: "rental"
+              paymentScenario: "rental"
             }),
           });
 
@@ -1589,6 +1589,10 @@ export const CheckoutPage: React.FC = () => {
                 <HStack justifyContent="space-between">
                   <Text fontWeight="bold" color="pink.500">Products Price:</Text>
                   <Text fontWeight="bold" color="pink.500">₹{totals.productsPrice.toFixed(2)}</Text>
+                </HStack>
+                <HStack justifyContent="space-between">
+                  <Text fontWeight="bold" color="pink.500">Handling Fee:</Text>
+                  <Text fontWeight="bold" color="pink.500">₹{totals.handlingFee}</Text>
                 </HStack>
                 <HStack justifyContent="space-between">
                   <Text fontWeight="bold" color="pink.500">Security Deposit:</Text>

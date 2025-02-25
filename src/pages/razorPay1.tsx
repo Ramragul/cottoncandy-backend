@@ -117,7 +117,7 @@ export const RazorPay = () => {
   }, []);
 
   const handlePayment = async () => {
-    var amount = 1;
+    var amount = 10;
 
     // Create order from your backend
     const response = await fetch("https://admee.in:3003/api/cc/create-order", {
@@ -157,7 +157,7 @@ export const RazorPay = () => {
     razorpay.open();
   };
 
-  return <button onClick={handlePayment}>Pay ₹1</button>;
+  return <button onClick={handlePayment}>Pay ₹100</button>;
 };
 
 export default RazorPay;
