@@ -27,8 +27,12 @@ export * from "./services/MehendiArtistList";
 export * from "./services/MehendiArtistDetail";
 export * from "./services/ServiceUploadForm"
 export * from "./services/serviceBookingPage"
+export * from "./services/serviceHomePage"
+export * from "./services/serviceDetailsPage"
 export * from "./services/mehendiHomePage";
 export * from "./internal/tailoringOrderManagement";
 export * from "./internal/tailoringOrderManagementDetails";
 export * from "./winner";
-//export * from "./razorPay";
+export * from "./razorPay";
+export * from "./services/MehendiServiceBookingPage";
+export * from "./services/serviceLandingPage";

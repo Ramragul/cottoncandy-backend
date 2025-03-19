@@ -1,163 +1,853 @@
-// import React from "react";
+// Version 1
+
+// import React, { useState } from 'react';
 // import {
-//   Box,
-//   FormControl,
-//   FormLabel,
-//   Input,
-//   Select,
-//   Textarea,
-//   Button,
-//   VStack,
-//   useToast,
-// } from "@chakra-ui/react";
-// import { useForm } from "react-hook-form";
+//     Box,
+//     Heading,
+//     Text,
+//     Button,
+//     Input,
+//     Select,
+//     Checkbox,
+//     FormControl,
+//     FormLabel,
+//     useToast,
+//     useDisclosure,
+//     Modal,
+//     ModalOverlay,
+//     ModalContent,
+//     ModalHeader,
+//     ModalCloseButton,
+//     ModalBody,
+//     ModalFooter,
+//     Center,
+//     Spinner,
+//     Stack,
+//     Divider,
+//     FormErrorMessage,
+//     useBreakpointValue,
+// } from '@chakra-ui/react';
+// import { useLocation, useNavigate } from 'react-router-dom';
+// import DatePicker from 'react-datepicker';  // Correct
 
-// export const ServiceBookingPage = () => {
-//   const { register, handleSubmit, formState: { errors } } = useForm();
-//   const toast = useToast();
+// import 'react-datepicker/dist/react-datepicker.css'; // Include react-datepicker CSS
 
-//   const onSubmit = (data) => {
-//     // Call your backend API with the form data
-//     console.log("Form submitted successfully:", data);
-//     toast({
-//       title: "Service booked.",
-//       description: "We've received your service booking request.",
-//       status: "success",
-//       duration: 5000,
-//       isClosable: true,
-//     });
+// export const ServiceBookingPage: React.FC = () => {
+//     const navigate = useNavigate();
+//     const toast = useToast();
+//     const { state } = useLocation();
+//     const { serviceId, partnerName, variants, policies } = state || {};
+    
+//     // Local state for form data
+//     const [selectedVariant, setSelectedVariant] = useState('');
+//     const [serviceDate, setServiceDate] = useState<Date | null>(null);
+//     const [eventDate, setEventDate] = useState<Date | null>(null);
+//     const [eventType, setEventType] = useState('');
+//     const [agreeToPolicies, setAgreeToPolicies] = useState(false);
+
+//     const handleBooking = () => {
+//         if (!agreeToPolicies) {
+//             toast({
+//                 title: 'Error',
+//                 description: 'You must agree to the policies before booking.',
+//                 status: 'error',
+//                 duration: 5000,
+//                 isClosable: true,
+//             });
+//             return;
+//         }
+
+//         // Here, you can process the booking logic.
+//         toast({
+//             title: 'Booking Successful',
+//             description: `Your service has been booked successfully with ${partnerName}.`,
+//             status: 'success',
+//             duration: 5000,
+//             isClosable: true,
+//         });
+
+//         // Redirect to confirmation or home page
+//         navigate('/home');
+//     };
+
+//     return (
+//         <Box p={6}>
+//             <Heading size="lg" mb={4}>Book Service with {partnerName}</Heading>
+//             <Divider my={4} />
+
+//             {/* Service ID */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Service ID</FormLabel>
+//                 <Input value={serviceId} isReadOnly />
+//             </FormControl>
+
+//             {/* Service Variant */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Select Service Variant</FormLabel>
+//                 <Select
+//                     value={selectedVariant}
+//                     onChange={(e) => setSelectedVariant(e.target.value)}
+//                     placeholder="Select a variant"
+//                 >
+//                     {variants.map((variant) => (
+//                         <option key={variant.variant_id} value={variant.variant_name}>
+//                             {variant.variant_name} - ₹{variant.price}
+//                         </option>
+//                     ))}
+//                 </Select>
+//             </FormControl>
+
+//             {/* Service Date */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Service Date & Time</FormLabel>
+//                 <DatePicker
+//                     selected={serviceDate}
+//                     onChange={(date: Date) => setServiceDate(date)}
+//                     showTimeSelect
+//                     dateFormat="Pp"
+//                     placeholderText="Select service date and time"
+//                 />
+//             </FormControl>
+
+//             {/* Event Type */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Event Type</FormLabel>
+//                 <Select
+//                     value={eventType}
+//                     onChange={(e) => setEventType(e.target.value)}
+//                     placeholder="Select event type"
+//                 >
+//                     <option value="Wedding">Wedding</option>
+//                     <option value="Party">Party</option>
+//                     <option value="Corporate">Corporate</option>
+//                     <option value="Other">Other</option>
+//                 </Select>
+//             </FormControl>
+
+//             {/* Event Date */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Event Date & Time</FormLabel>
+//                 <DatePicker
+//                     selected={eventDate}
+//                     onChange={(date: Date) => setEventDate(date)}
+//                     showTimeSelect
+//                     dateFormat="Pp"
+//                     placeholderText="Select event date and time"
+//                 />
+//             </FormControl>
+
+//             {/* Agree to Policies */}
+//             <Box mb={4}>
+//                 <Checkbox
+//                     isChecked={agreeToPolicies}
+//                     onChange={() => setAgreeToPolicies(!agreeToPolicies)}
+//                     colorScheme="pink"
+//                 >
+//                     I agree to the{' '}
+//                     <Button variant="link" colorScheme="pink" onClick={() => alert(policies)}>
+//                         policies and licenses
+//                     </Button>
+//                 </Checkbox>
+//             </Box>
+
+//             {/* Book Button */}
+//             <Button
+//                 colorScheme="pink"
+//                 size="lg"
+//                 isFullWidth
+//                 isDisabled={!agreeToPolicies}
+//                 onClick={handleBooking}
+//             >
+//                 Book Now
+//             </Button>
+//         </Box>
+//     );
+// };
+
+// export default ServiceBookingPage;
+
+
+// Version 2 : Enhancement and slight design fixes to version 1
+
+// import React, { useState } from 'react';
+// import {
+//     Box,
+//     Heading,
+//     Text,
+//     Button,
+//     Input,
+//     Select,
+//     Checkbox,
+//     FormControl,
+//     FormLabel,
+//     useToast,
+//     Divider,
+//     VStack,
+//     Center,
+//     Spinner,
+// } from '@chakra-ui/react';
+// import { useLocation, useNavigate } from 'react-router-dom';
+// import DatePicker from 'react-datepicker'; // Correct import
+// import 'react-datepicker/dist/react-datepicker.css'; // Include react-datepicker CSS
+
+// export const ServiceBookingPage: React.FC = () => {
+//     const navigate = useNavigate();
+//     const toast = useToast();
+//     const { state } = useLocation();
+//     const { serviceId, partnerName, variants, policies } = state || {};
+
+//     // Local state for form data
+//     const [selectedVariant, setSelectedVariant] = useState('');
+//     const [serviceDate, setServiceDate] = useState<Date | null>(null);
+//     const [eventDate, setEventDate] = useState<Date | null>(null);
+//     const [eventType, setEventType] = useState('');
+//     const [agreeToPolicies, setAgreeToPolicies] = useState(false);
+    
+//     // New fields
+//     const [address, setAddress] = useState('');
+//     const [pincode, setPincode] = useState('');
+//     const [city, setCity] = useState('');
+//     const [contactNumber, setContactNumber] = useState('');
+//     const [email, setEmail] = useState('');
+
+//     const handleBooking = () => {
+//         if (!agreeToPolicies) {
+//             toast({
+//                 title: 'Error',
+//                 description: 'You must agree to the policies before booking.',
+//                 status: 'error',
+//                 duration: 5000,
+//                 isClosable: true,
+//             });
+//             return;
+//         }
+
+//         // Capture all fields and prepare data to send to the backend (you will handle the API part later)
+//         const bookingData = {
+//             serviceId,
+//             partnerName,
+//             selectedVariant,
+//             serviceDate,
+//             eventDate,
+//             eventType,
+//             address,
+//             pincode,
+//             city,
+//             contactNumber,
+//             email,
+//         };
+
+//         // For now, show a success toast (You can replace this with actual API call later)
+//         toast({
+//             title: 'Booking Successful',
+//             description: `Your service has been booked successfully with ${partnerName}.`,
+//             status: 'success',
+//             duration: 5000,
+//             isClosable: true,
+//         });
+
+//         // Redirect to confirmation or home page
+//         navigate('/home');
+//     };
+
+//     return (
+//         <Box p={6} maxW="lg" mx="auto">
+//             <Heading size="lg" mb={4}>Book Service with {partnerName}</Heading>
+//             <Divider my={4} />
+
+//             {/* Service ID */}
+//             {/* <FormControl isRequired mb={4}>
+//                 <FormLabel>Service ID</FormLabel>
+//                 <Input value={serviceId} isReadOnly />
+//             </FormControl> */}
+
+//             {/* Service Variant */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Select Service Variant</FormLabel>
+//                 <Select
+//                     value={selectedVariant}
+//                     onChange={(e) => setSelectedVariant(e.target.value)}
+//                     placeholder="Select a variant"
+//                 >
+//                     {variants.map((variant) => (
+//                         <option key={variant.variant_id} value={variant.variant_name}>
+//                             {variant.variant_name} - ₹{variant.price}
+//                         </option>
+//                     ))}
+//                 </Select>
+//             </FormControl>
+
+//             {/* Service Date */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Service Date & Time</FormLabel>
+//                 <Box width="100%" mb={2}>
+//                     <DatePicker
+//                         selected={serviceDate}
+//                         onChange={(date: Date) => setServiceDate(date)}
+//                         showTimeSelect
+//                         dateFormat="Pp"
+//                         placeholderText="Select service date and time"
+//                         className="datepicker"
+//                         style={{ width: '100%' }}
+//                     />
+//                 </Box>
+//             </FormControl>
+
+//             {/* Event Type */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Event Type</FormLabel>
+//                 <Select
+//                     value={eventType}
+//                     onChange={(e) => setEventType(e.target.value)}
+//                     placeholder="Select event type"
+//                 >
+//                     <option value="Wedding">Wedding</option>
+//                     <option value="Party">Party</option>
+//                     <option value="Corporate">Corporate</option>
+//                     <option value="Other">Other</option>
+//                 </Select>
+//             </FormControl>
+
+//             {/* Event Date */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Event Date & Time</FormLabel>
+//                 <Box width="100%" mb={2}>
+//                     <DatePicker
+//                         selected={eventDate}
+//                         onChange={(date: Date) => setEventDate(date)}
+//                         showTimeSelect
+//                         dateFormat="Pp"
+//                         placeholderText="Select event date and time"
+//                         style={{ width: '100%' }}
+//                     />
+//                 </Box>
+//             </FormControl>
+
+//             {/* Address */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Address</FormLabel>
+//                 <Input
+//                     value={address}
+//                     onChange={(e) => setAddress(e.target.value)}
+//                     placeholder="Enter your address"
+//                 />
+//             </FormControl>
+
+//             {/* Pincode */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Pincode</FormLabel>
+//                 <Input
+//                     value={pincode}
+//                     onChange={(e) => setPincode(e.target.value)}
+//                     placeholder="Enter your pincode"
+//                     type="number"
+//                 />
+//             </FormControl>
+
+//             {/* City */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>City</FormLabel>
+//                 <Input
+//                     value={city}
+//                     onChange={(e) => setCity(e.target.value)}
+//                     placeholder="Enter your city"
+//                 />
+//             </FormControl>
+
+//             {/* Contact Number */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Contact Number</FormLabel>
+//                 <Input
+//                     value={contactNumber}
+//                     onChange={(e) => setContactNumber(e.target.value)}
+//                     placeholder="Enter your contact number"
+//                     type="tel"
+//                 />
+//             </FormControl>
+
+//             {/* Email */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Email</FormLabel>
+//                 <Input
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                     placeholder="Enter your email"
+//                     type="email"
+//                 />
+//             </FormControl>
+
+//             {/* Agree to Policies */}
+//             <Box mb={4}>
+//                 <Checkbox
+//                     isChecked={agreeToPolicies}
+//                     onChange={() => setAgreeToPolicies(!agreeToPolicies)}
+//                     colorScheme="pink"
+//                 >
+//                     I agree to the{' '}
+//                     <Button variant="link" colorScheme="pink" onClick={() => alert(policies)}>
+//                         policies and licenses
+//                     </Button>
+//                 </Checkbox>
+//             </Box>
+
+//             {/* Book Button */}
+//             <Button
+//                 colorScheme="pink"
+//                 size="lg"
+//                 isFullWidth
+//                 isDisabled={!agreeToPolicies}
+//                 onClick={handleBooking}
+//             >
+//                 Book Now
+//             </Button>
+//         </Box>
+//     );
+// };
+
+// export default ServiceBookingPage;
+
+
+// Version 3 : Enhancement to version 2
+
+// import React, { useState } from 'react';
+// import {
+//     Box,
+//     Heading,
+//     Text,
+//     Button,
+//     Input,
+//     Select,
+//     Checkbox,
+//     FormControl,
+//     FormLabel,
+//     useToast,
+//     Divider,
+//     Grid,
+//     GridItem,
+//     Center,
+//     Spinner,
+// } from '@chakra-ui/react';
+// import { useLocation, useNavigate } from 'react-router-dom';
+// import DatePicker from 'react-datepicker'; // Correct import
+// import 'react-datepicker/dist/react-datepicker.css'; // Include react-datepicker CSS
+
+// export const ServiceBookingPage: React.FC = () => {
+//     const navigate = useNavigate();
+//     const toast = useToast();
+//     const { state } = useLocation();
+//     const { serviceId, partnerName, variants, policies } = state || {};
+
+//     // Local state for form data
+//     const [selectedVariant, setSelectedVariant] = useState('');
+//     const [serviceDate, setServiceDate] = useState<Date | null>(null);
+//     const [eventDate, setEventDate] = useState<Date | null>(null);
+//     const [eventType, setEventType] = useState('');
+//     const [agreeToPolicies, setAgreeToPolicies] = useState(false);
+
+//     // New fields
+//     const [address, setAddress] = useState('');
+//     const [pincode, setPincode] = useState('');
+//     const [city, setCity] = useState('');
+//     const [contactNumber, setContactNumber] = useState('');
+//     const [email, setEmail] = useState('');
+
+//     const handleBooking = () => {
+//         if (!agreeToPolicies) {
+//             toast({
+//                 title: 'Error',
+//                 description: 'You must agree to the policies before booking.',
+//                 status: 'error',
+//                 duration: 5000,
+//                 isClosable: true,
+//             });
+//             return;
+//         }
+
+//         // Capture all fields and prepare data to send to the backend (you will handle the API part later)
+//         const bookingData = {
+//             serviceId,
+//             partnerName,
+//             selectedVariant,
+//             serviceDate,
+//             eventDate,
+//             eventType,
+//             address,
+//             pincode,
+//             city,
+//             contactNumber,
+//             email,
+//         };
+
+//         // For now, show a success toast (You can replace this with actual API call later)
+//         toast({
+//             title: 'Booking Successful',
+//             description: `Your service has been booked successfully with ${partnerName}.`,
+//             status: 'success',
+//             duration: 5000,
+//             isClosable: true,
+//         });
+
+//         // Redirect to confirmation or home page
+//         navigate('/home');
+//     };
+
+//     return (
+//         <Box p={6} maxW="lg" mx="auto">
+//             <Heading size="lg" mb={4}>Book Service with {partnerName}</Heading>
+//             <Divider my={4} />
+
+//             {/* Service ID */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Service ID</FormLabel>
+//                 <Input value={serviceId} isReadOnly />
+//             </FormControl>
+
+//             {/* Service Variant */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Select Service Variant</FormLabel>
+//                 <Select
+//                     value={selectedVariant}
+//                     onChange={(e) => setSelectedVariant(e.target.value)}
+//                     placeholder="Select a variant"
+//                 >
+//                     {variants.map((variant) => (
+//                         <option key={variant.variant_id} value={variant.variant_name}>
+//                             {variant.variant_name} - ₹{variant.price}
+//                         </option>
+//                     ))}
+//                 </Select>
+//             </FormControl>
+
+//             {/* Layout for Date Picker and Other Fields */}
+//             <Grid templateColumns={['1fr', '1fr 1fr']} gap={6} mb={4}>
+//                 {/* Service Date */}
+//                 <GridItem>
+//                     <FormControl isRequired>
+//                         <FormLabel>Service Date & Time</FormLabel>
+//                         <Box width="100%" mb={2}>
+//                             <DatePicker
+//                                 selected={serviceDate}
+//                                 onChange={(date: Date) => setServiceDate(date)}
+//                                 showTimeSelect
+//                                 dateFormat="Pp"
+//                                 placeholderText="Select service date and time"
+//                                 style={{ width: '100%' }}
+//                             />
+//                         </Box>
+//                     </FormControl>
+//                 </GridItem>
+
+//                 {/* Event Date */}
+//                 <GridItem>
+//                     <FormControl isRequired>
+//                         <FormLabel>Event Date & Time</FormLabel>
+//                         <Box width="100%" mb={2}>
+//                             <DatePicker
+//                                 selected={eventDate}
+//                                 onChange={(date: Date) => setEventDate(date)}
+//                                 showTimeSelect
+//                                 dateFormat="Pp"
+//                                 placeholderText="Select event date and time"
+//                                 style={{ width: '100%' }}
+//                             />
+//                         </Box>
+//                     </FormControl>
+//                 </GridItem>
+//             </Grid>
+
+//             {/* Event Type */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Event Type</FormLabel>
+//                 <Select
+//                     value={eventType}
+//                     onChange={(e) => setEventType(e.target.value)}
+//                     placeholder="Select event type"
+//                 >
+//                     <option value="Wedding">Wedding</option>
+//                     <option value="Party">Party</option>
+//                     <option value="Corporate">Corporate</option>
+//                     <option value="Other">Other</option>
+//                 </Select>
+//             </FormControl>
+
+//             {/* Address */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Address</FormLabel>
+//                 <Input
+//                     value={address}
+//                     onChange={(e) => setAddress(e.target.value)}
+//                     placeholder="Enter your address"
+//                 />
+//             </FormControl>
+
+//             {/* Pincode */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Pincode</FormLabel>
+//                 <Input
+//                     value={pincode}
+//                     onChange={(e) => setPincode(e.target.value)}
+//                     placeholder="Enter your pincode"
+//                     type="number"
+//                 />
+//             </FormControl>
+
+//             {/* City */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>City</FormLabel>
+//                 <Input
+//                     value={city}
+//                     onChange={(e) => setCity(e.target.value)}
+//                     placeholder="Enter your city"
+//                 />
+//             </FormControl>
+
+//             {/* Contact Number */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Contact Number</FormLabel>
+//                 <Input
+//                     value={contactNumber}
+//                     onChange={(e) => setContactNumber(e.target.value)}
+//                     placeholder="Enter your contact number"
+//                     type="tel"
+//                 />
+//             </FormControl>
+
+//             {/* Email */}
+//             <FormControl isRequired mb={4}>
+//                 <FormLabel>Email</FormLabel>
+//                 <Input
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                     placeholder="Enter your email"
+//                     type="email"
+//                 />
+//             </FormControl>
+
+//             {/* Agree to Policies */}
+//             <Box mb={4}>
+//                 <Checkbox
+//                     isChecked={agreeToPolicies}
+//                     onChange={() => setAgreeToPolicies(!agreeToPolicies)}
+//                     colorScheme="pink"
+//                 >
+//                     I agree to the{' '}
+//                     <Button variant="link" colorScheme="pink" onClick={() => alert(policies)}>
+//                         policies and licenses
+//                     </Button>
+//                 </Checkbox>
+//             </Box>
+
+//             {/* Book Button */}
+//             <Button
+//                 colorScheme="pink"
+//                 size="lg"
+//                 isFullWidth
+//                 isDisabled={!agreeToPolicies}
+//                 onClick={handleBooking}
+//             >
+//                 Book Now
+//             </Button>
+//         </Box>
+//     );
+// };
+
+// export default ServiceBookingPage;
+
+
+
+// Version 4 : Enhancement to 3
+
+// import React, { useState } from 'react';
+// import { Box, Button, FormControl, FormLabel, Input, Select, Checkbox, Text, VStack, Grid, GridItem, useBreakpointValue, useDisclosure } from '@chakra-ui/react';
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+
+// export const ServiceBookingPage: React.FC = () => {
+//   const [formData, setFormData] = useState({
+//     serviceId: '',
+//     serviceProvider: '',
+//     variant: '',
+//     serviceDate: new Date(),
+//     eventType: '',
+//     eventDate: new Date(),
+//     address: '',
+//     city: '',
+//     pincode: '',
+//     contactNumber: '',
+//     email: '',
+//     agree: false
+//   });
+
+//   const [showPolicies, setShowPolicies] = useState(false);
+
+//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+//     const { name, value } = e.target;
+//     setFormData({ ...formData, [name]: value });
 //   };
 
-//   const services = ["Tailoring", "Jewelry Rental", "Alterations"];
-//   const variants = ["Basic", "Premium", "Luxury"];
+//   const handleCheckboxChange = () => {
+//     setFormData({ ...formData, agree: !formData.agree });
+//   };
+
+//   const handleDateChange = (date: Date, name: string) => {
+//     setFormData({ ...formData, [name]: date });
+//   };
+
+//   const handleBookClick = () => {
+//     // Handle form submission (you can handle the API call here)
+//     console.log(formData);
+//   };
 
 //   return (
-//     <Box
-//       maxWidth="600px"
-//       margin="auto"
-//       padding="4"
-//       boxShadow="lg"
-//       borderRadius="md"
-//       bg="white"
-//     >
-//       <form onSubmit={handleSubmit(onSubmit)}>
-//         <VStack spacing={4}>
-//           {/* Full Name */}
-//           <FormControl isRequired>
-//             <FormLabel>Full Name</FormLabel>
-//             <Input
-//               {...register("fullName", { required: "Full Name is required" })}
-//               placeholder="Enter your full name"
-//             />
-//             {errors.fullName && <p>{errors.fullName.message}</p>}
-//           </FormControl>
+//     <Box p={6} maxW="1200px" mx="auto">
+//       <VStack spacing={4} align="flex-start">
+//         <FormControl>
+//           <FormLabel>Service ID</FormLabel>
+//           <Input type="text" name="serviceId" value={formData.serviceId} onChange={handleInputChange} />
+//         </FormControl>
 
-//           {/* Address */}
-//           <FormControl isRequired>
-//             <FormLabel>Address</FormLabel>
-//             <Textarea
-//               {...register("address", { required: "Address is required" })}
-//               placeholder="Enter your address"
-//             />
-//             {errors.address && <p>{errors.address.message}</p>}
-//           </FormControl>
+//         <FormControl>
+//           <FormLabel>Service Provider</FormLabel>
+//           <Input type="text" name="serviceProvider" value={formData.serviceProvider} onChange={handleInputChange} />
+//         </FormControl>
 
-//           {/* Pincode */}
-//           <FormControl isRequired>
-//             <FormLabel>Pincode</FormLabel>
-//             <Input
-//               {...register("pincode", { required: "Pincode is required" })}
-//               placeholder="Enter your pincode"
-//             />
-//             {errors.pincode && <p>{errors.pincode.message}</p>}
-//           </FormControl>
+//         <FormControl>
+//           <FormLabel>Variant</FormLabel>
+//           <Select name="variant" value={formData.variant} onChange={handleInputChange}>
+//             <option value="">Select Variant</option>
+//             {/* These should be dynamically rendered from the state passed down */}
+//             <option value="variant1">Variant 1</option>
+//             <option value="variant2">Variant 2</option>
+//           </Select>
+//         </FormControl>
 
-//           {/* Contact Number */}
-//           <FormControl isRequired>
-//             <FormLabel>Contact Number</FormLabel>
-//             <Input
-//               {...register("contactNumber", {
-//                 required: "Contact Number is required",
-//                 pattern: {
-//                   value: /^[0-9]{10}$/,
-//                   message: "Invalid contact number",
-//                 },
-//               })}
-//               placeholder="Enter your contact number"
-//             />
-//             {errors.contactNumber && <p>{errors.contactNumber.message}</p>}
-//           </FormControl>
+//         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={4} width="100%">
+//           <GridItem>
+//             <FormControl>
+//               <FormLabel>Service Date</FormLabel>
+//               <DatePicker
+//                 selected={formData.serviceDate}
+//                 onChange={(date) => handleDateChange(date, 'serviceDate')}
+//                 dateFormat="yyyy-MM-dd"
+//                 showTimeSelect
+//                 timeIntervals={15}
+//                 timeFormat="HH:mm"
+//                 className="chakra-datepicker"
+//                 wrapperClassName="chakra-datepicker-wrapper"
+//                 popperPlacement="auto"
+//                 popperModifiers={{
+//                   preventOverflow: {
+//                     enabled: true,
+//                     boundariesElement: 'viewport',
+//                   },
+//                 }}
+//               />
+//             </FormControl>
+//           </GridItem>
+//           <GridItem>
+//             <FormControl>
+//               <FormLabel>Event Type</FormLabel>
+//               <Input type="text" name="eventType" value={formData.eventType} onChange={handleInputChange} />
+//             </FormControl>
+//           </GridItem>
+//         </Grid>
 
-//           {/* Email */}
-//           <FormControl isRequired>
-//             <FormLabel>Email</FormLabel>
-//             <Input
-//               {...register("email", {
-//                 required: "Email is required",
-//                 pattern: {
-//                   value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-//                   message: "Invalid email address",
-//                 },
-//               })}
-//               placeholder="Enter your email"
-//             />
-//             {errors.email && <p>{errors.email.message}</p>}
-//           </FormControl>
+//         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={4} width="100%">
+//           <GridItem>
+//             <FormControl>
+//               <FormLabel>Event Date</FormLabel>
+//               <DatePicker
+//                 selected={formData.eventDate}
+//                 onChange={(date) => handleDateChange(date, 'eventDate')}
+//                 dateFormat="yyyy-MM-dd"
+//                 showTimeSelect
+//                 timeIntervals={15}
+//                 timeFormat="HH:mm"
+//                 className="chakra-datepicker"
+//                 wrapperClassName="chakra-datepicker-wrapper"
+//                 popperPlacement="auto"
+//                 popperModifiers={{
+//                   preventOverflow: {
+//                     enabled: true,
+//                     boundariesElement: 'viewport',
+//                   },
+//                 }}
+//               />
+//             </FormControl>
+//           </GridItem>
 
-//           {/* Appointment Date */}
-//           <FormControl isRequired>
-//             <FormLabel>Appointment Date</FormLabel>
-//             <Input
-//               type="date"
-//               {...register("appointmentDate", { required: "Date is required" })}
-//             />
-//             {errors.appointmentDate && <p>{errors.appointmentDate.message}</p>}
-//           </FormControl>
+//           <GridItem>
+//             <FormControl>
+//               <FormLabel>Address</FormLabel>
+//               <Input type="text" name="address" value={formData.address} onChange={handleInputChange} />
+//             </FormControl>
+//           </GridItem>
+//         </Grid>
 
-//           {/* Remarks */}
-//           <FormControl>
-//             <FormLabel>Remarks</FormLabel>
-//             <Textarea {...register("remarks")} placeholder="Additional remarks" />
-//           </FormControl>
+//         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={4} width="100%">
+//           <GridItem>
+//             <FormControl>
+//               <FormLabel>City</FormLabel>
+//               <Input type="text" name="city" value={formData.city} onChange={handleInputChange} />
+//             </FormControl>
+//           </GridItem>
 
-//           {/* Service Selection */}
-//           <FormControl isRequired>
-//             <FormLabel>Select Service</FormLabel>
-//             <Select
-//               {...register("selectedService", { required: "Service is required" })}
-//               placeholder="Select service"
-//             >
-//               {services.map((service, index) => (
-//                 <option key={index} value={service}>
-//                   {service}
-//                 </option>
-//               ))}
-//             </Select>
-//             {errors.selectedService && <p>{errors.selectedService.message}</p>}
-//           </FormControl>
+//           <GridItem>
+//             <FormControl>
+//               <FormLabel>Pincode</FormLabel>
+//               <Input type="text" name="pincode" value={formData.pincode} onChange={handleInputChange} />
+//             </FormControl>
+//           </GridItem>
+//         </Grid>
 
-//           {/* Variant Selection */}
-//           <FormControl isRequired>
-//             <FormLabel>Select Variant</FormLabel>
-//             <Select
-//               {...register("selectedVariant", { required: "Variant is required" })}
-//               placeholder="Select variant"
-//             >
-//               {variants.map((variant, index) => (
-//                 <option key={index} value={variant}>
-//                   {variant}
-//                 </option>
-//               ))}
-//             </Select>
-//             {errors.selectedVariant && <p>{errors.selectedVariant.message}</p>}
-//           </FormControl>
+//         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={4} width="100%">
+//           <GridItem>
+//             <FormControl>
+//               <FormLabel>Contact Number</FormLabel>
+//               <Input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleInputChange} />
+//             </FormControl>
+//           </GridItem>
 
-//           {/* Submit Button */}
-//           <Button type="submit" colorScheme="pink" width="full">
-//             Book Service
-//           </Button>
-//         </VStack>
-//       </form>
+//           <GridItem>
+//             <FormControl>
+//               <FormLabel>Email</FormLabel>
+//               <Input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+//             </FormControl>
+//           </GridItem>
+//         </Grid>
+
+//         <FormControl>
+//           <Checkbox isChecked={formData.agree} onChange={handleCheckboxChange}>
+//             Agree to the <Button variant="link" color="pink.500" onClick={() => setShowPolicies(true)}>policies</Button> and license.
+//           </Checkbox>
+//         </FormControl>
+
+//         <Button 
+//           colorScheme="pink" 
+//           onClick={handleBookClick} 
+//           isDisabled={!formData.agree} 
+//           width="100%"
+//         >
+//           Book
+//         </Button>
+//       </VStack>
+
+//       {/* Policies Modal */}
+//       {showPolicies && (
+//         <Box 
+//           position="fixed" top="0" left="0" right="0" bottom="0" 
+//           bg="rgba(0, 0, 0, 0.5)" display="flex" justifyContent="center" alignItems="center"
+//           onClick={() => setShowPolicies(false)}
+//         >
+//           <Box bg="white" p={6} borderRadius="md" width="80%" maxW="600px" onClick={(e) => e.stopPropagation()}>
+//             <Text fontSize="lg" mb={4}>Partner Policies</Text>
+//             <Text mb={4}>{formData.policies}</Text>
+//             <Button colorScheme="pink" onClick={() => setShowPolicies(false)} width="100%">
+//               Close
+//             </Button>
+//           </Box>
+//         </Box>
+//       )}
 //     </Box>
 //   );
 // };
@@ -166,690 +856,553 @@
 
 
 
-// Version 2 - Service Booking Page with more design 
+// Version 5 : Enhancement to Version 4
 
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from 'react';
+// import { Box, Button, FormControl, FormLabel, Input, Select, Checkbox, Text, VStack } from '@chakra-ui/react';
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+// import { useLocation } from 'react-router-dom';
+
+// export const ServiceBookingPage: React.FC = () => {
+//   const location = useLocation();
+//   const [formData, setFormData] = useState({
+//     serviceId: '',
+//     serviceProvider: '',
+//     variant: '',
+//     serviceDate: new Date(),
+//     eventType: '',
+//     eventDate: new Date(),
+//     address: '',
+//     city: '',
+//     pincode: '',
+//     contactNumber: '',
+//     email: '',
+//     agree: false
+//   });
+
+//   const [showPolicies, setShowPolicies] = useState(false);
+
+//   // Set initial form data from the location state (previous page)
+//   useEffect(() => {
+//     if (location.state) {
+//       setFormData(prevState => ({
+//         ...prevState,
+//         serviceId: location.state.serviceId,
+//         serviceProvider: location.state.serviceProvider,
+//         variant: location.state.variant,
+//         // Optionally: Set other fields from location.state if you pass additional data
+//       }));
+//     }
+//   }, [location.state]);
+
+//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+//     const { name, value } = e.target;
+//     setFormData({ ...formData, [name]: value });
+//   };
+
+//   const handleCheckboxChange = () => {
+//     setFormData({ ...formData, agree: !formData.agree });
+//   };
+
+//   const handleDateChange = (date: Date, name: string) => {
+//     setFormData({ ...formData, [name]: date });
+//   };
+
+//   const handleBookClick = () => {
+//     // Handle form submission (you can handle the API call here)
+//     console.log(formData);
+//   };
+
+//   return (
+//     <Box p={6} maxW="1200px" mx="auto">
+//       <VStack spacing={4} align="flex-start">
+//         <FormControl>
+//           <FormLabel>Service ID</FormLabel>
+//           <Input type="text" name="serviceId" value={formData.serviceId} onChange={handleInputChange} isReadOnly />
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Service Provider</FormLabel>
+//           <Input type="text" name="serviceProvider" value={formData.serviceProvider} onChange={handleInputChange} isReadOnly />
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Variant</FormLabel>
+//           <Select name="variant" value={formData.variant} onChange={handleInputChange}>
+//             <option value="">Select Variant</option>
+//             <option value="variant1">Variant 1</option>
+//             <option value="variant2">Variant 2</option>
+//           </Select>
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Service Date</FormLabel>
+//           <DatePicker
+//             selected={formData.serviceDate}
+//             onChange={(date) => handleDateChange(date, 'serviceDate')}
+//             dateFormat="yyyy-MM-dd HH:mm"
+//             showTimeSelect
+//             timeIntervals={15}
+//             timeFormat="HH:mm"
+//             className="chakra-datepicker"
+//             wrapperClassName="chakra-datepicker-wrapper"
+//             popperPlacement="auto"
+//             popperModifiers={{
+//               preventOverflow: {
+//                 enabled: true,
+//                 boundariesElement: 'viewport',
+//               },
+//             }}
+//             customInput={<Input />}
+//           />
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Event Type</FormLabel>
+//           <Select name="eventType" value={formData.eventType} onChange={handleInputChange}>
+//             <option value="">Select Event Type</option>
+//             <option value="Wedding">Wedding</option>
+//             <option value="Party">Party</option>
+//             <option value="Corporate">Corporate</option>
+//           </Select>
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Event Date</FormLabel>
+//           <DatePicker
+//             selected={formData.eventDate}
+//             onChange={(date) => handleDateChange(date, 'eventDate')}
+//             dateFormat="yyyy-MM-dd HH:mm"
+//             showTimeSelect
+//             timeIntervals={15}
+//             timeFormat="HH:mm"
+//             className="chakra-datepicker"
+//             wrapperClassName="chakra-datepicker-wrapper"
+//             popperPlacement="auto"
+//             popperModifiers={{
+//               preventOverflow: {
+//                 enabled: true,
+//                 boundariesElement: 'viewport',
+//               },
+//             }}
+//             customInput={<Input />}
+//           />
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Address</FormLabel>
+//           <Input type="text" name="address" value={formData.address} onChange={handleInputChange} />
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>City</FormLabel>
+//           <Input type="text" name="city" value={formData.city} onChange={handleInputChange} />
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Pincode</FormLabel>
+//           <Input type="text" name="pincode" value={formData.pincode} onChange={handleInputChange} />
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Contact Number</FormLabel>
+//           <Input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleInputChange} />
+//         </FormControl>
+
+//         <FormControl>
+//           <FormLabel>Email</FormLabel>
+//           <Input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+//         </FormControl>
+
+//         <FormControl>
+//           <Checkbox isChecked={formData.agree} onChange={handleCheckboxChange}>
+//             Agree to the <Button variant="link" color="pink.500" onClick={() => setShowPolicies(true)}>policies</Button> and license.
+//           </Checkbox>
+//         </FormControl>
+
+//         <Button 
+//           colorScheme="pink" 
+//           onClick={handleBookClick} 
+//           isDisabled={!formData.agree} 
+//           width="100%"
+//         >
+//           Book
+//         </Button>
+//       </VStack>
+
+//       {/* Policies Modal */}
+//       {showPolicies && (
+//         <Box 
+//           position="fixed" top="0" left="0" right="0" bottom="0" 
+//           bg="rgba(0, 0, 0, 0.5)" display="flex" justifyContent="center" alignItems="center"
+//           onClick={() => setShowPolicies(false)}
+//         >
+//           <Box bg="white" p={6} borderRadius="md" width="80%" maxW="600px" onClick={(e) => e.stopPropagation()}>
+//             <Text fontSize="lg" mb={4}>Partner Policies</Text>
+//             <Text mb={4}>{formData.policies}</Text>
+//             <Button colorScheme="pink" onClick={() => setShowPolicies(false)} width="100%">
+//               Close
+//             </Button>
+//           </Box>
+//         </Box>
+//       )}
+//     </Box>
+//   );
+// };
+
+// export default ServiceBookingPage;
+
+
+// Version 6 : Enhancement to 3
+
+
+
+import React, { useState } from 'react';
 import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Select,
-  Textarea,
-  VStack,
-  Heading,
-  Text,
-  Image,
-  Divider,
-  Alert,
-  AlertIcon,
-  useToast,
-} from "@chakra-ui/react";
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock, FaGlobe } from "react-icons/fa";
-import { MdCheckCircle } from "react-icons/md";
-
+    Box,
+    Heading,
+    Text,
+    Button,
+    Input,
+    Select,
+    Checkbox,
+    FormControl,
+    FormLabel,
+    useToast,
+    Divider,
+    Grid,
+    GridItem,
+    Center,
+    Spinner,
+    Textarea,
+} from '@chakra-ui/react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../../css/DatePicker.css';
-import usePostData from "../../hooks/usePostData";
-import { useForm , Controller } from "react-hook-form";
-import { useNavigate, useLocation } from 'react-router-dom';
-
-
-import doorstepConsultation from "../../assets/services/Mehendi1.jpg";
-import measurementsCollection from "../../assets/services/Mehendi2.jpg";
-import doorstepDelivery from "../../assets/services/Mehendi3.jpg";
-import axios from "axios";
-
-import Lottie from 'react-lottie';
-import successAnimation from '../../animations/success.json';
-import errorAnimation from '../..//animations/error.json';
-import loadingAnimation from '../../animations/loading.json';
-
 import { useAuth } from '../../contexts/AuthContext';
+import usePostData from '../../hooks/usePostData';
 
-export const ServiceBookingPage = () => {
-  // State for image slider
- 
-  const { authState } = useAuth();
-  const navigate = useNavigate();
+export const ServiceBookingPage: React.FC = () => {
+    const navigate = useNavigate();
+    const toast = useToast();
+    const { state } = useLocation();
+    const { serviceType,serviceId, partnerName, variants, policies,partnerId } = state || {};
 
-  const location = useLocation();
+    // Local state for form data
+    //const [selectedVariant, setSelectedVariant] = useState('');
+    const [serviceDate, setServiceDate] = useState<Date | null>(null);
+    const [serviceTime, setServiceTime] = useState<string>('');
+    const [eventDate, setEventDate] = useState<Date | null>(null);
+    const [eventTime, setEventTime] = useState<string>('');
+    const [eventType, setEventType] = useState('');
+    const [agreeToPolicies, setAgreeToPolicies] = useState(false);
+    const { authState } = useAuth();
 
-  // const {productName , productId , productCategory ,productImageURL} = location.state || null
+    // New fields
+    const [address, setAddress] = useState('');
+    const [clientName, setClientName] = useState('');
+    const [pincode, setPincode] = useState('');
+    const [city, setCity] = useState('');
+    const [contactNumber, setContactNumber] = useState('');
+    const [email, setEmail] = useState('');
+    const [orderNotes, setOrderNotes] = useState('');
+    const [selectedVariant, setSelectedVariant] = useState<{ name: string; price: number; id:number } | null>(null);
+    const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/service/booking');
 
-  const { 
-    productName = '', 
-    productId = '', 
-    productCategory = '', 
-    productImageURL = '' ,
-    owningAuthority = ''
-  } = location.state || {};
-  
-  const userId = authState.userId;
-
-  // console.log("Proudct Name and ID from tailoring booking page "+productName + "," +productId + "," +productCategory)
-  const { register, handleSubmit, setValue ,control} = useForm();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = [doorstepConsultation, measurementsCollection, doorstepDelivery];
-
-  //const [appointmentDate, setAppointmentDate] = useState<Date | null>(null);
-  const [appointmentDate, setAppointmentDate] = useState<string | null>(null);
-
-  const [showAnimation, setShowAnimation] = useState(false);
-  const [animationType, setAnimationType] = useState<'success' | 'error' | 'loading' | null>(null);
-  //setShowAnimation(false);
-
-  const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/service/booking');
-
-  // Date Picker Function 
-
-  const onSubmit =  (data) => {
-
-  
-    data.serviceId = 1
-    data.variantId = 1
-    data.bookingStatus = 'pending';
-    data.userId = userId;
-    
-
-
-  
- 
-
-    // if (productName && productImageURL)
-
-    //   {
-    //     data.productName = productName;
-    //     data.productImageURL = productImageURL
-    //   }
-      console.log("Appointment Data from Form: ", data.appointmentDate);
-      console.log("Prepared Data " +JSON.stringify(data))
-    backendConnection(data);
-    //setAlert(true);
-};
-
- 
-
-  // const handleAppointmentDateChange = (date: Date | null) => {
-  //   if (!date) return;
-  
-  //   const istDate = new Date(date);
-  //   istDate.setHours(istDate.getHours() + 5);
-  //   istDate.setMinutes(istDate.getMinutes() + 30);
-  
-  //   setAppointmentDate(istDate); // Update local state
-  //   setValue('appointmentDate', istDate); // Update React Hook Form state
-  // };
-
-  const handleAppointmentDateChange = (date: Date | null) => {
-    if (!date) return;
-  
-    // Convert the date to IST timezone
-    const istDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-
-    const formattedISTDate = istDate.toISOString();
-  
-    setAppointmentDate(formattedISTDate); // Update local state
-    setValue('appointmentDate', formattedISTDate); // Update React Hook Form state
-  };
-  
-
-
-  const toast = useToast(); // Chakra UI toast for notifications
-
-  // Effect to change image every 3 seconds
-  useEffect(() => {
-    setShowAnimation(false);
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [images.length]);
-
-  useEffect(() => {
-    if (responseData) {
-      console.log("Response Data Status Value : "+responseData.status)
-      console.log("Response Order Id : "+responseData.orderId)
-      if (responseData.status === 201) {
-       
-        setAnimationType('success');
-        setTimeout(() => {
-          navigate('/home'); // Navigate to home page after 3 seconds
-        }, 7000);
-      } else {
-        setAnimationType('error');
-        setTimeout(() => {
-         navigate('/home'); // Navigate back to checkout page after a few seconds
-        }, 3000);
-       
-      }
-    } else if (error) {
-      setAnimationType('error');
-      setTimeout(() => {
-        navigate('/home'); // Navigate back to checkout page after a few seconds
-      }, 3000);
-     
-    }
-  }, [responseData, error, navigate]);
-
-  // Smooth scroll to form
-  const scrollToForm = () => {
-    const formSection = document.getElementById("bookingForm");
-    if (formSection) {
-      formSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Handle input changes
-  // const handleInputChange = (e) => {
-  //   const { name, value, files } = e.target;
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: files ? files[0] : value, // Handle file input separately
-    
-  //   }));
-  // };
-
-  // Handle form submission
-  const backendConnection = async(data) => {
-
-    
-
-
-
+    const handleBooking = () => {
         
-    // // Image upload to AWS S3 and URL Generation Logic Ends
-    setShowAnimation(true);
-    setAnimationType('loading');
+        if (!agreeToPolicies) {
+            toast({
+                title: 'Error',
+                description: 'You must agree to the policies before booking.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
 
-   await postData(data);
+        // Capture all fields and prepare data to send to the backend (you will handle the API part later)
 
-   
-  };
+        console.log("Partner ID :" +partnerId)
+        const bookingData = {
+            serviceId,
+            serviceType,
+            partnerId,
+            partnerName,
+            clientName,
+            userId : authState?.userId || '',
+            selectedVariantName: selectedVariant?.name || '',
+            selectedVariantPrice: selectedVariant?.price || 0,
+            selectedVariantId: selectedVariant?.id || '',
+            serviceDate,
+            serviceTime,
+            eventDate,
+            eventTime,
+            eventType,
+            address,
+            pincode,
+            city,
+            contactNumber,
+            email,
+            orderNotes,
+        };
 
-  return (
-    <Box p={5} maxWidth="1200px" margin="auto">
-            {showAnimation && (
-        <Box className="animationContainer">
-          {animationType === 'loading' && (
-            <Lottie options={{ loop: true, autoplay: true, animationData: loadingAnimation }} style={{ width: '150px', height: '150px' }} />
-          )}
-          {animationType === 'success' && (
-            <Box textAlign="center">
-              <Lottie options={{ loop: false, autoplay: true, animationData: successAnimation }} style={{ width: '150px', height: '150px' }} />
-              <Text>
-  Your order has been successfully placed! Please check your email for more details regarding your order. 
-  If you have any further questions or need assistance, feel free to reach out to us at support@cottoncandy.co.in or call us at +91 9629705557.
-</Text>
+        console.log("Booking Data" +JSON.stringify(bookingData))
+        backendConnection(bookingData);
 
-            </Box>
-          )}
-          {animationType === 'error' && (
-            <Box textAlign="center">
-              <Lottie options={{ loop: false, autoplay: true, animationData: errorAnimation }} style={{ width: '150px', height: '150px' }} />
-              <Text>{error || "An error occurred, please try again."}</Text>
-            </Box>
-          )}
-        </Box>
-      )}
-      {/* Header Banner with Offer */}
-      {!showAnimation && (
-        <>
-      <Alert status="success" variant="solid" mb={5} borderRadius="md">
-        <AlertIcon />
-        🎉 Diwali Special! Stunning Mehendi for just ₹99 – Hurry, offer expires soon! Book Now! 🎉
-
-      </Alert>
-
-      {/* Image Slider for 'How We Work' Section */}
-      <Box mb={5} maxWidth="900px" margin="auto" boxShadow="lg" borderRadius="md" overflow="hidden">
-        <Image
-          src={images[currentImageIndex]}
-          alt="How We Work"
-          borderRadius="md"
-          objectFit="cover"
-          width="100%"
-          height="300px"
-          transition="opacity 1s ease-in-out"
-        />
-      </Box>
-
-      {/* Book Appointment Button */}
-      <Box textAlign="center" mb={5} marginTop={3}>
-        <Button onClick={scrollToForm} colorScheme="pink" size="lg">
-          Book Mehendi Service 
-        </Button>
-      </Box>
-
-      <Flex direction={{ base: "column", lg: "row" }} gap={6}>
-        {/* Left Column: Form */}
-        
-        <Box flex="1" p={5} boxShadow="lg" borderRadius="md" bg="white" id="bookingForm">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* <VStack spacing={4} align="stretch" as="form" onSubmit={handleSubmit}> */}
-          <VStack spacing={4} align="stretch">
-            <Heading as="h2" size="lg" textAlign="center" mb={5} color="pink.500">
-              Mehendi Service Booking 
-            </Heading>
-
-           {/* {productName && <FormControl>
-              <FormLabel >Selected Product</FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <FaUser color="#b82d92" />
-                </InputLeftElement>
-                <Input
-                {...register('selctedProduct')}
-                  type="text"
-                  name="name"
-                  //value={formData.name}
-                  //onChange={handleInputChange}
-                  placeholder={productName}
-                  isReadOnly
-                  required
-                  // borderColor="grey"
-                />
-              </InputGroup>
-            </FormControl> } */}
+        // For now, show a success toast (You can replace this with actual API call later)
 
 
-{productName && productImageURL &&
-<FormControl>
-<Box>
-      {/* Title */}
-      <Heading as="h3" size="md" mb={2} color="#b82d92">
-        Selected Item
-      </Heading>
+        // Redirect to confirmation or home page
+        navigate('/home');
+    };
 
-      {/* Product Display */}
-      <Flex
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        p={4}
-        boxShadow="md"
-        bg="white"
-        alignItems="center"
-        gap={4}
-      >
-        {/* Product Image */}
-        <Image
-       
-          src={productImageURL}
-          alt={productName}
-          boxSize="80px"
-          objectFit="cover"
-          borderRadius="md"
-        />
+    const backendConnection = async(data) => {
 
-        {/* Product Name */}
-        <Text fontWeight="bold" fontSize="lg" color="#b82d92" >
-       
-          {productName}
-        </Text>
-      </Flex>
-    </Box>
-    </FormControl> }
+        // // Image upload to AWS S3 and URL Generation Logic Ends
+        // setShowAnimation(true);
+        // setAnimationType('loading');
+        console.log("Inside Post Data logic boss")
+       await postData(data);
+       toast({
+        title: 'Booking Successful',
+        description: `Your service has been booked successfully with ${partnerName}.`,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+    });
+      };
+    return (
+        <Box p={6} maxW="lg" mx="auto">
+            <Heading size="lg" mb={4}>Book Service with {partnerName}</Heading>
+            <Divider my={4} />
 
-
-            <FormControl>
-              <FormLabel >Name</FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <FaUser color="#b82d92" />
-                </InputLeftElement>
-                <Input
-                {...register('name')}
-                  type="text"
-                  name="name"
-                  //value={formData.name}
-                  //onChange={handleInputChange}
-                  placeholder="Enter your name"
-                  required
-                  // borderColor="grey"
-                />
-              </InputGroup>
+            {/* Service ID */}
+            <FormControl isRequired mb={4}>
+                <FormLabel>Service Type</FormLabel>
+                <Input value={serviceType} isReadOnly bgColor="pink.500" color="white"/>
             </FormControl>
 
-            <FormControl>
-              <FormLabel>Email</FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <FaEnvelope color="#b82d92" />
-                </InputLeftElement>
-                <Input
-                {...register('email')}
-                  type="email"
-                  name="email"
-                 
-                  placeholder="Enter your email"
-                  // borderColor="grey"
-                  required
-                />
-              </InputGroup>
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>Phone</FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <FaPhone color="#b82d92" />
-                </InputLeftElement>
-                <Input
-                {...register('phoneNumber')}
-                  type="tel"
-                  
-                  placeholder="Enter your phone number"
-                  // borderColor="grey"
-                  required
-                />
-              </InputGroup>
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>City</FormLabel>
-              <Select
-              {...register('city')}
-               
-                placeholder="Select option"
-                // borderColor="grey"
-                required
-              >
-                <option value="chennai">Chennai</option>
-                <option value="trichy">Trichy</option>
-                <option value="madurai">Madurai</option>
-                <option value="coimbatore">Coimbatore</option>
-                <option value="Tirunelveli">Tirunelveli</option>
-                {/* <option value="suit">Suit</option>
-                <option value="dress">Dress</option> */}
-              </Select>
-            </FormControl>
-
-            {/* <FormControl>
-              <FormLabel>Custom Design (Optional)</FormLabel>
-              <Input
-              {...register('customDesignImage')}
-                type="file"
-                
-                accept="image/*" 
-                multiple
-                // borderColor="grey"
-                
-              />
+            {/* Service Variant */}
+            {/* <FormControl isRequired mb={4}>
+                <FormLabel>Select Service Variant</FormLabel>
+                <Select
+                    value={selectedVariant}
+                    onChange={(e) => setSelectedVariant(e.target.value)}
+                    placeholder="Select a variant"
+                >
+                    {variants.map((variant) => (
+                        <option key={variant.variant_id} value={variant.variant_name-variant.price}>
+                            {variant.variant_name} - ₹{variant.price}
+                        </option>
+                    ))}
+                </Select>
             </FormControl> */}
 
-            <FormControl>
-              <FormLabel>Address</FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  {/* <FaMapMarkerAlt color="gray.300" /> */}
-                </InputLeftElement>
-                <Textarea
-                {...register('address')}
-                 
-                  placeholder="Enter your address"
-                  // borderColor="grey"
-                  required
-                />
-              </InputGroup>
-            </FormControl>
-
-
-
-            {/* <FormControl>
-              <FormLabel>Country</FormLabel>
-              <Input
-                type="text"
-                name="country"
-                value={formData.country}
-                onChange={handleInputChange}
-                placeholder="Enter your country"
-                required
-              />
-            </FormControl> */}
-
-            <FormControl>
-              <FormLabel>Pincode</FormLabel>
-              <Input
-              {...register('pincode')}
-                type="text"
-                
-                placeholder="Enter your pincode"
-                // borderColor="grey"
-                required
-              />
-            </FormControl>
-
-            <FormControl>
-              <FormLabel fontWeight="bold">Service Date</FormLabel>
-              <Controller
-                control={control}
-                name="appointmentDate"
-                defaultValue={appointmentDate}
-                render={({ field: { onChange, value } }) => (
-                  <DatePicker
-                    selected={value}
-                    onChange={(date) => {
-                      handleAppointmentDateChange(date);
-                      onChange(date); // update the form state
+            <FormControl isRequired mb={4}>
+                <FormLabel>Select Service Variant</FormLabel>
+                <Select
+                    value={selectedVariant ? selectedVariant.name : ''}
+                    onChange={(e) => {
+                        const selected = variants.find(variant => variant.variant_name === e.target.value);
+                        if (selected) {
+                            setSelectedVariant({ name: selected.variant_name, price: selected.price, id:selected.variant_id });
+                        }
                     }}
-                    className="custom-datepicker custom-datepicker__input"
-                    minDate={new Date()}
-                    dateFormat="dd/MM/yyyy"
-                  />
-                )}
-              />
+                    placeholder="Select a variant"
+                >
+                    {variants.map((variant) => (
+                        <option key={variant.variant_id} value={variant.variant_name}>
+                            {variant.variant_name} - ₹{variant.price}
+                        </option>
+                    ))}
+                </Select>
             </FormControl>
 
-            <FormControl >
-              <FormLabel >Preferred Time</FormLabel>
-              <Select bgColor='pink.50'
-              {...register('serviceTime')}
-               
-                placeholder="Select Preferred Service Time"
-                // borderColor="grey"
-                required
-                
-              >
-                <option value="9 am">9 am</option>
-                <option value="10 am">10 am</option>
-                <option value="11 am">11 am</option>
-                <option value="12 pm">12 pm</option>
-                <option value="1 pm">1 pm</option>
-                <option value="2 pm">2 pm</option>
-                <option value="3 pm">3 pm</option>
-                <option value="4 pm">4 pm</option>
-                <option value="5 pm">5 pm</option>
-                <option value="6 pm">6 pm</option>
-                <option value="7 pm">7 pm</option>
-                {/* <option value="suit">Suit</option>
-                <option value="dress">Dress</option> */}
-              </Select>
+            {/* Client Name */}
+            <FormControl isRequired mb={4}>
+                <FormLabel>Name</FormLabel>
+                <Input
+                    value={clientName}
+                    onChange={(e) => setClientName(e.target.value)}
+                    placeholder="Enter your Name"
+            />
             </FormControl>
 
-            <FormControl>
-              <FormLabel>Booking Notes</FormLabel>
-              <Textarea
-              {...register('remarks')}
-                placeholder="Enter any additional notes"
-                // borderColor="grey"
-              />
+
+            {/* Layout for Date Picker and Other Fields */}
+            <Grid templateColumns={['1fr', '1fr', '1fr 1fr']} gap={6} mb={4}>
+                {/* Service Date */}
+                <GridItem w="100%" minWidth="250px">
+                    <FormControl isRequired>
+                        <FormLabel>Service Date</FormLabel>
+                        <Box width="100%" mb={2}>
+                            <DatePicker
+                                selected={serviceDate}
+                                onChange={(date: Date) => setServiceDate(date)}
+                                dateFormat="yyyy-MM-dd"
+                                placeholderText="Select service date"
+                                style={{ width: '100%' }}
+                            />
+                        </Box>
+                    </FormControl>
+                </GridItem>
+
+                {/* Service Time */}
+                <GridItem w="100%" minWidth="250px">
+                    <FormControl isRequired>
+                        <FormLabel>Service Time</FormLabel>
+                        <Input
+                            value={serviceTime}
+                            onChange={(e) => setServiceTime(e.target.value)}
+                            placeholder="Select service time (HH:MM)"
+                            type="time"
+                            width="100%"
+                        />
+                    </FormControl>
+                </GridItem>
+            </Grid>
+
+            {/* Event Date */}
+            <Grid templateColumns={['1fr', '1fr', '1fr 1fr']} gap={6} mb={4}>
+                {/* Service Date */}
+                <GridItem w="100%" minWidth="250px">
+            <FormControl isRequired mb={4}>
+                <FormLabel>Event Date</FormLabel>
+                <Box width="100%" mb={2}>
+                    <DatePicker
+                        selected={eventDate}
+                        onChange={(date: Date) => setEventDate(date)}
+                        dateFormat="yyyy-MM-dd"
+                        placeholderText="Select event date"
+                        style={{ width: '100%' }}
+                    />
+                </Box>
+            </FormControl>
+            </GridItem>
+
+            {/* Event Time */}
+            <GridItem w="100%" minWidth="250px">
+            <FormControl isRequired mb={4}>
+                <FormLabel>Event Time</FormLabel>
+                <Input
+                    value={eventTime}
+                    onChange={(e) => setEventTime(e.target.value)}
+                    placeholder="Select event time (HH:MM)"
+                    type="time"
+                    width="100%"
+                />
+            </FormControl>
+            </GridItem>
+            </Grid>
+
+            {/* Event Type */}
+            <FormControl isRequired mb={4}>
+                <FormLabel>Event Type</FormLabel>
+                <Select
+                    value={eventType}
+                    onChange={(e) => setEventType(e.target.value)}
+                    placeholder="Select event type"
+                >
+                    <option value="Wedding">Wedding</option>
+                    <option value="Party">Party</option>
+                    <option value="Corporate">Corporate</option>
+                    <option value="Other">Other</option>
+                </Select>
             </FormControl>
 
-            <Button type="submit" colorScheme="pink" size="lg" width="full">
-              Submit
+            {/* Address */}
+            <FormControl isRequired mb={4}>
+                <FormLabel>Address</FormLabel>
+                <Input
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Enter your address"
+                />
+            </FormControl>
+
+            {/* Pincode */}
+            <FormControl isRequired mb={4}>
+                <FormLabel>Pincode</FormLabel>
+                <Input
+                    value={pincode}
+                    onChange={(e) => setPincode(e.target.value)}
+                    placeholder="Enter your pincode"
+                    type="number"
+                />
+            </FormControl>
+
+            {/* City */}
+            <FormControl isRequired mb={4}>
+                <FormLabel>City</FormLabel>
+                <Input
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    placeholder="Enter your city"
+                />
+            </FormControl>
+
+            {/* Contact Number */}
+            <FormControl isRequired mb={4}>
+                <FormLabel>Contact Number</FormLabel>
+                <Input
+                    value={contactNumber}
+                    onChange={(e) => setContactNumber(e.target.value)}
+                    placeholder="Enter your contact number"
+                    type="tel"
+                />
+            </FormControl>
+
+            {/* Email */}
+            <FormControl isRequired mb={4}>
+                <FormLabel>Email</FormLabel>
+                <Input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    type="email"
+                />
+            </FormControl>
+            <FormControl isRequired mb={4}>
+                <FormLabel>Order Notes</FormLabel>
+                <Textarea
+                    value={orderNotes}
+                    rows={4}
+                    onChange={(e) => setOrderNotes(e.target.value)}
+                    placeholder="Say something about your event"
+                   
+                />
+            </FormControl>
+
+            {/* Agree to Policies */}
+            <Box mb={4}>
+                <Checkbox
+                    isChecked={agreeToPolicies}
+                    onChange={() => setAgreeToPolicies(!agreeToPolicies)}
+                    colorScheme="pink"
+                >
+                    I agree to the{' '}
+                    <Button variant="link" colorScheme="pink" onClick={() => alert(policies)}>
+                        policies and licenses
+                    </Button>
+                </Checkbox>
+            </Box>
+
+            {/* Book Button */}
+            <Button
+                colorScheme="pink"
+                size="lg"
+                isFullWidth
+                isDisabled={!agreeToPolicies}
+                onClick={handleBooking}
+            >
+                Book Now
             </Button>
-          </VStack>
-        </form>
         </Box>
-
-        {/* Right Column for Larger Devices */}
-        <Box
-          flex="1"
-          p={5}
-          boxShadow="lg"
-          borderRadius="md"
-          bg="white"
-          display={{ base: "none", lg: "block" }}
-          maxWidth="400px"
-        >
-          <Heading as="h3" size="md" mb={3} color="pink.500">
-            How We Work
-          </Heading>
-          <Text mb={3}>
-            At Cotton Candy, we make it easy to get beautiful Mehendi designs at your convenience:
-          </Text>
-          <VStack align="start" spacing={2}>
-            <Flex align="center">
-              <MdCheckCircle color="green" />
-              <Text ml={2}>Book your service online with just a few clicks.</Text>
-            </Flex>
-            <Flex align="center">
-              <MdCheckCircle color="green" />
-              <Text ml={2}>Our skilled Mehendi artist visits your location to create stunning designs.
-              </Text>
-            </Flex>
-            <Flex align="center">
-              <MdCheckCircle color="green" />
-              <Text ml={2}>Enjoy your perfect Mehendi, all in the comfort of your home.</Text>
-            </Flex>
-          </VStack>
-        
-
-          {/* Operation Hours */}
-
-          {/* <Heading as="h3" size="md" mt={6} mb={3} color="pink.500">
-            Operation Hours
-          </Heading>
-          <Text mb={2}>
-            <FaClock /> Monday - Friday: 10:00 AM - 6:00 PM
-          </Text>
-          <Text mb={2}>
-            <FaClock /> Saturday: 11:00 AM - 4:00 PM
-          </Text>
-          <Text mb={2}>
-            <FaClock /> Sunday: Closed
-          </Text> */}
-
-          <Heading as="h3" size="md" mt={6} mb={3} color="pink.500">
-          Operation Hours
-        </Heading>
-        <VStack align="start" spacing={2} mb={4}>
-          <Flex align="center">
-            <FaClock color="green" />
-            <Text ml={2}>Monday - Sunday: 10:00 AM - 7:00 PM</Text>
-          </Flex>
-          {/* <Flex align="center">
-            <FaClock color="green" />
-            <Text align='start' ml={2}>Saturday: 9:00 AM - 7:00 PM</Text>
-          </Flex>
-          <Flex align="center">
-            <FaClock color="orange" />
-            <Text align = 'start' color = "red" ml={2}>Sunday: Closed</Text>
-          </Flex> */}
-        </VStack>
-
-
-        <Heading as="h3" size="md" mt={6} mb={3} color="pink.500">
-          Contact Us
-        </Heading>
-
-        <VStack align="start" spacing={2} mb={4}>
-          <Flex align="center">
-            <FaPhone color="#b82d92" />
-            <Text ml={2}>9629705557</Text>
-          </Flex>
-          <Flex align="center">
-            <FaEnvelope color="#b82d92" />
-            <Text align='start' ml={2}>support@cottoncandy.co.in</Text>
-          </Flex>
-          <Flex align="center">
-            <FaGlobe color="#b82d92" />
-            <Text align = 'start' ml={2}>India , UK , UAE</Text>
-          </Flex>
-        </VStack>
-
-        </Box>
-      </Flex>
-
-      {/* Footer for Smaller Devices */}
-      <Box
-        display={{ base: "block", lg: "none" }}
-        mt={6}
-        p={5}
-        boxShadow="lg"
-        borderRadius="md"
-        bg="white"
-        textAlign="center"
-      >
-        <Divider mb={4} />
-        <Heading as="h3" size="md" mb={3} color="pink.500">
-          How We Work
-        </Heading>
-        <VStack align="start" spacing={2} mb={4}>
-          <Flex align="center">
-            <MdCheckCircle color="green" />
-            <Text ml={2}>Book your service online with just a few clicks.</Text>
-          </Flex>
-          <Flex align="center">
-            <MdCheckCircle color="green" />
-            <Text align='start' ml={2}>Our skilled Mehendi artist visits your location to create stunning designs.</Text>
-          </Flex>
-          <Flex align="center">
-            <MdCheckCircle color="green" />
-            <Text align = 'start' ml={2}>Enjoy your perfect Mehendi, all in the comfort of your home.</Text>
-          </Flex>
-        </VStack>
-
-         {/* Operational Hours */}
-         <Heading as="h3" size="md" mt={6} mb={3} color="pink.500">
-          Operation Hours
-        </Heading>
-        <VStack align="start" spacing={2} mb={4}>
-          <Flex align="center">
-            <FaClock color="green" />
-            <Text ml={2}>Monday - Sunday: 10:00 AM - 7:00 PM</Text>
-          </Flex>
-          {/* <Flex align="center">
-            <FaClock color="green" />
-            <Text align='start' ml={2}>Saturday: 11:00 AM - 4:00 PM</Text>
-          </Flex>
-          <Flex align="center">
-            <FaClock color="orange" />
-            <Text align = 'start' ml={2} color='red'>Sunday: Closed</Text>
-          </Flex> */}
-        </VStack>
-
-
-        {/* Contact Information  */}
-
-        <Heading as="h3" size="md" mt={6} mb={3} color="pink.500">
-          Contact Us
-        </Heading>
-
-        <VStack align="start" spacing={2} mb={4}>
-          <Flex align="center">
-            <FaPhone color="#b82d92" />
-            <Text ml={2}>9629705557</Text>
-          </Flex>
-          <Flex align="center">
-            <FaEnvelope color="#b82d92" />
-            <Text align='start' ml={2}>support@cottoncandy.co.in</Text>
-          </Flex>
-          <Flex align="center">
-            <FaGlobe color="#b82d92" />
-            <Text align = 'start' ml={2}>India , UK , UAE</Text>
-          </Flex>
-        </VStack>
-
-      </Box>
-      </>
-      )}
-    </Box>
-  );
+    );
 };
+
+export default ServiceBookingPage;
+

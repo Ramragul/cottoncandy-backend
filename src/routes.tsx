@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -212,6 +212,27 @@ export const routes = [
     name: "MehendiHomePage",
     path: "/service/home",
     element: <MehendiHomePage />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "ServiceLandingPage",
+    path: "/service/landing/page",
+    element: <ServiceLandingPage />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "ServiceHomePage",
+    path: "/service/home1",
+    element: <ServiceHomePage />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "ServiceDetailsPage",
+    path: "/service/details/:pid",
+    element: <ServiceDetailsPage />,
     visible: false,
   },
   {

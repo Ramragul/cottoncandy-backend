@@ -282,6 +282,8 @@ export const BusinessPartnerRegistration = () => {
               <option value="jewellery-shop">Jewellery Shop Owner</option>
               <option value="clothing-store">Clothing Store Owner</option>
               <option value="boutique-designer">Boutique Designer (Aari Work)</option>
+              <option value="makeup-artist">Makeup Artist</option>
+              <option value="mehendi-artist">Mehendi Artist</option>
             </Select>
           </FormControl>
 
