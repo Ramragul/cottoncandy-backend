@@ -139,7 +139,7 @@ export const LoginPage = () => {
       const user = response.data; // Assuming the response contains user data with an ID
       console.log("Response From Login Server" +JSON.stringify(user));
       console.log("User Role" +user.userRole)
-      const navigateURL = (user.userRole === "user") ? "/home" : "/adminDashboard"
+      const navigateURL = (user.userRole === "user") ? "/home" : "/service/partner/landing/page"
     
       login(user.userName, user.userId, user.userEmail, user.pId , user.userRole); // Store the user ID and username
       setSuccess(true);

@@ -731,7 +731,7 @@ export const ServiceLandingPage: React.FC = () => {
   const handleSearch = () => {
     const selectedServiceData = data?.services?.find(service => service.service_name === selectedService);
     if (selectedServiceData) {
-      navigate('/service/home1', {
+      navigate('/service/home', {
         state: {
           service_id: selectedServiceData.service_id,
           service_name: selectedServiceData.service_name,
@@ -743,7 +743,7 @@ export const ServiceLandingPage: React.FC = () => {
 
   // 🔥 Function to navigate when clicking a service image
   const handleServiceClick = (service: Service) => {
-    navigate('/service/home1', {
+    navigate('/service/home', {
       state: {
         service_id: service.service_id,
         service_name: service.service_name,

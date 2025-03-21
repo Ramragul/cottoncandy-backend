@@ -36,3 +36,5 @@ export * from "./winner";
 export * from "./razorPay";
 export * from "./services/MehendiServiceBookingPage";
 export * from "./services/serviceLandingPage";
+export * from "./services/partnerSerivceManagementPage";
+export * from "./services/servicePartnerLandingPage";

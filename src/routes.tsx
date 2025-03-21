@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -210,7 +210,7 @@ export const routes = [
   {
     icon: UsersIcon,
     name: "MehendiHomePage",
-    path: "/service/home",
+    path: "/mehendi/service/home",
     element: <MehendiHomePage />,
     visible: false,
   },
@@ -223,8 +223,15 @@ export const routes = [
   },
   {
     icon: UsersIcon,
+    name: "ServicePartnerLandingPage",
+    path: "/service/partner/landing/page",
+    element: <ServicePartnerLandingPage />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
     name: "ServiceHomePage",
-    path: "/service/home1",
+    path: "/service/home",
     element: <ServiceHomePage />,
     visible: false,
   },
@@ -233,6 +240,13 @@ export const routes = [
     name: "ServiceDetailsPage",
     path: "/service/details/:pid",
     element: <ServiceDetailsPage />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "PartnerServiceManagementPage",
+    path: "/partner/service/management",
+    element: <PartnerServiceManagementPage />,
     visible: false,
   },
   {

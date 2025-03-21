@@ -273,7 +273,8 @@ const Navbar: React.FC = () => {
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/businessPartnerForm">
             Partner With Us
             </Link>
-            {(userRole != 'user' && userRole != undefined) && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/adminDashboard">
+            {/* {(userRole != 'user' && userRole != undefined) && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/adminDashboard"> */}
+            {(userRole != 'user' && userRole != undefined) && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/service/partner/landing/page">
             Admin Dashboard
             </Link> ) }
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contactUs">
@@ -391,7 +392,8 @@ const Navbar: React.FC = () => {
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/businessPartnerForm">
              Partner With Us
             </Link>
-            {(userRole != 'user') && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/adminDashboard">
+            {/* {(userRole != 'user') && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/adminDashboard"> */}
+            {(userRole != 'user') && (<Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/service/partner/landing/page">
             Admin Dashboard
             </Link> ) }
             <Link px={2} py={1} rounded="md" _hover={{ textDecoration: 'none', bg: 'pink.100' }} href="/contactUs">
