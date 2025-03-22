@@ -15,7 +15,7 @@ export const ServicePartnerLandingPage = () => {
     {
       title: "Bookings",
       icon: FaClipboardList,
-      navigateTo: "/partner/bookings",
+      navigateTo: "/partner/service/booking/management",
       bgGradient: "linear(to-r, purple.400, blue.400)",
     },
   ];

@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage,PartnerServiceBookingManagementPage} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -247,6 +247,13 @@ export const routes = [
     name: "PartnerServiceManagementPage",
     path: "/partner/service/management",
     element: <PartnerServiceManagementPage />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "PartnerServiceBookingManagementPage",
+    path: "/partner/service/booking/management",
+    element: <PartnerServiceBookingManagementPage />,
     visible: false,
   },
   {
