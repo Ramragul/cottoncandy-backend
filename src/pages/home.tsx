@@ -455,7 +455,7 @@ export const Home = () => {
           { img: TailoringImg, label: "Tailoring", link: "/tailoringCatalogue" },
           { img: RentalImg, label: "Clothing Rentals", link: "/rentalCatalogue?productType=Apparel" },
           { img: JewelleryImg, label: "Fashion Jewellery", link: "/rentalCatalogue?productType=Jewellery" },
-          { img: CoverPic2, label: "Fashion Services", link: "/service/landing/page" },
+          { img: CoverPic2, label: "Fashion Hub", link: "/service/landing/page" },
         ].map((item, index) => (
           <GridItem key={index}>
             <Link to={item.link}>
