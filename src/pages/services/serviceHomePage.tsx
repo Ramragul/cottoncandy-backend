@@ -56,8 +56,9 @@ export const ServiceHomePage: React.FC = () => {
     alt={partner.business_name} 
     boxSize="320px" // Slightly increased size 
     borderRadius="10px" 
-    mx="auto" 
-    w="99%"  
+    // mx="auto" 
+    w="100%"  
+    h="350px"
     objectFit="cover" 
     mb={3} 
     cursor="pointer" // Makes it clickable
