@@ -464,7 +464,7 @@ export const ServiceUploadForm: React.FC = () => {
             >
               <option value="1">Mehendi Artist</option>
               <option value="2">Makeup Artist</option>
-              <option value="3">Photography</option>
+              <option value="3">Models</option>
               {/* Add more services as needed */}
             </Select>
             <FormErrorMessage>{errors.serviceId?.message}</FormErrorMessage>
