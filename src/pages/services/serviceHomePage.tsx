@@ -68,7 +68,8 @@ export const ServiceHomePage: React.FC = () => {
 
                             
                             <Text fontSize="lg" fontWeight="bold">{partner.business_name}</Text>
-                            <Text fontSize="sm">{partner.city}, {partner.pincode}</Text>
+                            {/* <Text fontSize="sm">{partner.city}, {partner.pincode}</Text> */}
+                            <Text fontSize="sm">{partner.city}</Text>
                             <Text fontSize="sm">Availability: <Badge colorScheme="green">{partner.availability}</Badge></Text>
                             <Divider my={2} />
                             <Flex mt={3} justify="center">
