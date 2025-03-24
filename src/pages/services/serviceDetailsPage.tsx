@@ -891,8 +891,8 @@ export const ServiceDetailsPage: React.FC = () => {
                         </Text>
                         <Collapse in={expandedVariantId === variant.variant_id}>
                             <Text fontSize="sm" mt={1}>{variant.description}</Text>
-                            <Text fontSize="sm" fontWeight="bold" mt={1}>Brand Used: {variant.brand_used}</Text>
-                            <Text fontSize="sm" mt={1}>Policies: {variant.policies}</Text>
+                            {/* <Text fontSize="sm" fontWeight="bold" mt={1}>Brand Used: {variant.brand_used}</Text> */}
+                            {/* <Text fontSize="sm" mt={1}>Policies: {variant.policies}</Text> */}
                         </Collapse>
                     </Box>
                 ))}
