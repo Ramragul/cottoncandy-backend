@@ -823,7 +823,8 @@ export const ServiceDetailsPage: React.FC = () => {
             {partner.business_name}
         </Heading>
         <Text fontSize="lg" color="gray.600">
-            {partner.address}, {partner.city}, {partner.pincode}
+            {/* {partner.address}, {partner.city}, {partner.pincode} */}
+            {partner.city}
         </Text>
         <Text fontSize="md" mt={3}>
             Availability: <Badge colorScheme="green" fontSize="sm">{partner.availability}</Badge>
