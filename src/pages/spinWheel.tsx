@@ -2412,7 +2412,7 @@ const prizes = [
 ];
 
 const prizeCount = prizes.length;
-console.log("Testing")
+console.log("Testing1")
 
 // Keyframes for animations
 // const revealAnimation = keyframes`
