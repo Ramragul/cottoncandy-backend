@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ramragul/cottoncandy-backend.git'
+            }
+        }
+        stage('DEV') {
+            steps {
+                echo 'Hello World in DEV'
+            }
+        }
+        stage('UAT') {
+            steps {
+                echo 'Hello World in UAT'
+            }
+        }
+    }
+}
