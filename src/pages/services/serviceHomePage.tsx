@@ -14,7 +14,7 @@ export const ServiceHomePage: React.FC = () => {
     const { state: service } = useLocation();
     // const { data, error, isLoading } = useGetData("/api/cc/service/variants?service_id=1");
     const { data, error, isLoading } = useGetData(`/api/cc/service/variants?service_id=${service.service_id}`);
-    console.log("Testing 1")
+    console.log("Testing 1.2")
 
     const { data: serviceData, error: serviceError, isLoading: serviceIsLoading } = useGetData("/api/cc/services");
     const navigate = useNavigate();
