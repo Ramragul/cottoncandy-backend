@@ -14,22 +14,22 @@ export const ServiceHomePage: React.FC = () => {
     const { state: service } = useLocation();
     // const { data, error, isLoading } = useGetData("/api/cc/service/variants?service_id=1");
     const { data, error, isLoading } = useGetData(`/api/cc/service/variants?service_id=${service.service_id}`);
-    console.log("Testing")
+    console.log("Testing 1")
 
-    const { data : serviceData, error : serviceError, isLoading : serviceIsLoading } = useGetData("/api/cc/services");
+    const { data: serviceData, error: serviceError, isLoading: serviceIsLoading } = useGetData("/api/cc/services");
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
-   
 
-    console.log("State value from landing page :" +JSON.stringify(service))
+
+    console.log("State value from landing page :" + JSON.stringify(service))
 
     if (isLoading) return <Center><Spinner /></Center>;
     if (error) return <Text>Error: {error.message}</Text>;
     if (!data || !data.partners) return <Text>No data available</Text>;
 
-    console.log("service Data received from new api :" +JSON.stringify(serviceData));
+    console.log("service Data received from new api :" + JSON.stringify(serviceData));
 
-    const filteredPartners = data.partners.filter(partner => 
+    const filteredPartners = data.partners.filter(partner =>
         partner.business_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -37,11 +37,11 @@ export const ServiceHomePage: React.FC = () => {
         <Box p={6}>
             <Heading mb={4} textAlign="center">Our Makeup Partners</Heading>
             <Center mb={4}>
-                <Input 
-                    placeholder="Search for a service partner..." 
-                    value={searchTerm} 
-                    onChange={(e) => setSearchTerm(e.target.value)} 
-                    width={{ base: "100%", md: "50%" }} 
+                <Input
+                    placeholder="Search for a service partner..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    width={{ base: "100%", md: "50%" }}
                     boxShadow="sm"
                 />
             </Center>
@@ -51,29 +51,29 @@ export const ServiceHomePage: React.FC = () => {
                     return (
                         <Box key={partner.pid} p={4} borderWidth="1px" borderRadius="md" boxShadow="md" textAlign="center">
                             {/* <Image src={imageUrls[0] || "https://via.placeholder.com/150"} alt={partner.business_name} boxSize="200px" borderRadius="10px" mx="auto" w="99%"  objectFit="cover" mb={3} /> */}
-                            <Image 
-    src={imageUrls[0] || "https://via.placeholder.com/150"} 
-    alt={partner.business_name} 
-    boxSize="320px" // Slightly increased size 
-    borderRadius="10px" 
-    // mx="auto" 
-    w="100%"  
-    h="350px"
-    objectFit="cover" 
-    mb={3} 
-    cursor="pointer" // Makes it clickable
-    onClick={() => navigate(`/service/details/${partner.pid}`, { state: { partner, service } })}
-/>
+                            <Image
+                                src={imageUrls[0] || "https://via.placeholder.com/150"}
+                                alt={partner.business_name}
+                                boxSize="320px" // Slightly increased size 
+                                borderRadius="10px"
+                                // mx="auto" 
+                                w="100%"
+                                h="350px"
+                                objectFit="cover"
+                                mb={3}
+                                cursor="pointer" // Makes it clickable
+                                onClick={() => navigate(`/service/details/${partner.pid}`, { state: { partner, service } })}
+                            />
 
 
-                            
+
                             <Text fontSize="lg" fontWeight="bold">{partner.business_name}</Text>
                             {/* <Text fontSize="sm">{partner.city}, {partner.pincode}</Text> */}
                             <Text fontSize="sm">{partner.city}</Text>
                             <Text fontSize="sm">Availability: <Badge colorScheme="green">{partner.availability}</Badge></Text>
                             <Divider my={2} />
                             <Flex mt={3} justify="center">
-                                <Button colorScheme="pink" size="sm" onClick={() => navigate(`/service/details/${partner.pid}`, { state: {partner, service} })}>Enquire</Button>
+                                <Button colorScheme="pink" size="sm" onClick={() => navigate(`/service/details/${partner.pid}`, { state: { partner, service } })}>Enquire</Button>
                             </Flex>
                         </Box>
                     );
