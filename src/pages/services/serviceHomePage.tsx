@@ -3,7 +3,7 @@
 
 // Version 2 Enhancement to version 1 with details page data passing logic - working code
 
-// ServiceHomePage.tsx - Modified to pass selected partner details
+// ServiceHomePage.tsx - Modified to pass selected partner details dynamically
 
 import React, { useState } from 'react';
 import { Box, Heading, Center, Input, SimpleGrid, Image, Text, Badge, Divider, Button, Flex, Spinner } from '@chakra-ui/react';
