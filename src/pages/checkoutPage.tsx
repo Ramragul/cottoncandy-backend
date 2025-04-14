@@ -1592,7 +1592,7 @@ export const CheckoutPage: React.FC = () => {
                 </HStack>
                 <HStack justifyContent="space-between">
                   {/* <Text fontWeight="bold" color="pink.500">Handling Fee:</Text> */}
-                  <Text fontWeight="bold" color="pink.500">₹{totals.handlingFee}</Text>
+                  {/* <Text fontWeight="bold" color="pink.500">₹{totals.handlingFee}</Text> */}
                 </HStack>
                 <HStack justifyContent="space-between">
                   <Text fontWeight="bold" color="pink.500">Security Deposit:</Text>
