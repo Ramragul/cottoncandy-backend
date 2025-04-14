@@ -1591,7 +1591,7 @@ export const CheckoutPage: React.FC = () => {
                   <Text fontWeight="bold" color="pink.500">₹{totals.productsPrice.toFixed(2)}</Text>
                 </HStack>
                 <HStack justifyContent="space-between">
-                  <Text fontWeight="bold" color="pink.500">Handling Fee:</Text>
+                  {/* <Text fontWeight="bold" color="pink.500">Handling Fee:</Text> */}
                   <Text fontWeight="bold" color="pink.500">₹{totals.handlingFee}</Text>
                 </HStack>
                 <HStack justifyContent="space-between">

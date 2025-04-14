@@ -293,7 +293,7 @@ export const CartPage = () => {
     const productsPrice = cartState.items.reduce((total, item) => total + item.price * item.quantity, 0);
     //const securityDeposit = cartState.items.reduce((total, item) => total + item.price * item.quantity, 0); // Example calculation
     const securityDeposit = 0
-    const handlingFee = 150
+    const handlingFee = 0
     const totalAmount = productsPrice + securityDeposit + handlingFee;
     return { productsPrice, securityDeposit, totalAmount,handlingFee };
   };
