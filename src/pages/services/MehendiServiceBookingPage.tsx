@@ -189,7 +189,7 @@ import {
   AlertIcon,
   useToast,
 } from "@chakra-ui/react";
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock, FaGlobe } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock, FaGlobe, FaInstagram } from "react-icons/fa";
 import { MdCheckCircle } from "react-icons/md";
 
 import DatePicker from 'react-datepicker';
@@ -244,11 +244,15 @@ export const MehendiServiceBookingPage = () => {
   const [animationType, setAnimationType] = useState<'success' | 'error' | 'loading' | null>(null);
   //setShowAnimation(false);
 
-  const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/service/booking');
+  const { postData, data, error, isLoading, responseData } = usePostData('/api/cc/mehendi/service/booking');
 
   // Date Picker Function 
 
   const onSubmit =  (data) => {
+
+  //   const [variantType, variantPrice] = data.variant.split('-');
+  // console.log('Type:', variantType);
+  // console.log('Price:', variantPrice);
 
   
     data.serviceId = 1
@@ -384,7 +388,7 @@ export const MehendiServiceBookingPage = () => {
               <Lottie options={{ loop: false, autoplay: true, animationData: successAnimation }} style={{ width: '150px', height: '150px' }} />
               <Text>
   Your order has been successfully placed! Please check your email for more details regarding your order. 
-  If you have any further questions or need assistance, feel free to reach out to us at support@cottoncandy.co.in or call us at +91 9629705557.
+  If you have any further questions or need assistance, feel free to reach out to us at support@cottoncandy.co.in or call us at +91 9788875557.
 </Text>
 
             </Box>
@@ -402,7 +406,7 @@ export const MehendiServiceBookingPage = () => {
         <>
       <Alert status="success" variant="solid" mb={5} borderRadius="md">
         <AlertIcon />
-        🎉 Diwali Special! Stunning Mehendi for just ₹99 – Hurry, offer expires soon! Book Now! 🎉
+        Elegant & Affordable Mehendi at Your Doorstep – Starting from Just ₹199! 💫
 
       </Alert>
 
@@ -550,6 +554,24 @@ export const MehendiServiceBookingPage = () => {
                 />
               </InputGroup>
             </FormControl>
+
+           {/* Variant and price */}
+           <FormControl>
+          <FormLabel>Variant</FormLabel>
+          <Select
+            {...register('variant')}
+            placeholder="Select variant"
+            required
+          >
+            <option value="guest-199">Guest Mehendi - ₹199</option>
+            <option value="bridalPalm-299">Bridal Palm Only - ₹299</option>
+            <option value="bridalBangle-899">Bridal Up to Bangle - ₹899</option>
+            <option value="bridalElbow-1099">Bridal Up to Elbow - ₹1099</option>
+            <option value="Leg-399">Leg - ₹399</option>
+            <option value="bridalFull-1799">Full Bridal Hand and Leg - ₹1799</option>
+          </Select>
+        </FormControl>
+
 
             <FormControl>
               <FormLabel>City</FormLabel>
@@ -762,7 +784,8 @@ export const MehendiServiceBookingPage = () => {
         <VStack align="start" spacing={2} mb={4}>
           <Flex align="center">
             <FaPhone color="#b82d92" />
-            <Text ml={2}>9629705557</Text>
+            {/* <Text ml={2}>9629705557</Text> */}
+            <Text ml={2}>9788875557</Text>
           </Flex>
           <Flex align="center">
             <FaEnvelope color="#b82d92" />
@@ -772,6 +795,11 @@ export const MehendiServiceBookingPage = () => {
             <FaGlobe color="#b82d92" />
             <Text align = 'start' ml={2}>India , UK , UAE</Text>
           </Flex>
+          <Flex align="center" as="a" href="https://instagram.com/cottoncandy_insta" target="_blank" rel="noopener noreferrer">
+          <FaInstagram color="#b82d92" />
+          <Text align="start" ml={2}>@cottoncandy_insta</Text>
+        </Flex>
+
         </VStack>
 
         </Box>
@@ -835,7 +863,8 @@ export const MehendiServiceBookingPage = () => {
         <VStack align="start" spacing={2} mb={4}>
           <Flex align="center">
             <FaPhone color="#b82d92" />
-            <Text ml={2}>9629705557</Text>
+            {/* <Text ml={2}>9629705557</Text> */}
+            <Text ml={2}>9788875557</Text>
           </Flex>
           <Flex align="center">
             <FaEnvelope color="#b82d92" />
@@ -845,6 +874,12 @@ export const MehendiServiceBookingPage = () => {
             <FaGlobe color="#b82d92" />
             <Text align = 'start' ml={2}>India , UK , UAE</Text>
           </Flex>
+          
+          <Flex align="center" as="a" href="https://instagram.com/cottoncandy_insta" target="_blank" rel="noopener noreferrer">
+          <FaInstagram color="#b82d92" />
+          <Text align="start" ml={2}>@cottoncandy_insta</Text>
+        </Flex>
+
         </VStack>
 
       </Box>

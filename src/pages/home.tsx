@@ -455,7 +455,8 @@ export const Home = () => {
           { img: TailoringImg, label: "Tailoring", link: "/tailoringCatalogue" },
           { img: RentalImg, label: "Clothing Rentals", link: "/rentalCatalogue?productType=Apparel" },
           { img: JewelleryImg, label: "Fashion Jewellery", link: "/rentalCatalogue?productType=Jewellery" },
-          { img: CoverPic2, label: "Fashion Hub", link: "/service/landing/page" },
+         // { img: CoverPic2, label: "Fashion Hub", link: "/service/landing/page" },
+          { img: "https://snektoawsbucket.s3.amazonaws.com/gb_ground/a9cd2a8e-5d90-4c54-bfba-6c181fdedbe5_Untitled%20design%20%287%29.jpg", label: "Mehendi Service " , link: "/mehendi/service/home" },
         ].map((item, index) => (
           <GridItem key={index}>
             <Link to={item.link}>
