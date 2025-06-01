@@ -1,0 +1,124 @@
+  /* .image-slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .image-slider {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  .image-slider img {
+    width: 48%;
+    height: auto;
+    margin-right: 4%;
+    object-fit: contain;
+  }
+  
+  .image-slider img:last-child {
+    margin-right: 0;
+  }
+  
+  .slider-controls {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+  }
+  
+  .slider-controls button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .slider-controls span {
+    margin: 0 10px;
+  }
+  
+  .custom-datepicker {
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 8px;
+    width: 100%;
+  }
+   */
+
+/*  Version 2 css*/
+
+   /* .image-slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .image-slider {
+    display: flex;
+    gap: 10px; 
+    transition: transform 0.5s ease;
+  }
+  
+  .image-slider img {
+    width: calc(50% - 5px); 
+    height: auto;
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  
+  .prev, .next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  .prev.disabled, .next.disabled {
+    display: none;
+  } */
+  
+
+  .image-slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .image-slider {
+    display: flex;
+    gap: 10px; /* Add space between images */
+    transition: transform 0.5s ease;
+  }
+  
+  .image-slider img {
+    width: calc(50% - 5px); /* Adjust width to account for the gap */
+    height: auto;
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  
+  .prev, .next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  .prev.disabled, .next.disabled {
+    display: none;
+  }
+  
