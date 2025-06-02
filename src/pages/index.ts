@@ -39,3 +39,4 @@ export * from "./services/serviceLandingPage";
 export * from "./services/partnerSerivceManagementPage";
 export * from "./services/servicePartnerLandingPage";
 export * from "./services/partnerServiceBookingManagement";
+export * from "./internal/mehendiOrderManagement";
