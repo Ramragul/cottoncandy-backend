@@ -313,6 +313,7 @@ export const OrderManagementDetails = () => {
                         <option value="Couriered">Couriered</option>
                         <option value="Delivered">Delivered</option>
                         <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
                     </Select>
                 </Box>
                 <Box>
