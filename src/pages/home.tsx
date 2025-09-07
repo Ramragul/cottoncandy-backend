@@ -409,9 +409,10 @@ export const Home = () => {
   };
 
   return (
-    <Box bg="whiteAlpha.800" minH="100vh">
+    <Box bg="whiteAlpha.100" minH="100vh">
       {/* HERO SECTION */}
-      <Box
+
+      {/* <Box
         position="relative"
         h={{ base: "60vh", md: "80vh" }}
         bgImage={`url(${CoverPic1})`}
@@ -428,7 +429,7 @@ export const Home = () => {
           left={0}
           right={0}
           bottom={0}
-          bg="blackAlpha.600"
+          bg="blackAlpha.500"
         />
         <VStack zIndex={2} spacing={4}>
           <Text fontSize={{ base: "3xl", md: "5xl" }} fontWeight="bold" color="white">
@@ -441,7 +442,7 @@ export const Home = () => {
             Explore Collection
           </Button>
         </VStack>
-      </Box>
+      </Box> */}
 
       {/* FEATURED SERVICES - Modern Card Layout */}
       <Grid
@@ -452,7 +453,7 @@ export const Home = () => {
         textAlign="center"
       >
         {[
-          { img: TailoringImg, label: "Tailoring", link: "/tailoringCatalogue" },
+          // { img: TailoringImg, label: "Tailoring", link: "/tailoringCatalogue" },
           { img: RentalImg, label: "Clothing Rentals", link: "/rentalCatalogue?productType=Apparel" },
           { img: JewelleryImg, label: "Fashion Jewellery", link: "/rentalCatalogue?productType=Jewellery" },
          // { img: CoverPic2, label: "Fashion Hub", link: "/service/landing/page" },
@@ -493,7 +494,7 @@ export const Home = () => {
             <MotionBox
               key={i}
               minW="300px"
-              bg="white"
+              bg="blue.50"
               p={4}
               shadow="md"
               borderRadius="lg"
