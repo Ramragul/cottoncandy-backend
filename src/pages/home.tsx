@@ -487,9 +487,14 @@ export const Home = () => {
         </Text>
         <Flex overflowX="auto" py={6} px={4} gap={4} scrollSnapType="x mandatory">
           {[
+            
+            { text: "I have ordered jewel set in the last minute but the team organized it perfectly and received the jewel. It was packed with care. Thanks for arranging this team! Keep up the good work", name: "Deepa Jairam" },
+            { text: "It's very trustable and they are giving rental jewellery an affordable price with good quality. On time delivery also.Good team work. Thank u 👍", name: "Karthika" },
+            { text: "They know what they’re doing - Close your eyes and trust them!I rented jewelry from this cotton candy for my baby shower,It suited me so well, Thankyou so much cotton candy", name: "Uma Maheshwari" },
+            { text: "I'm makeup artist I book my client marriage Really Amazing Jwellery set 😍Affordable rent price.... Personally I'm satisfied my client also....❤️", name: "Kanimozhi" },
+            { text: "Super customer support on time delivery my fully satisfied ethuku apram enna function vainthalum intha page tha order poduna super super and tq soo much", name: "Bhavani" },
             { text: "Great jewelry collections at an affordable price!", name: "Manoj Kumar" },
-            { text: "Perfect dresses for my wedding function!", name: "Aditi Singh" },
-            { text: "Mehendi service was amazing!", name: "Sonal Agarwal" },
+            { text: "I recently tried this product was impressed with its performance. The quality is excellent, and it offers great value for the price.", name: "Swathi" },
           ].map((review, i) => (
             <MotionBox
               key={i}
