@@ -409,7 +409,7 @@ export const Home = () => {
   };
 
   return (
-    <Box bg="pink.50" minH="100vh">
+    <Box bg="whiteAlpha.800" minH="100vh">
       {/* HERO SECTION */}
       <Box
         position="relative"
@@ -480,7 +480,7 @@ export const Home = () => {
       </Grid>
 
       {/* TESTIMONIALS - Auto-Scrolling */}
-      <Box bg="pink.100" py={10}>
+      <Box bg="whiteAlpha.500" py={10}>
         <Text fontSize="3xl" fontWeight="bold" textAlign="center" color="pink.700">
           What Our Clients Say
         </Text>
