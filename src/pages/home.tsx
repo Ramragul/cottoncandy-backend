@@ -403,10 +403,32 @@ import CoverPic3 from "../assets/homePage/coverpic.jpeg";
 // Motion Wrapper for animations
 const MotionBox = motion(Box);
 
+
+const MotionFlex = motion(Flex);
+
 export const Home = () => {
   const scrollToFeatureSection = () => {
     document.getElementById("featured-services")?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const reviews = [
+ 
+    { text: "I have ordered jewel set in the last minute but the team organized it perfectly and received the jewel. It was packed with care. Thanks for arranging this team! Keep up the good work", name: "Deepa Jairam" },
+    { text: "It's very trustable and they are giving rental jewellery an affordable price with good quality. On time delivery also.Good team work. Thank u 👍", name: "Karthika" },
+    { text: "They know what they’re doing - Close your eyes and trust them!I rented jewelry from this cotton candy for my baby shower,It suited me so well, Thankyou so much cotton candy", name: "Uma Maheshwari" },
+    { text: "I'm makeup artist I book my client marriage Really Amazing Jwellery set 😍Affordable rent price.... Personally I'm satisfied my client also....❤️", name: "Kanimozhi" },
+    { text: "Super customer support on time delivery my fully satisfied ethuku apram enna function vainthalum intha page tha order poduna super super and tq soo much", name: "Bhavani" },
+    { text: "Great jewelry collections at an affordable price!", name: "Manoj Kumar" },
+    { text: "The product was very beautiful and look precious.It is surprise gift for me.It gives some royal look and suitable for all traditional and modern wears.", name: "Jenova Vincy" },
+    { text: "I recently tried this product was impressed with its performance. The quality is excellent, and it offers great value for the price.", name: "Swathi" },
+    { text: "Im very satisfied... Im purchased for rental jewelry from cotton candy, very very reasonable price.good staffs..", name: "Mounika" },
+    { text: "The product was too awesome and the quality was also beyond expectations...The jewels from @cotton candy made my event more nd moree attractive!", name: "Anshiya Akbar" },
+    { text: "Jwellery sets la podavutha na alaga aana maari therunche...rompa happy ah irunthuchu.", name: "Gopika" },
+    { text: "As a Mua, I personally loved all the jewelry collections , almost I rented maximum jewelries from cottoncandy , and surely will recommend to all my future clients. ✨", name: "Anandhi Chitra" },
+    { text: "Design of the mehndi patterns, the quality of the henna used well and overall satisfaction with the final result.", name: "Rani" },
+    { text: "Beautiful products at very low price ❤️", name: "Priya Raghavan" },
+    { text: "Impressive and elegant collections …☺️✨", name: "Manisha" },
+  ];
 
   return (
     <Box bg="whiteAlpha.100" minH="100vh">
@@ -480,8 +502,41 @@ export const Home = () => {
         ))}
       </Grid>
 
+      {/* Newly Added Cient Photos Section Begins */}
+{/* 
+      <Box bg="white" py={10}>
+  <Text fontSize="3xl" fontWeight="bold" textAlign="center" color="pink.700">
+    Our Happy Brides
+  </Text>
+
+  <Flex overflowX="auto" gap={4} px={4} py={6} scrollSnapType="x mandatory">
+    {[
+      { img: "https://picsum.photos/200/300" },
+      { img: "https://picsum.photos/seed/picsum/200/300" },
+      { img: "https://picsum.photos/id/237/200/300" },
+      // more
+    ].map((c, i) => (
+      <MotionBox
+        key={i}
+        minW="200px"
+        maxW="200px"
+        shadow="md"
+        borderRadius="lg"
+        overflow="hidden"
+        whileHover={{ scale: 1.05 }}
+        scrollSnapAlign="start"
+      >
+        <Image src={c.img} alt={`Client ${i + 1}`} w="100%" h="250px" objectFit="cover" />
+      </MotionBox>
+    ))}
+  </Flex>
+</Box> */}
+
+      {/* Newly Added Cient Photos Section Ends */}
+
+
       {/* TESTIMONIALS - Auto-Scrolling */}
-      <Box bg="whiteAlpha.500" py={10}>
+      {/* <Box bg="whiteAlpha.500" py={10}>
         <Text fontSize="3xl" fontWeight="bold" textAlign="center" color="pink.700">
           What Our Clients Say
         </Text>
@@ -512,7 +567,45 @@ export const Home = () => {
             </MotionBox>
           ))}
         </Flex>
+      </Box> */}
+
+      {/* New User Review Code  */}
+
+      <Box bg="whiteAlpha.500" py={10} overflow="hidden">
+      <Text fontSize="3xl" fontWeight="bold" textAlign="center" color="pink.700">
+        What Our Clients Say
+      </Text>
+
+      {/* Wrapping container (hidden overflow) */}
+      <Box mt={6} px={4} overflow="hidden" position="relative">
+        <MotionFlex
+          gap={4}
+          animate={{ x: ["0%", "-100%"] }}         // move left
+          transition={{
+            repeat: Infinity,
+            duration: 30,                          // speed (increase for slower scroll)
+            ease: "linear",
+          }}
+        >
+          {/* duplicate list for seamless loop */}
+          {[...reviews, ...reviews].map((review, i) => (
+            <Box
+              key={i}
+              minW="300px"
+              bg="blue.50"
+              p={4}
+              shadow="md"
+              borderRadius="lg"
+            >
+              <Text fontStyle="italic">"{review.text}"</Text>
+              <Text fontWeight="bold" mt={2} textAlign="right">
+                - {review.name}
+              </Text>
+            </Box>
+          ))}
+        </MotionFlex>
       </Box>
+    </Box>
 
       {/* FOOTER */}
       <Box textAlign="center" py={6} bg="pink.600" color="white">
