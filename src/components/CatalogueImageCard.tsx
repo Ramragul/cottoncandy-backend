@@ -373,7 +373,16 @@ const CatalogueImageCard: React.FC<Props> = ({ product, productType , purchaseTy
   };
 
   // Split the image URLs by comma and use the first URL
-  const firstImageURL = product.ProductImageURL.split(',')[0];
+  var firstImageURL = "";
+  if(product.ProductImageURL != null )
+    {
+   firstImageURL = product.ProductImageURL.split(',')[0];
+   console.log("Inside true condition 7777" +product.ProductName)
+    }
+    else {
+       firstImageURL = "";
+       console.log("Inside Else")
+    }
 
   return (
     <GridItem key={product.ProductID} position="relative" m={{ base: 2, md: 0 }}>

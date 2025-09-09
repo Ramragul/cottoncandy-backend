@@ -55,6 +55,7 @@ export const RentalProductUploadForm = () => {
     { "id": 7, "name": "Choker" },
     { "id": 8, "name": "Bangles" },
     { "id": 9, "name": "BridalSet" },
+    { "id": 9, "name": "Victorian Bridal Set" },
   ];
   const productUsageOccasion = ["Party", "Festival", "Wedding", "Celebrations", "Casual", "Formal", "Regular", "Trendy", "Traditional", "Glamour", "Bridal"];
 
