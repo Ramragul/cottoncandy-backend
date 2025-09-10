@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage,PartnerServiceBookingManagementPage, MehendiServiceBookingPage, MehendiOrderManagement, ProductManager } from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage,PartnerServiceBookingManagementPage, MehendiServiceBookingPage, MehendiOrderManagement, ProductManager, ProductManagerMain , ProductManagerWrapper} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -282,6 +282,22 @@ export const routes = [
     name: "ProductManager",
     path: "/product/manager",
     element: <ProductManager productId={109}/>,
+    visible: false,
+  },
+
+  {
+    icon: UsersIcon,
+    name: "ProductManager",
+    path: "/products/:productId",
+    element: <ProductManagerWrapper />,
+    visible: false,
+  },
+  
+  {
+    icon: UsersIcon,
+    name: "ProductManagerMain",
+    path: "/product/manager/main",
+    element: <ProductManagerMain/>,
     visible: false,
   },
   // {

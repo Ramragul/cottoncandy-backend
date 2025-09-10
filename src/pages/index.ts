@@ -41,3 +41,5 @@ export * from "./services/servicePartnerLandingPage";
 export * from "./services/partnerServiceBookingManagement";
 export * from "./internal/mehendiOrderManagement";
 export * from "./ProductManager";
+export * from "./productManagerMain";
+export * from "./productManagerWrapper";

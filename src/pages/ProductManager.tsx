@@ -17,9 +17,10 @@ import {
   IconButton,
   useToast,
 } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon , ArrowBackIcon} from "@chakra-ui/icons";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
+import { useNavigate } from "react-router-dom";  
 
 type Product = {
   ProductID: number;
@@ -44,6 +45,7 @@ export const ProductManager: React.FC<{ productId: number }> = ({ productId }) =
   const [images, setImages] = useState<ProductImage[]>([]);
   const [newFiles, setNewFiles] = useState<FileList | null>(null);
   const toast = useToast();
+  const navigate = useNavigate();  // ✅ initialize navigate
 
   // Fetch product details + images
   useEffect(() => {
@@ -140,6 +142,35 @@ export const ProductManager: React.FC<{ productId: number }> = ({ productId }) =
 
   return (
     <Box p={6}>
+
+
+      {/* <Button
+        leftIcon={<ArrowBackIcon />}
+        bgGradient="linear(to-r, pink.400, pink.600)"
+        color="white"
+        _hover={{ bgGradient: "linear(to-r, pink.500, pink.700)" }}
+        size="md"
+        borderRadius="full"
+        px={6}
+        mb={4}
+        onClick={() => navigate("/product/manager/main")}
+      >
+        Back
+      </Button> */}
+
+      <Button
+        leftIcon={<ArrowBackIcon />}
+        variant="ghost"
+        colorScheme="pink"
+        size="md"
+        fontWeight="semibold"
+        _hover={{ bg: "pink.50" }}
+        mb={4}
+        onClick={() => navigate("/product/manager/main")}
+      >
+        Back to Products
+      </Button>
+
       <Tabs>
         <TabList>
           <Tab>Details</Tab>
