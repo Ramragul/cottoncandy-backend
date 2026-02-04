@@ -184,7 +184,7 @@ export const TailoringCatalogue: React.FC = () => {
       <Box
         position="relative"
         height={{ base: "70vh", lg: "85vh" }}
-        bgImage="linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7)), CoverPic3"
+        bgImage={`linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7)), url(${CoverPic3})`}
         bgSize="cover"
         bgPosition="center"
         display="flex"
