@@ -1,59 +1,6 @@
 
-// import useDesignCatalogue from '../hooks/useDesignCatalogue'
-// import { Box, Grid, SimpleGrid, Text } from '@chakra-ui/react';
-// // import CatalogueCard from './CatalogueCard';
-// import CatalogueCardSkeleton from './CatalogueCardSkeleton';
-// import CatalogueCardContainer from './CatalogueCardContainer';
-// import { Category } from '../hooks/useCatalogueCategory';
-// import { CatalogueQuery } from "../App";
-// import React from 'react';
-// import CatalogueImageCard from './CatalogueImageCard';
 
-
-
-// interface Props {
-//     catalogueQuery : CatalogueQuery,
-//     apiPath : string
-
-// }
-
-
-// const CatalogueGrid = ({catalogueQuery , apiPath} : Props ) => {
-
-//     console.log("selected Occasion from Grid Catalogue query object "+catalogueQuery.occasion)
-  
-//     const {data , error, isLoading} = useDesignCatalogue (catalogueQuery , apiPath );
-//     const skeletons = [1,2,3,4,5,6]
-
-//   return (
-//     <>
-//     {error && <Text>{error}</Text>}
-
-//     <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={8}>
-//     {isLoading && skeletons.map(skeleton => (
-//     <CatalogueCardContainer key={skeleton}>
-//         <CatalogueCardSkeleton /> 
-//     </CatalogueCardContainer>
-//     ))}
-//      </Grid>
-    
-//     <Box w={{ base: '100%', md: '98%' }}>
-//     <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
-//     {data.map((product) => ( 
-        
-//     <CatalogueImageCard product={product} />
-//      ))}
-//      </Grid>
-//     </Box>
-//     </>
-//   )
-// }
-
-// export default CatalogueGrid
-
-
-
-// Version 2 - Build Fix
+// Version 1  - Working version , moderate design
 
 // import React from 'react';
 // import useDesignCatalogue from '../hooks/useDesignCatalogue';
@@ -67,13 +14,16 @@
 //   catalogueQuery: CatalogueQuery;
 //   apiPath: string;
 //   productType : string | null;
+//   purchaseType : string | null;
 // }
 
-// const CatalogueGrid: React.FC<Props> = ({ catalogueQuery, apiPath , productType }) => {
+// const CatalogueGrid: React.FC<Props> = ({ catalogueQuery, apiPath , productType , purchaseType }) => {
 //   console.log("selected Occasion from Grid Catalogue query object " + catalogueQuery.occasion);
 
 //   const { data, error, isLoading } = useDesignCatalogue(catalogueQuery, apiPath,productType);
 //   const skeletons = [1, 2, 3, 4, 5, 6];
+
+//   purchaseType = (purchaseType == "rental") ? 'Rent Now' : "Stitch Now"
 
 //   return (
 //     <>
@@ -90,7 +40,8 @@
 //       <Box w={{ base: '100%', md: '98%' }}>
 //         <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
 //           {data?.map((product) => (
-//             <CatalogueImageCard key={product.ProductID} product={product} productType = {productType} />
+//             //<CatalogueImageCard key={product.ProductID} product={product} productType = {productType} purchaseType = {purchaseType} />
+//            (product.ProductStatus == 'Active') ? <CatalogueImageCard key={product.ProductID} product={product} productType = {productType} purchaseType = {purchaseType} /> : null
 //           ))}
 //         </Grid>
 //       </Box>
@@ -100,7 +51,9 @@
 
 // export default CatalogueGrid;
 
-// Version 3  - Enhancement to version 2 . with category field addition 
+
+
+// Version 2 : Enhancement to version 1 with design updates
 
 import React from 'react';
 import useDesignCatalogue from '../hooks/useDesignCatalogue';
@@ -138,7 +91,15 @@ const CatalogueGrid: React.FC<Props> = ({ catalogueQuery, apiPath , productType 
       </Grid>
 
       <Box w={{ base: '100%', md: '98%' }}>
-        <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
+      <Grid
+  templateColumns={{
+    base: 'repeat(1, 1fr)',
+    md: 'repeat(2, 1fr)',
+    lg: 'repeat(3, 1fr)'
+  }}
+  gap={10}
+>
+
           {data?.map((product) => (
             //<CatalogueImageCard key={product.ProductID} product={product} productType = {productType} purchaseType = {purchaseType} />
            (product.ProductStatus == 'Active') ? <CatalogueImageCard key={product.ProductID} product={product} productType = {productType} purchaseType = {purchaseType} /> : null
