@@ -1513,7 +1513,7 @@ export const CheckoutPage: React.FC = () => {
                       <Text fontWeight="bold">Delivery Type:</Text>
                       <HStack spacing={4}>
                         <Radio value="homeDelivery">Home Delivery</Radio>
-                        <Radio value="showroomPickup">Showroom Pickup</Radio>
+                        {/* <Radio value="showroomPickup">Showroom Pickup</Radio> */}
                       </HStack>
                     </VStack>
                   </RadioGroup>
@@ -1563,7 +1563,7 @@ export const CheckoutPage: React.FC = () => {
                     <VStack spacing={2} align="stretch">
                       <Text fontWeight="bold">Payment Type:</Text>
                       <HStack spacing={4}>
-                        <Radio value="payNow">Card / UPI / NetBanking</Radio>
+                        {/* <Radio value="payNow">Card / UPI / NetBanking</Radio> */}
                         <Radio value="cod">Cash on Delivery</Radio>
                         
                       </HStack>
