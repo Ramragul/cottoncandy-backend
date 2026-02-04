@@ -163,6 +163,7 @@ import { CatalogueQuery } from '../App';
 import { Category } from '../hooks/useCatalogueCategory';
 import CategorySelector from '../components/CategorySelector';
 import { useLocation } from 'react-router-dom';
+import CoverPic3 from "../assets/homePage/coverpic.jpeg";
 
 export const TailoringCatalogue: React.FC = () => {
   const [catalogueQuery, setCatalogueQuery] = useState<CatalogueQuery>({} as CatalogueQuery);
@@ -183,7 +184,7 @@ export const TailoringCatalogue: React.FC = () => {
       <Box
         position="relative"
         height={{ base: "70vh", lg: "85vh" }}
-        bgImage="linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7)), url('/images/tailoring-hero.jpg')"
+        bgImage="linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7)), CoverPic3"
         bgSize="cover"
         bgPosition="center"
         display="flex"
