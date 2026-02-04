@@ -200,6 +200,13 @@ export const LoginPage = () => {
             {error && <Text color="red.500">{error}</Text>}
           </form>
         )}
+
+      <Text mt={2} fontSize="sm">
+        Forgot your password?  
+        <Button variant="link" colorScheme="red" onClick={() => navigate('/reset/password')}>
+          Reset it here
+        </Button>
+      </Text>
         <Text mt={4}>
           Don't have an account? <Button variant="link" colorScheme="pink" onClick={() => navigate('/register')}>Register here</Button>
         </Text>

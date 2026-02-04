@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage,PartnerServiceBookingManagementPage, MehendiServiceBookingPage, MehendiOrderManagement, ProductManager, ProductManagerMain , ProductManagerWrapper} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage, ResetPasswordPage ,RegisterPage,YourOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage,PartnerServiceBookingManagementPage, MehendiServiceBookingPage, MehendiOrderManagement, ProductManager, ProductManagerMain , ProductManagerWrapper} from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -93,6 +93,13 @@ export const routes = [
     name: "LoginPage",
     path: "/login",
     element: <LoginPage />,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "ResetPasswordPage",
+    path: "/reset/password",
+    element: <ResetPasswordPage />,
     visible: false,
   },
   {
