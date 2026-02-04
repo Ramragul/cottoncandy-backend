@@ -179,29 +179,24 @@ export const TailoringCatalogue: React.FC = () => {
     <>
       <NavBar />
 
-      {/* 🌸 LUXURY HERO */}
+      {/* 🌸 CINEMATIC HERO */}
       <Box
         position="relative"
         height={{ base: "70vh", lg: "85vh" }}
-        backgroundImage="url('/images/tailoring-hero.jpg')"
-        backgroundSize="cover"
-        backgroundPosition="center"
+        bgImage="linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7)), url('/images/tailoring-hero.jpg')"
+        bgSize="cover"
+        bgPosition="center"
         display="flex"
         alignItems="center"
         justifyContent="center"
       >
-        <Box
-          position="absolute"
-          inset="0"
-          bg="rgba(0,0,0,0.45)"
-        />
-
         <VStack zIndex={2} spacing={6} textAlign="center" px={6}>
           <Text
             fontSize={{ base: "3xl", lg: "6xl" }}
-            fontWeight="bold"
+            fontWeight="extrabold"
             color="white"
-            letterSpacing="wide"
+            letterSpacing="tight"
+            textShadow="0 5px 25px rgba(0,0,0,0.4)"
           >
             Bespoke Blouse Couture
           </Text>
@@ -212,100 +207,121 @@ export const TailoringCatalogue: React.FC = () => {
             size="lg"
             bg="pink.500"
             color="white"
-            _hover={{ bg: "pink.600" }}
             borderRadius="full"
             px={10}
+            _hover={{
+              bg: "pink.600",
+              boxShadow: "0 0 15px rgba(135,206,235,0.6)"
+            }}
           >
             Explore Collection
           </Button>
         </VStack>
       </Box>
 
-      {/* MAIN AREA */}
-      <Box bg="#fff7fb">
-        <Grid
-          templateAreas={{
-            base: `"main"`,
-            lg: `"aside main"`
-          }}
-          templateColumns={{
-            base: '1fr',
-            lg: '240px 1fr'
-          }}
-        >
-          {/* Sidebar */}
-          <Show above="lg">
-            <GridItem area="aside" px={6} pt={16}>
-              <FilterComponent
-                selectedCategory={catalogueQuery.category}
-                onSelectCategory={handleCategorySelect}
-                apiPath="/api/cc/categories"
-                productType={productType}
-              />
-            </GridItem>
-          </Show>
+      {/* 🌷 MAIN WRAPPER */}
+      <Box bg="#fff7fb" py={16}>
+        <Box maxW="1400px" mx="auto">
 
-          <GridItem area="main">
-
-            {/* ✨ GLASS FILTER BAR */}
-            <Box
-              position="sticky"
-              top="70px"
-              zIndex={20}
-              backdropFilter="blur(14px)"
-              bg="rgba(255,255,255,0.85)"
-              borderRadius="xl"
-              mx={{ base: 3, lg: 10 }}
-              mt={-12}
-              px={6}
-              py={4}
-              boxShadow="xl"
-            >
-              <HStack spacing={6} overflowX="auto">
-                <Show below="lg">
-                  <CategorySelector
+          <Grid
+            templateAreas={{
+              base: `"main"`,
+              lg: `"aside main"`
+            }}
+            templateColumns={{
+              base: '1fr',
+              lg: '260px 1fr'
+            }}
+            gap={10}
+          >
+            {/* SIDEBAR */}
+            <Show above="lg">
+              <GridItem area="aside">
+                <Box
+                  bg="white"
+                  p={6}
+                  borderRadius="2xl"
+                  boxShadow="md"
+                >
+                  <FilterComponent
                     selectedCategory={catalogueQuery.category}
-                    onCategorySelect={handleCategorySelect}
-                    productType={productType}
+                    onSelectCategory={handleCategorySelect}
                     apiPath="/api/cc/categories"
+                    productType={productType}
                   />
-                </Show>
+                </Box>
+              </GridItem>
+            </Show>
 
-                <OccasionSelector
-                  selectedOccasion={catalogueQuery.occasion}
-                  onOccasionSelect={(occasion) =>
-                    setCatalogueQuery({ ...catalogueQuery, occasion })
-                  }
+            {/* MAIN */}
+            <GridItem area="main">
+
+              {/* ✨ FLOATING FILTER BAR */}
+              <Box
+                position="sticky"
+                top="70px"
+                zIndex={20}
+                backdropFilter="blur(14px)"
+                bg="rgba(255,255,255,0.9)"
+                borderRadius="xl"
+                px={6}
+                py={4}
+                boxShadow="lg"
+                mb={10}
+              >
+                <HStack spacing={6} overflowX="auto">
+                  <Show below="lg">
+                    <CategorySelector
+                      selectedCategory={catalogueQuery.category}
+                      onCategorySelect={handleCategorySelect}
+                      productType={productType}
+                      apiPath="/api/cc/categories"
+                    />
+                  </Show>
+
+                  <OccasionSelector
+                    selectedOccasion={catalogueQuery.occasion}
+                    onOccasionSelect={(occasion) =>
+                      setCatalogueQuery({ ...catalogueQuery, occasion })
+                    }
+                  />
+
+                  <Show above="lg">
+                    <SortSelector />
+                  </Show>
+                </HStack>
+              </Box>
+
+              {/* 🛍 LUXURY PRODUCT SECTION */}
+              <Box
+                px={{ base: 4, lg: 12 }}
+                py={16}
+                bg="white"
+                borderRadius="3xl"
+                boxShadow="0 25px 60px rgba(0,0,0,0.05)"
+              >
+                <CatalogueGrid
+                  catalogueQuery={catalogueQuery}
+                  apiPath="api/cc/designcatalogue"
+                  productType={productType}
+                  purchaseType="tailoring"
                 />
+              </Box>
 
-                <Show above="lg">
-                  <SortSelector />
-                </Show>
-              </HStack>
-            </Box>
+              {/* 💎 TRUST BAND */}
+              <Box mt={20} textAlign="center">
+                <HStack justify="space-evenly" flexWrap="wrap" spacing={10}>
+                  <Text fontSize="lg">🚚 Free Premium Delivery</Text>
+                  <Text fontSize="lg">🧵 Tailor Perfect Fit</Text>
+                  <Text fontSize="lg">🎀 Bridal Specialists</Text>
+                  <Text fontSize="lg">💬 Personal Style Support</Text>
+                </HStack>
+              </Box>
 
-            {/* PRODUCTS */}
-            <Box px={{ base: 4, lg: 12 }} py={16}>
-              <CatalogueGrid
-                catalogueQuery={catalogueQuery}
-                apiPath="api/cc/designcatalogue"
-                productType={productType}
-                purchaseType="tailoring"
-              />
-            </Box>
+            </GridItem>
+          </Grid>
 
-            {/* 💎 TRUST BAND */}
-            <Box bg="white" py={16} boxShadow="inner">
-              <HStack justify="space-evenly" flexWrap="wrap" spacing={10}>
-                <Text fontSize="lg">🚚 Free Premium Delivery</Text>
-                <Text fontSize="lg">🧵 Tailor Perfect Fit</Text>
-                <Text fontSize="lg">🎀 Bridal Specialists</Text>
-                <Text fontSize="lg">💬 Personal Style Support</Text>
-              </HStack>
-            </Box>
-
-          </GridItem>
-        </Grid>
+        </Box>
       </Box>
     </>
   );
