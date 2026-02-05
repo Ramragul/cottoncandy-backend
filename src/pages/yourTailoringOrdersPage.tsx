@@ -1,6 +1,7 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getStatusColor } from '../utils/orderStatus';
 
 export const YourTailoringOrdersPage = () => {
   const { authState } = useAuth();
