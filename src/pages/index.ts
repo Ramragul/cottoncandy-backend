@@ -44,3 +44,4 @@ export * from "./internal/mehendiOrderManagement";
 export * from "./ProductManager";
 export * from "./productManagerMain";
 export * from "./productManagerWrapper";
+export * from "./yourTailoringOrdersPage";
