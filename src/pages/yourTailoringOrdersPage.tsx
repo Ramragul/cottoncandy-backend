@@ -13,8 +13,8 @@ export const YourTailoringOrdersPage = () => {
 
   const fetchOrders = async () => {
     const url = activeTab === 'active'
-      ? `/api/cc/tailoring/orders/active/${authState.userId}`
-      : `/api/cc/tailoring/orders/history/${authState.userId}`;
+      ? `https://admee.in:3003/api/cc/tailoring/orders/active/${authState.userId}`
+      : `https://admee.in:3003/api/cc/tailoring/orders/history/${authState.userId}`;
 
     const res = await axios.get(url);
     setOrders(res.data.data);
