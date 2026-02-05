@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 
-const ResetPasswordPage = () => {
+export const ResetPasswordPage = () => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
