@@ -2,7 +2,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { getStatusColor } from '../utils/orderStatus';
-import './YourTailoringOrdersPage.css';
 import '../css/YourTailoringOrdersPage'
 import OrderDetailDrawer from './OrderDetailDrawer';
 
