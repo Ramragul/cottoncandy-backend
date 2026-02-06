@@ -1,0 +1,107 @@
+.orders-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+    background: #fff;
+  }
+  
+  /* HEADER */
+  .orders-header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  
+  .orders-nav {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .orders-nav button {
+    background: none;
+    border: none;
+    padding: 8px 0;
+    font-size: 15px;
+    color: #777;
+    cursor: pointer;
+  }
+  
+  .orders-nav button.active {
+    color: #000;
+    font-weight: 500;
+    border-bottom: 2px solid #000;
+  }
+  
+  .orders-header input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+  }
+  
+  /* LIST */
+  .orders-list {
+    margin-top: 24px;
+  }
+  
+  .order-row {
+    display: grid;
+    grid-template-columns: 56px 1fr 120px 160px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .order-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: #f3f3f3;
+  }
+  
+  .order-title {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  .order-sub {
+    font-size: 13px;
+    color: #777;
+    margin-top: 2px;
+  }
+  
+  .order-price {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  .order-status {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  /* STATES */
+  .orders-loading,
+  .orders-empty {
+    padding: 40px;
+    text-align: center;
+    color: #777;
+    font-size: 15px;
+  }
+  
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .order-row {
+      grid-template-columns: 48px 1fr;
+      row-gap: 8px;
+    }
+  
+    .order-price,
+    .order-status {
+      grid-column: 2;
+    }
+  }
+  
