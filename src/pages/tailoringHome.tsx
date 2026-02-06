@@ -2275,16 +2275,20 @@ import {
 } from "@chakra-ui/react";
 import { FaUser, FaEnvelope, FaPhone, FaClock, FaGlobe } from "react-icons/fa";
 import { MdCheckCircle } from "react-icons/md";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../css/DatePicker.css";
+
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+
 import Lottie from "react-lottie";
 import successAnimation from "../animations/success.json";
 import errorAnimation from "../animations/error.json";
 import loadingAnimation from "../animations/loading.json";
+
 import { useAuth } from "../contexts/AuthContext";
 import usePostData from "../hooks/usePostData";
 
@@ -2292,25 +2296,24 @@ import doorstepConsultation from "../assets/tailoring/tailoring1.jpg";
 import measurementsCollection from "../assets/tailoring/tailoring2.jpg";
 import doorstepDelivery from "../assets/tailoring/tailoring3.jpg";
 
-/* ================= CONFIG ================= */
+/* ================= PRICING CONFIG ================= */
 
 const LINING_PRICE = 300;
 
-const SPEED_PRICING = {
+const SPEED_PRICE_MAP = {
   standard: 0,
   express: 499,
   rapid: 999,
 };
 
-const RAPID_ELIGIBLE_PRODUCTS = ["Blouse Stitching"];
-
-/* ========================================= */
+/* ================================================== */
 
 export const TailoringHome = () => {
   const navigate = useNavigate();
   const { authState } = useAuth();
   const location = useLocation();
 
+  /* ---------- DATA FROM PREVIOUS PAGE ---------- */
   const {
     productName = "",
     productId = "",
@@ -2318,11 +2321,15 @@ export const TailoringHome = () => {
     productImageURL = "",
     owningAuthority = "",
     productPrice = 0,
+    supportsLining = false,
+    supportsRapidStitching = false,
   } = location.state || {};
 
   const { register, handleSubmit, setValue, control } = useForm();
 
+  /* ---------- STATE ---------- */
   const [appointmentDate, setAppointmentDate] = useState<string | null>(null);
+
   const [hasLining, setHasLining] = useState(false);
   const [stitchingSpeed, setStitchingSpeed] =
     useState<"standard" | "express" | "rapid">("standard");
@@ -2333,32 +2340,48 @@ export const TailoringHome = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentType, setPaymentType] = useState("");
 
+  const images = [doorstepConsultation, measurementsCollection, doorstepDelivery];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const { postData, responseData, error } =
     usePostData("/api/cc/tailoringOrder");
 
-  /* ================= PRICE LOGIC ================= */
+  /* ---------- PRICE CALCULATION (AUTO) ---------- */
+  const BASE_PRICE = Number(productPrice) || 0;
+  const liningPrice = supportsLining && hasLining ? LINING_PRICE : 0;
+  const speedPrice = SPEED_PRICE_MAP[stitchingSpeed] || 0;
+  const totalAmount = BASE_PRICE + liningPrice + speedPrice;
 
-  const basePrice = Number(productPrice) || 0;
-  const liningPrice = hasLining ? LINING_PRICE : 0;
-  const speedPrice = SPEED_PRICING[stitchingSpeed];
-  const totalAmount = basePrice + liningPrice + speedPrice;
+  /* ---------- DATE HANDLER ---------- */
+  const handleAppointmentDateChange = (date: Date | null) => {
+    if (!date) return;
+    const istDate = new Date(
+      date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+    );
+    const formatted = istDate.toISOString();
+    setAppointmentDate(formatted);
+    setValue("appointmentDate", formatted);
+  };
 
-  /* =============================================== */
-
+  /* ---------- SUBMIT ---------- */
   const onSubmit = (data: any) => {
     setIsSubmitting(true);
 
     data.productName = productName;
     data.productId = productId;
     data.productImageURL = productImageURL;
-    data.productPrice = basePrice;
+    data.productPrice = BASE_PRICE;
     data.owningAuthority = owningAuthority;
     data.stitchType = productCategory;
 
-    data.hasLining = hasLining;
+    data.hasLining = supportsLining ? hasLining : false;
     data.liningPrice = liningPrice;
-    data.stitchingSpeed = stitchingSpeed;
+
+    data.stitchingSpeed = supportsRapidStitching
+      ? stitchingSpeed
+      : "standard";
     data.speedPrice = speedPrice;
+
     data.totalAmount = totalAmount;
 
     setPaymentType(data.paymentType);
@@ -2366,8 +2389,7 @@ export const TailoringHome = () => {
     backendConnection(data);
   };
 
-  /* ================= PAYMENT ================= */
-
+  /* ---------- PAYMENT ---------- */
   const handlePayment = async (cc_order: number) => {
     const amount = totalAmount;
 
@@ -2421,38 +2443,29 @@ export const TailoringHome = () => {
     razorpay.open();
   };
 
-  /* ================= DATE ================= */
-
-  const handleAppointmentDateChange = (date: Date | null) => {
-    if (!date) return;
-    const istDate = new Date(
-      date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-    );
-    const formatted = istDate.toISOString();
-    setAppointmentDate(formatted);
-    setValue("appointmentDate", formatted);
-  };
-
-  /* ================= BACKEND ================= */
-
+  /* ---------- BACKEND ---------- */
   const backendConnection = async (data: any) => {
     if (data.customDesignImage?.length) {
       const formData = new FormData();
       for (let file of data.customDesignImage) {
         formData.append("photos", file);
       }
-
       const s3Response = await axios.post(
         "https://admee.in:3003/aws/upload",
         formData
       );
       data.customDesignImage = s3Response.data.imageURLs;
     }
-
     await postData(data);
   };
 
-  /* ================= RESPONSE ================= */
+  /* ---------- EFFECTS ---------- */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((i) => (i + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (responseData?.status === 201) {
@@ -2467,8 +2480,7 @@ export const TailoringHome = () => {
     if (error) setAnimationType("error");
   }, [responseData, error]);
 
-  /* ================= UI ================= */
-
+  /* ---------- UI ---------- */
   return (
     <Box p={5} maxW="1200px" mx="auto">
       {!showAnimation && (
@@ -2478,8 +2490,18 @@ export const TailoringHome = () => {
             Best Service at an Affordable Price!
           </Alert>
 
+          <Box mb={5}>
+            <Image
+              src={images[currentImageIndex]}
+              height="300px"
+              width="100%"
+              objectFit="cover"
+              borderRadius="md"
+            />
+          </Box>
+
           <Flex gap={6} direction={{ base: "column", lg: "row" }}>
-            <Box flex="1" p={5} bg="white" borderRadius="lg">
+            <Box flex="1" bg="white" p={5} borderRadius="lg">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack spacing={4} align="stretch">
                   <Heading size="lg" textAlign="center" color="pink.500">
@@ -2498,22 +2520,24 @@ export const TailoringHome = () => {
                     </Flex>
                   )}
 
-                  {/* Lining */}
-                  <FormControl>
-                    <FormLabel fontWeight="bold">Lining</FormLabel>
-                    <RadioGroup
-                      value={hasLining ? "yes" : "no"}
-                      onChange={(v) => setHasLining(v === "yes")}
-                    >
-                      <HStack>
-                        <Radio value="no">Without Lining</Radio>
-                        <Radio value="yes">With Lining (+₹300)</Radio>
-                      </HStack>
-                    </RadioGroup>
-                  </FormControl>
+                  {/* 🧵 Lining */}
+                  {supportsLining && (
+                    <FormControl>
+                      <FormLabel fontWeight="bold">Lining</FormLabel>
+                      <RadioGroup
+                        value={hasLining ? "yes" : "no"}
+                        onChange={(v) => setHasLining(v === "yes")}
+                      >
+                        <HStack>
+                          <Radio value="no">Without lining</Radio>
+                          <Radio value="yes">With lining (+₹300)</Radio>
+                        </HStack>
+                      </RadioGroup>
+                    </FormControl>
+                  )}
 
-                  {/* Speed */}
-                  {RAPID_ELIGIBLE_PRODUCTS.includes(productName) && (
+                  {/* ⚡ Speed */}
+                  {supportsRapidStitching && (
                     <FormControl>
                       <FormLabel fontWeight="bold">Stitching Speed</FormLabel>
                       <RadioGroup
@@ -2529,17 +2553,53 @@ export const TailoringHome = () => {
                     </FormControl>
                   )}
 
-                  {/* Price */}
+                  {/* PRICE SUMMARY */}
                   <Box p={4} bg="pink.50" borderRadius="md">
                     <HStack justify="space-between">
-                      <Text>Total</Text>
+                      <Text>Total Amount</Text>
                       <Text fontWeight="bold" color="pink.600">
                         ₹{totalAmount}
                       </Text>
                     </HStack>
                   </Box>
 
-                  {/* Payment */}
+                  {/* EXISTING FORM FIELDS CONTINUE BELOW (UNCHANGED) */}
+                  <FormControl>
+                    <FormLabel>Name</FormLabel>
+                    <Input {...register("name")} required />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel>Email</FormLabel>
+                    <Input {...register("email")} required />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel>Phone</FormLabel>
+                    <Input {...register("phone")} required />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel>Address</FormLabel>
+                    <Textarea {...register("address")} required />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel>Appointment Date</FormLabel>
+                    <Controller
+                      name="appointmentDate"
+                      control={control}
+                      render={() => (
+                        <DatePicker
+                          selected={appointmentDate ? new Date(appointmentDate) : null}
+                          onChange={handleAppointmentDateChange}
+                          minDate={new Date()}
+                          dateFormat="dd/MM/yyyy"
+                        />
+                      )}
+                    />
+                  </FormControl>
+
                   <Controller
                     name="paymentType"
                     control={control}
