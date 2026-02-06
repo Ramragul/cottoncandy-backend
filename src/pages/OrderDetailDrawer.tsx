@@ -1,4 +1,4 @@
-import '../css/OrderDetailDrawer';
+import '../css/OrderDetailDrawer.css';
 import { getStatusColor } from '../utils/orderStatus';
 
 type Props = {

@@ -2,7 +2,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { getStatusColor } from '../utils/orderStatus';
-import '../css/YourTailoringOrdersPage'
+import '../css/YourTailoringOrdersPage.css'
 import OrderDetailDrawer from './OrderDetailDrawer';
 
 type Order = {
