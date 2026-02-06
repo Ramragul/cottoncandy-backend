@@ -56,7 +56,7 @@ export const OrderDetailDrawer = ({ order, onClose }: Props) => {
 
         {/* DETAILS */}
         <div className="drawer-section">
-          <h4>Tailoring Details</h4>
+          <h4>Tailoring Detail</h4>
           <p><b>Stitch Option:</b> {order.stitch_option}</p>
           <p><b>City:</b> {order.city}</p>
           <p><b>Appointment:</b> {new Date(order.order_date).toLocaleDateString()}</p>
