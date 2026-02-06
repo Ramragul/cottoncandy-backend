@@ -41,6 +41,9 @@ const productCategory = product.ProductCategory;
 const productImageURL = product.ProductImageURL;
 const owningAuthority = product.OwningAuthority;
 const productPrice = product.ProductPrice;
+const supportsLining = product.SupportsLining;
+const supportsRapidStitching  = product.SupportsRapidStitching;
+
 
 //("Product Category Value from tailoring product details page " +productCategory)
 console.log("Owning Authority from  Product Details Page" +owningAuthority)
@@ -57,7 +60,7 @@ console.log("Owning Authority from  Product Details Page" +owningAuthority)
   };
 
 const handleClick = () => {
-  navigate('/tailoringHome' , {state: {productName , productId , productCategory, productImageURL, owningAuthority, productPrice}})
+  navigate('/tailoringHome' , {state: {productName , productId , productCategory, productImageURL, owningAuthority, productPrice, supportsLining, supportsRapidStitching}})
 }
 
   return (
