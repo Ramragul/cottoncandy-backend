@@ -4,6 +4,7 @@ import axios from 'axios';
 import { getStatusColor } from '../utils/orderStatus';
 import './YourTailoringOrdersPage.css';
 import '../css/YourTailoringOrdersPage'
+import OrderDetailDrawer from './OrderDetailDrawer';
 
 type Order = {
   order_id: number;
