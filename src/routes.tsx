@@ -326,7 +326,7 @@ export const routes = [
   //   name: "razorpay",
   //   path: "/razor-pay",
   //   element: <RazorPay/>,
-  //   visible: false,
+  //   visible: true,
   // },
 
 
