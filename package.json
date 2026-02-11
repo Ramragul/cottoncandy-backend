@@ -13,8 +13,14 @@
     "clean": "rimraf build"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.2",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.4.5",
+    "@capacitor/core": "^8.0.2",
     "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^2.10.2",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@heroicons/react": "^2.1.3",
     "@types/react-lottie": "^1.2.10",
     "axios": "^1.7.2",
