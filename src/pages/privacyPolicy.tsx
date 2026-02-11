@@ -58,7 +58,7 @@ export const PrivacyPolicy: React.FC = () => {
       <p>
         SNEKTO <br />
         Website: https://cottoncandy.co.in <br />
-        Email: support@cottoncandy.co.in
+        Phone: +91 9629705557
       </p>
     </div>
   );

@@ -475,7 +475,7 @@ export const Home = () => {
         textAlign="center"
       >
         {[
-          { img: TailoringImg, label: "Tailoring", link: "/tailoringCatalogue" },
+          // { img: TailoringImg, label: "Tailoring", link: "/tailoringCatalogue" },
           { img: RentalImg, label: "Clothing Rentals", link: "/rentalCatalogue?productType=Apparel" },
           { img: JewelleryImg, label: "Fashion Jewellery", link: "/rentalCatalogue?productType=Jewellery" },
          // { img: CoverPic2, label: "Fashion Hub", link: "/service/landing/page" },
