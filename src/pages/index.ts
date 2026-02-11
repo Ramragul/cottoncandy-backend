@@ -45,3 +45,4 @@ export * from "./ProductManager";
 export * from "./productManagerMain";
 export * from "./productManagerWrapper";
 export * from "./yourTailoringOrdersPage";
+export * from "./privacyPolicy";
