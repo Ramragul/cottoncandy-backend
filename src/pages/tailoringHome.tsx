@@ -2490,7 +2490,7 @@ export const TailoringHome = () => {
             Best Service at an Affordable Price!
           </Alert> */}
 
-          <Box mb={5}>
+          {/* <Box mb={5}>
             <Image
               src={images[currentImageIndex]}
               height="300px"
@@ -2498,7 +2498,20 @@ export const TailoringHome = () => {
               objectFit="cover"
               borderRadius="md"
             />
+          </Box> */}
+          <Box
+            mb={5}
+            mx={{ base: "-20px", md: "0" }} // removes side padding on mobile
+          >
+            <Image
+              src={images[currentImageIndex]}
+              w="100%"
+              h={{ base: "220px", md: "300px" }}
+              objectFit="cover"
+              borderRadius={{ base: "0", md: "12px" }}
+            />
           </Box>
+
 
           <Flex gap={6} direction={{ base: "column", lg: "row" }}>
             <Box flex="1" bg="white" p={5} borderRadius="lg">
