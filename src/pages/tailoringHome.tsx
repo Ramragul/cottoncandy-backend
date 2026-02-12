@@ -2286,9 +2286,8 @@ export const TailoringHome = () => {
                         }}
                       >
                         <option value="Chennai">Chennai</option>
-                        {/* Future Cities */}
-                        {/* <option value="Coimbatore">Coimbatore</option> */}
-                        {/* <option value="Bangalore">Bangalore</option> */}
+                        <option value="Coimbatore">Coimbatore</option>
+                        <option value="Bangalore">Bangalore</option>
                       </Select>
 
                       {/* Custom Arrow */}
