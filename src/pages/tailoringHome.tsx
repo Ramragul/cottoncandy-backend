@@ -1266,7 +1266,517 @@
 
 
 
-// Version 3 : Design Enhancement Version to 2
+// Version 3 : Design Enhancement Version to 2 -> working version 
+
+// import React, { useState, useEffect } from "react";
+// import {
+//   Box,
+//   Button,
+//   Flex,
+//   FormControl,
+//   FormLabel,
+//   Input,
+//   InputGroup,
+//   InputLeftElement,
+//   Textarea,
+//   VStack,
+//   Heading,
+//   Text,
+//   Image,
+//   Divider,
+//   Alert,
+//   AlertIcon,
+//   Radio,
+//   RadioGroup,
+//   HStack,
+// } from "@chakra-ui/react";
+// import { FaUser, FaEnvelope, FaPhone, FaClock, FaGlobe } from "react-icons/fa";
+// import { MdCheckCircle } from "react-icons/md";
+
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+// import "../css/DatePicker.css";
+
+// import { useForm, Controller } from "react-hook-form";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import axios from "axios";
+
+// import Lottie from "react-lottie";
+// import successAnimation from "../animations/success.json";
+// import errorAnimation from "../animations/error.json";
+// import loadingAnimation from "../animations/loading.json";
+
+// import { useAuth } from "../contexts/AuthContext";
+// import usePostData from "../hooks/usePostData";
+
+// import doorstepConsultation from "../assets/tailoring/tailoring1.jpg";
+// import measurementsCollection from "../assets/tailoring/tailoring2.jpg";
+// import doorstepDelivery from "../assets/tailoring/tailoring3.jpg";
+
+// /* ================= PRICING CONFIG ================= */
+
+// const LINING_PRICE = 300;
+
+// const SPEED_PRICE_MAP = {
+//   standard: 0,
+//   express: 499,
+//   rapid: 999,
+// };
+
+// /* ================================================== */
+
+// export const TailoringHome = () => {
+//   const navigate = useNavigate();
+//   const { authState } = useAuth();
+//   const location = useLocation();
+
+//   /* ---------- DATA FROM PREVIOUS PAGE ---------- */
+//   const {
+//     productName = "",
+//     productId = "",
+//     productCategory = "",
+//     productImageURL = "",
+//     owningAuthority = "",
+//     productPrice = 0,
+//     supportsLining = false,
+//     supportsRapidStitching = false,
+//   } = location.state || {};
+
+//   const { register, handleSubmit, setValue, control } = useForm();
+
+//   /* ---------- STATE ---------- */
+//   const [appointmentDate, setAppointmentDate] = useState<string | null>(null);
+
+//   const [hasLining, setHasLining] = useState(false);
+//   const [stitchingSpeed, setStitchingSpeed] =
+//     useState<"standard" | "express" | "rapid">("standard");
+
+//   const [showAnimation, setShowAnimation] = useState(false);
+//   const [animationType, setAnimationType] =
+//     useState<"success" | "error" | "loading" | null>(null);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [paymentType, setPaymentType] = useState("");
+
+//   const images = [doorstepConsultation, measurementsCollection, doorstepDelivery];
+//   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+//   const { postData, responseData, error } =
+//     usePostData("/api/cc/tailoringOrder");
+
+//   /* ---------- PRICE CALCULATION (AUTO) ---------- */
+//   const BASE_PRICE = Number(productPrice) || 0;
+//   const liningPrice = supportsLining && hasLining ? LINING_PRICE : 0;
+//   const speedPrice = SPEED_PRICE_MAP[stitchingSpeed] || 0;
+//   const totalAmount = BASE_PRICE + liningPrice + speedPrice;
+
+//   /* ---------- DATE HANDLER ---------- */
+//   const handleAppointmentDateChange = (date: Date | null) => {
+//     if (!date) return;
+//     const istDate = new Date(
+//       date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+//     );
+//     const formatted = istDate.toISOString();
+//     setAppointmentDate(formatted);
+//     setValue("appointmentDate", formatted);
+//   };
+
+//   /* ---------- SUBMIT ---------- */
+//   const onSubmit = (data: any) => {
+//     setIsSubmitting(true);
+
+//     data.productName = productName;
+//     data.productId = productId;
+//     data.productImageURL = productImageURL;
+//     data.productPrice = BASE_PRICE;
+//     data.owningAuthority = owningAuthority;
+//     data.stitchType = productCategory;
+
+//     data.hasLining = supportsLining ? hasLining : false;
+//     data.liningPrice = liningPrice;
+
+//     data.stitchingSpeed = supportsRapidStitching
+//       ? stitchingSpeed
+//       : "standard";
+//     data.speedPrice = speedPrice;
+
+//     data.totalAmount = totalAmount;
+
+//     setPaymentType(data.paymentType);
+
+//     backendConnection(data);
+//   };
+
+//   /* ---------- PAYMENT ---------- */
+//   const handlePayment = async (cc_order: number) => {
+//     const amount = totalAmount;
+
+//     const response = await fetch(
+//       "https://admee.in:3003/api/cc/create-order",
+//       {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ amount }),
+//       }
+//     );
+
+//     const { orderId } = await response.json();
+
+//     const options = {
+//       key: "rzp_live_eRPZbHTMQV50Ws",
+//       amount: amount * 100,
+//       currency: "INR",
+//       name: "Cotton Candy",
+//       description: "Tailoring Order Payment",
+//       order_id: orderId,
+//       handler: async (response: any) => {
+//         if (response.razorpay_payment_id) {
+//           await fetch(
+//             `https://admee.in:3003/api/cc/order/${cc_order}/payment`,
+//             {
+//               method: "POST",
+//               headers: { "Content-Type": "application/json" },
+//               body: JSON.stringify({
+//                 orderId,
+//                 paymentScenario: "tailoring",
+//                 paymentId: response.razorpay_payment_id,
+//                 signature: response.razorpay_signature,
+//               }),
+//             }
+//           );
+//           setShowAnimation(true);
+//           setAnimationType("success");
+//           setTimeout(() => navigate("/home"), 2000);
+//         }
+//       },
+//       prefill: {
+//         name: authState?.userName || "User",
+//         email: authState?.userEmail || "user@email.com",
+//         contact: "9000000000",
+//       },
+//       theme: { color: "#b365c7" },
+//     };
+
+//     const razorpay = new (window as any).Razorpay(options);
+//     razorpay.open();
+//   };
+
+//   /* ---------- BACKEND ---------- */
+//   const backendConnection = async (data: any) => {
+//     if (data.customDesignImage?.length) {
+//       const formData = new FormData();
+//       for (let file of data.customDesignImage) {
+//         formData.append("photos", file);
+//       }
+//       const s3Response = await axios.post(
+//         "https://admee.in:3003/aws/upload",
+//         formData
+//       );
+//       data.customDesignImage = s3Response.data.imageURLs;
+//     }
+//     await postData(data);
+//   };
+
+//   /* ---------- EFFECTS ---------- */
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setCurrentImageIndex((i) => (i + 1) % images.length);
+//     }, 3000);
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   useEffect(() => {
+//     if (responseData?.status === 201) {
+//       if (paymentType === "payNow") {
+//         handlePayment(responseData.orderId);
+//       } else {
+//         setShowAnimation(true);
+//         setAnimationType("success");
+//         setTimeout(() => navigate("/home"), 2000);
+//       }
+//     }
+//     if (error) setAnimationType("error");
+//   }, [responseData, error]);
+
+//   /* ---------- UI ---------- */
+//   return (
+//     <Box
+//       minH="100vh"
+//       bg="linear-gradient(135deg, #f9fcff 0%, #ffffff 40%, #fff5f9 100%)"
+//       py={10}
+//       px={4}
+//     >
+//       {!showAnimation && (
+//         <>
+//           {/* HERO IMAGE */}
+//           <Box
+//             mb={8}
+//             maxW="1200px"
+//             mx="auto"
+//             borderRadius="20px"
+//             overflow="hidden"
+//             boxShadow="0 20px 60px rgba(0,0,0,0.08)"
+//           >
+//             <Image
+//               src={images[currentImageIndex]}
+//               w="100%"
+//               h={{ base: "240px", md: "340px" }}
+//               objectFit="cover"
+//               transition="all 0.5s ease"
+//             />
+//           </Box>
+  
+//           <Flex
+//             maxW="1200px"
+//             mx="auto"
+//             direction={{ base: "column", lg: "row" }}
+//             gap={8}
+//           >
+//             <Box
+//               flex="1"
+//               bg="rgba(255,255,255,0.85)"
+//               backdropFilter="blur(10px)"
+//               borderRadius="24px"
+//               p={{ base: 6, md: 10 }}
+//               boxShadow="0 30px 80px rgba(0,0,0,0.06)"
+//               border="1px solid rgba(255,192,203,0.2)"
+//             >
+//               <form onSubmit={handleSubmit(onSubmit)}>
+//                 <VStack spacing={6} align="stretch">
+//                   <Heading
+//                     size="lg"
+//                     textAlign="center"
+//                     bgGradient="linear(to-r, pink.400, blue.400)"
+//                     bgClip="text"
+//                     fontWeight="extrabold"
+//                     letterSpacing="wide"
+//                   >
+//                     Premium Tailoring Appointment
+//                   </Heading>
+  
+//                   {/* PRODUCT DISPLAY */}
+//                   {productName && (
+//                     <Flex
+//                       gap={5}
+//                       p={4}
+//                       borderRadius="16px"
+//                       bg="white"
+//                       boxShadow="0 10px 40px rgba(0,0,0,0.05)"
+//                       align="center"
+//                     >
+//                       <Image
+//                         src={productImageURL}
+//                         boxSize="90px"
+//                         borderRadius="12px"
+//                         objectFit="cover"
+//                       />
+//                       <Box>
+//                         <Text fontSize="sm" color="gray.500">
+//                           Selected Design
+//                         </Text>
+//                         <Text fontWeight="bold" fontSize="lg">
+//                           {productName}
+//                         </Text>
+//                       </Box>
+//                     </Flex>
+//                   )}
+  
+//                   {/* LINING */}
+//                   {supportsLining && (
+//                     <FormControl>
+//                       <FormLabel fontWeight="semibold">
+//                         Lining Enhancement
+//                       </FormLabel>
+//                       <RadioGroup
+//                         value={hasLining ? "yes" : "no"}
+//                         onChange={(v) => setHasLining(v === "yes")}
+//                       >
+//                         <HStack spacing={6}>
+//                           <Radio value="no">Without lining</Radio>
+//                           <Radio value="yes" colorScheme="pink">
+//                             With premium lining (+₹300)
+//                           </Radio>
+//                         </HStack>
+//                       </RadioGroup>
+//                     </FormControl>
+//                   )}
+  
+//                   {/* SPEED */}
+//                   {supportsRapidStitching && (
+//                     <FormControl>
+//                       <FormLabel fontWeight="semibold">
+//                         Delivery Priority
+//                       </FormLabel>
+//                       <RadioGroup
+//                         value={stitchingSpeed}
+//                         onChange={(v: any) => setStitchingSpeed(v)}
+//                       >
+//                         <VStack align="start" spacing={3}>
+//                           <Radio value="standard">
+//                             Standard – 5–7 Days
+//                           </Radio>
+//                           <Radio value="express" colorScheme="blue">
+//                             Express – Next Day (+₹499)
+//                           </Radio>
+//                           <Radio value="rapid" colorScheme="pink">
+//                             Rapid – 2 Hours (+₹999)
+//                           </Radio>
+//                         </VStack>
+//                       </RadioGroup>
+//                     </FormControl>
+//                   )}
+  
+//                   {/* PRICE CARD */}
+//                   <Box
+//                     p={6}
+//                     borderRadius="18px"
+//                     bgGradient="linear(to-r, pink.50, blue.50)"
+//                     boxShadow="0 15px 40px rgba(0,0,0,0.05)"
+//                   >
+//                     <HStack justify="space-between">
+//                       <Text fontSize="lg" fontWeight="medium">
+//                         Total Investment
+//                       </Text>
+//                       <Text
+//                         fontSize="2xl"
+//                         fontWeight="extrabold"
+//                         bgGradient="linear(to-r, pink.500, blue.500)"
+//                         bgClip="text"
+//                       >
+//                         ₹{totalAmount}
+//                       </Text>
+//                     </HStack>
+//                   </Box>
+  
+//                   {/* FORM FIELDS */}
+//                   <FormControl>
+//                     <FormLabel>Full Name</FormLabel>
+//                     <Input
+//                       {...register("name")}
+//                       required
+//                       borderRadius="12px"
+//                       focusBorderColor="pink.400"
+//                     />
+//                   </FormControl>
+  
+//                   <FormControl>
+//                     <FormLabel>Email Address</FormLabel>
+//                     <Input
+//                       {...register("email")}
+//                       required
+//                       borderRadius="12px"
+//                       focusBorderColor="blue.400"
+//                     />
+//                   </FormControl>
+  
+//                   <FormControl>
+//                     <FormLabel>Phone Number</FormLabel>
+//                     <Input
+//                       {...register("phone")}
+//                       required
+//                       borderRadius="12px"
+//                       focusBorderColor="pink.400"
+//                     />
+//                   </FormControl>
+  
+//                   <FormControl>
+//                     <FormLabel>Complete Address</FormLabel>
+//                     <Textarea
+//                       {...register("address")}
+//                       required
+//                       borderRadius="12px"
+//                       focusBorderColor="blue.400"
+//                     />
+//                   </FormControl>
+  
+//                   <FormControl>
+//                     <FormLabel>Appointment Date</FormLabel>
+//                     <Controller
+//                       name="appointmentDate"
+//                       control={control}
+//                       render={() => (
+//                         <DatePicker
+//                           selected={
+//                             appointmentDate
+//                               ? new Date(appointmentDate)
+//                               : null
+//                           }
+//                           onChange={handleAppointmentDateChange}
+//                           minDate={new Date()}
+//                           dateFormat="dd/MM/yyyy"
+//                         />
+//                       )}
+//                     />
+//                   </FormControl>
+  
+//                   <Controller
+//                     name="paymentType"
+//                     control={control}
+//                     defaultValue="cod"
+//                     render={({ field }) => (
+//                       <RadioGroup {...field}>
+//                         <HStack spacing={8}>
+//                           <Radio value="payNow" colorScheme="pink">
+//                             Pay Now
+//                           </Radio>
+//                           <Radio value="cod" colorScheme="blue">
+//                             Cash on Delivery
+//                           </Radio>
+//                         </HStack>
+//                       </RadioGroup>
+//                     )}
+//                   />
+  
+//                   <Button
+//                     type="submit"
+//                     size="lg"
+//                     borderRadius="16px"
+//                     bgGradient="linear(to-r, pink.400, blue.400)"
+//                     color="white"
+//                     _hover={{
+//                       bgGradient:
+//                         "linear(to-r, pink.500, blue.500)",
+//                       transform: "translateY(-2px)",
+//                       boxShadow:
+//                         "0 15px 40px rgba(0,0,0,0.15)",
+//                     }}
+//                     transition="all 0.3s ease"
+//                     isDisabled={isSubmitting}
+//                   >
+//                     {isSubmitting
+//                       ? "Processing..."
+//                       : "Confirm Luxury Stitching"}
+//                   </Button>
+//                 </VStack>
+//               </form>
+//             </Box>
+//           </Flex>
+//         </>
+//       )}
+  
+//       {showAnimation && (
+//         <Box textAlign="center" mt={20}>
+//           <Lottie
+//             options={{
+//               loop: false,
+//               autoplay: true,
+//               animationData:
+//                 animationType === "success"
+//                   ? successAnimation
+//                   : errorAnimation,
+//             }}
+//             height={170}
+//           />
+//         </Box>
+//       )}
+//     </Box>
+//   );
+// };
+
+// export default TailoringHome;
+
+
+
+// Version 4 : Enhancements to version 2 
 
 import React, { useState, useEffect } from "react";
 import {
@@ -1276,22 +1786,15 @@ import {
   FormControl,
   FormLabel,
   Input,
-  InputGroup,
-  InputLeftElement,
   Textarea,
   VStack,
   Heading,
   Text,
   Image,
-  Divider,
-  Alert,
-  AlertIcon,
   Radio,
   RadioGroup,
   HStack,
 } from "@chakra-ui/react";
-import { FaUser, FaEnvelope, FaPhone, FaClock, FaGlobe } from "react-icons/fa";
-import { MdCheckCircle } from "react-icons/md";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -1330,7 +1833,6 @@ export const TailoringHome = () => {
   const { authState } = useAuth();
   const location = useLocation();
 
-  /* ---------- DATA FROM PREVIOUS PAGE ---------- */
   const {
     productName = "",
     productId = "",
@@ -1344,9 +1846,7 @@ export const TailoringHome = () => {
 
   const { register, handleSubmit, setValue, control } = useForm();
 
-  /* ---------- STATE ---------- */
   const [appointmentDate, setAppointmentDate] = useState<string | null>(null);
-
   const [hasLining, setHasLining] = useState(false);
   const [stitchingSpeed, setStitchingSpeed] =
     useState<"standard" | "express" | "rapid">("standard");
@@ -1363,13 +1863,11 @@ export const TailoringHome = () => {
   const { postData, responseData, error } =
     usePostData("/api/cc/tailoringOrder");
 
-  /* ---------- PRICE CALCULATION (AUTO) ---------- */
   const BASE_PRICE = Number(productPrice) || 0;
   const liningPrice = supportsLining && hasLining ? LINING_PRICE : 0;
   const speedPrice = SPEED_PRICE_MAP[stitchingSpeed] || 0;
   const totalAmount = BASE_PRICE + liningPrice + speedPrice;
 
-  /* ---------- DATE HANDLER ---------- */
   const handleAppointmentDateChange = (date: Date | null) => {
     if (!date) return;
     const istDate = new Date(
@@ -1380,7 +1878,6 @@ export const TailoringHome = () => {
     setValue("appointmentDate", formatted);
   };
 
-  /* ---------- SUBMIT ---------- */
   const onSubmit = (data: any) => {
     setIsSubmitting(true);
 
@@ -1402,11 +1899,9 @@ export const TailoringHome = () => {
     data.totalAmount = totalAmount;
 
     setPaymentType(data.paymentType);
-
     backendConnection(data);
   };
 
-  /* ---------- PAYMENT ---------- */
   const handlePayment = async (cc_order: number) => {
     const amount = totalAmount;
 
@@ -1453,14 +1948,13 @@ export const TailoringHome = () => {
         email: authState?.userEmail || "user@email.com",
         contact: "9000000000",
       },
-      theme: { color: "#b365c7" },
+      theme: { color: "#f4b6c2" },
     };
 
     const razorpay = new (window as any).Razorpay(options);
     razorpay.open();
   };
 
-  /* ---------- BACKEND ---------- */
   const backendConnection = async (data: any) => {
     if (data.customDesignImage?.length) {
       const formData = new FormData();
@@ -1476,11 +1970,10 @@ export const TailoringHome = () => {
     await postData(data);
   };
 
-  /* ---------- EFFECTS ---------- */
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((i) => (i + 1) % images.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
@@ -1497,277 +1990,254 @@ export const TailoringHome = () => {
     if (error) setAnimationType("error");
   }, [responseData, error]);
 
-  /* ---------- UI ---------- */
   return (
-    <Box
-      minH="100vh"
-      bg="linear-gradient(135deg, #f9fcff 0%, #ffffff 40%, #fff5f9 100%)"
-      py={10}
-      px={4}
-    >
-      {!showAnimation && (
-        <>
-          {/* HERO IMAGE */}
-          <Box
-            mb={8}
-            maxW="1200px"
-            mx="auto"
-            borderRadius="20px"
-            overflow="hidden"
-            boxShadow="0 20px 60px rgba(0,0,0,0.08)"
-          >
-            <Image
-              src={images[currentImageIndex]}
-              w="100%"
-              h={{ base: "240px", md: "340px" }}
-              objectFit="cover"
-              transition="all 0.5s ease"
-            />
-          </Box>
-  
-          <Flex
-            maxW="1200px"
-            mx="auto"
-            direction={{ base: "column", lg: "row" }}
-            gap={8}
-          >
+    <Box minH="100vh" bg="#fafcff" py={12} px={4}>
+      <Box maxW="1100px" mx="auto">
+        {!showAnimation && (
+          <>
             <Box
-              flex="1"
-              bg="rgba(255,255,255,0.85)"
-              backdropFilter="blur(10px)"
-              borderRadius="24px"
-              p={{ base: 6, md: 10 }}
-              boxShadow="0 30px 80px rgba(0,0,0,0.06)"
-              border="1px solid rgba(255,192,203,0.2)"
+              mb={10}
+              borderRadius="28px"
+              overflow="hidden"
+              boxShadow="0 40px 100px rgba(0,0,0,0.08)"
             >
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <VStack spacing={6} align="stretch">
-                  <Heading
-                    size="lg"
-                    textAlign="center"
-                    bgGradient="linear(to-r, pink.400, blue.400)"
-                    bgClip="text"
-                    fontWeight="extrabold"
-                    letterSpacing="wide"
-                  >
-                    Premium Tailoring Appointment
-                  </Heading>
-  
-                  {/* PRODUCT DISPLAY */}
-                  {productName && (
-                    <Flex
-                      gap={5}
-                      p={4}
-                      borderRadius="16px"
-                      bg="white"
-                      boxShadow="0 10px 40px rgba(0,0,0,0.05)"
-                      align="center"
+              <Image
+                src={images[currentImageIndex]}
+                w="100%"
+                h={{ base: "240px", md: "340px" }}
+                objectFit="cover"
+              />
+            </Box>
+
+            <Flex direction="column">
+              <Box
+                bg="white"
+                p={{ base: 6, md: 10 }}
+                borderRadius="28px"
+                boxShadow="0 40px 120px rgba(0,0,0,0.06)"
+                border="1px solid rgba(244,182,194,0.25)"
+              >
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <VStack spacing={7} align="stretch">
+                    <Heading
+                      textAlign="center"
+                      fontSize={{ base: "24px", md: "30px" }}
+                      fontWeight="600"
+                      color="#e48aa1"
+                      letterSpacing="1px"
                     >
-                      <Image
-                        src={productImageURL}
-                        boxSize="90px"
-                        borderRadius="12px"
-                        objectFit="cover"
-                      />
-                      <Box>
-                        <Text fontSize="sm" color="gray.500">
-                          Selected Design
-                        </Text>
-                        <Text fontWeight="bold" fontSize="lg">
+                      Tailoring Appointment
+                    </Heading>
+
+                    {productName && (
+                      <Flex
+                        gap={5}
+                        p={5}
+                        borderRadius="20px"
+                        bg="#ffffff"
+                        boxShadow="0 15px 40px rgba(0,0,0,0.05)"
+                        align="center"
+                      >
+                        <Image
+                          src={productImageURL}
+                          boxSize="90px"
+                          borderRadius="16px"
+                          objectFit="cover"
+                        />
+                        <Text fontWeight="500" fontSize="lg">
                           {productName}
                         </Text>
-                      </Box>
-                    </Flex>
-                  )}
-  
-                  {/* LINING */}
-                  {supportsLining && (
+                      </Flex>
+                    )}
+
+                    {supportsLining && (
+                      <FormControl>
+                        <FormLabel fontWeight="500">Lining</FormLabel>
+                        <RadioGroup
+                          value={hasLining ? "yes" : "no"}
+                          onChange={(v) => setHasLining(v === "yes")}
+                        >
+                          <HStack spacing={8}>
+                            <Radio value="no">Without lining</Radio>
+                            <Radio value="yes" colorScheme="pink">
+                              With lining (+₹300)
+                            </Radio>
+                          </HStack>
+                        </RadioGroup>
+                      </FormControl>
+                    )}
+
+                    {supportsRapidStitching && (
+                      <FormControl>
+                        <FormLabel fontWeight="500">Stitching Speed</FormLabel>
+                        <RadioGroup
+                          value={stitchingSpeed}
+                          onChange={(v: any) => setStitchingSpeed(v)}
+                        >
+                          <VStack align="start" spacing={3}>
+                            <Radio value="standard">Standard – 5–7 Days</Radio>
+                            <Radio value="express" colorScheme="blue">
+                              Express – Next Day (+₹499)
+                            </Radio>
+                            <Radio value="rapid" colorScheme="pink">
+                              Rapid – 2 Hour Delivery (+₹999)
+                            </Radio>
+                          </VStack>
+                        </RadioGroup>
+                      </FormControl>
+                    )}
+
+                    <Box
+                      p={6}
+                      borderRadius="22px"
+                      bg="linear-gradient(145deg,#fff7fb,#f0f8ff)"
+                      boxShadow="0 15px 35px rgba(0,0,0,0.05)"
+                    >
+                      <HStack justify="space-between">
+                        <Text fontSize="lg">Total Amount</Text>
+                        <Text
+                          fontSize="2xl"
+                          fontWeight="600"
+                          color="#e48aa1"
+                        >
+                          ₹{totalAmount}
+                        </Text>
+                      </HStack>
+                    </Box>
+
                     <FormControl>
-                      <FormLabel fontWeight="semibold">
-                        Lining Enhancement
-                      </FormLabel>
-                      <RadioGroup
-                        value={hasLining ? "yes" : "no"}
-                        onChange={(v) => setHasLining(v === "yes")}
-                      >
-                        <HStack spacing={6}>
-                          <Radio value="no">Without lining</Radio>
-                          <Radio value="yes" colorScheme="pink">
-                            With premium lining (+₹300)
-                          </Radio>
-                        </HStack>
-                      </RadioGroup>
+                      <FormLabel>Name</FormLabel>
+                      <Input
+                        {...register("name")}
+                        required
+                        borderRadius="14px"
+                        border="1px solid #e8edf3"
+                        _focus={{
+                          borderColor: "#f4b6c2",
+                          boxShadow: "0 0 0 1px #f4b6c2",
+                        }}
+                      />
                     </FormControl>
-                  )}
-  
-                  {/* SPEED */}
-                  {supportsRapidStitching && (
+
                     <FormControl>
-                      <FormLabel fontWeight="semibold">
-                        Delivery Priority
-                      </FormLabel>
-                      <RadioGroup
-                        value={stitchingSpeed}
-                        onChange={(v: any) => setStitchingSpeed(v)}
-                      >
-                        <VStack align="start" spacing={3}>
-                          <Radio value="standard">
-                            Standard – 5–7 Days
-                          </Radio>
-                          <Radio value="express" colorScheme="blue">
-                            Express – Next Day (+₹499)
-                          </Radio>
-                          <Radio value="rapid" colorScheme="pink">
-                            Rapid – 2 Hours (+₹999)
-                          </Radio>
-                        </VStack>
-                      </RadioGroup>
+                      <FormLabel>Email</FormLabel>
+                      <Input
+                        {...register("email")}
+                        required
+                        borderRadius="14px"
+                        border="1px solid #e8edf3"
+                        _focus={{
+                          borderColor: "#bde0fe",
+                          boxShadow: "0 0 0 1px #bde0fe",
+                        }}
+                      />
                     </FormControl>
-                  )}
-  
-                  {/* PRICE CARD */}
-                  <Box
-                    p={6}
-                    borderRadius="18px"
-                    bgGradient="linear(to-r, pink.50, blue.50)"
-                    boxShadow="0 15px 40px rgba(0,0,0,0.05)"
-                  >
-                    <HStack justify="space-between">
-                      <Text fontSize="lg" fontWeight="medium">
-                        Total Investment
-                      </Text>
-                      <Text
-                        fontSize="2xl"
-                        fontWeight="extrabold"
-                        bgGradient="linear(to-r, pink.500, blue.500)"
-                        bgClip="text"
-                      >
-                        ₹{totalAmount}
-                      </Text>
-                    </HStack>
-                  </Box>
-  
-                  {/* FORM FIELDS */}
-                  <FormControl>
-                    <FormLabel>Full Name</FormLabel>
-                    <Input
-                      {...register("name")}
-                      required
-                      borderRadius="12px"
-                      focusBorderColor="pink.400"
-                    />
-                  </FormControl>
-  
-                  <FormControl>
-                    <FormLabel>Email Address</FormLabel>
-                    <Input
-                      {...register("email")}
-                      required
-                      borderRadius="12px"
-                      focusBorderColor="blue.400"
-                    />
-                  </FormControl>
-  
-                  <FormControl>
-                    <FormLabel>Phone Number</FormLabel>
-                    <Input
-                      {...register("phone")}
-                      required
-                      borderRadius="12px"
-                      focusBorderColor="pink.400"
-                    />
-                  </FormControl>
-  
-                  <FormControl>
-                    <FormLabel>Complete Address</FormLabel>
-                    <Textarea
-                      {...register("address")}
-                      required
-                      borderRadius="12px"
-                      focusBorderColor="blue.400"
-                    />
-                  </FormControl>
-  
-                  <FormControl>
-                    <FormLabel>Appointment Date</FormLabel>
+
+                    <FormControl>
+                      <FormLabel>Phone</FormLabel>
+                      <Input
+                        {...register("phone")}
+                        required
+                        borderRadius="14px"
+                        border="1px solid #e8edf3"
+                        _focus={{
+                          borderColor: "#f4b6c2",
+                          boxShadow: "0 0 0 1px #f4b6c2",
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormControl>
+                      <FormLabel>Address</FormLabel>
+                      <Textarea
+                        {...register("address")}
+                        required
+                        borderRadius="14px"
+                        border="1px solid #e8edf3"
+                        _focus={{
+                          borderColor: "#bde0fe",
+                          boxShadow: "0 0 0 1px #bde0fe",
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormControl>
+                      <FormLabel>Appointment Date</FormLabel>
+                      <Controller
+                        name="appointmentDate"
+                        control={control}
+                        render={() => (
+                          <DatePicker
+                            selected={
+                              appointmentDate
+                                ? new Date(appointmentDate)
+                                : null
+                            }
+                            onChange={handleAppointmentDateChange}
+                            minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
+                          />
+                        )}
+                      />
+                    </FormControl>
+
                     <Controller
-                      name="appointmentDate"
+                      name="paymentType"
                       control={control}
-                      render={() => (
-                        <DatePicker
-                          selected={
-                            appointmentDate
-                              ? new Date(appointmentDate)
-                              : null
-                          }
-                          onChange={handleAppointmentDateChange}
-                          minDate={new Date()}
-                          dateFormat="dd/MM/yyyy"
-                        />
+                      defaultValue="cod"
+                      render={({ field }) => (
+                        <RadioGroup {...field}>
+                          <HStack spacing={10}>
+                            <Radio value="payNow" colorScheme="pink">
+                              Pay Now
+                            </Radio>
+                            <Radio value="cod" colorScheme="blue">
+                              Cash on Delivery
+                            </Radio>
+                          </HStack>
+                        </RadioGroup>
                       )}
                     />
-                  </FormControl>
-  
-                  <Controller
-                    name="paymentType"
-                    control={control}
-                    defaultValue="cod"
-                    render={({ field }) => (
-                      <RadioGroup {...field}>
-                        <HStack spacing={8}>
-                          <Radio value="payNow" colorScheme="pink">
-                            Pay Now
-                          </Radio>
-                          <Radio value="cod" colorScheme="blue">
-                            Cash on Delivery
-                          </Radio>
-                        </HStack>
-                      </RadioGroup>
-                    )}
-                  />
-  
-                  <Button
-                    type="submit"
-                    size="lg"
-                    borderRadius="16px"
-                    bgGradient="linear(to-r, pink.400, blue.400)"
-                    color="white"
-                    _hover={{
-                      bgGradient:
-                        "linear(to-r, pink.500, blue.500)",
-                      transform: "translateY(-2px)",
-                      boxShadow:
-                        "0 15px 40px rgba(0,0,0,0.15)",
-                    }}
-                    transition="all 0.3s ease"
-                    isDisabled={isSubmitting}
-                  >
-                    {isSubmitting
-                      ? "Processing..."
-                      : "Confirm Luxury Stitching"}
-                  </Button>
-                </VStack>
-              </form>
-            </Box>
-          </Flex>
-        </>
-      )}
-  
-      {showAnimation && (
-        <Box textAlign="center" mt={20}>
-          <Lottie
-            options={{
-              loop: false,
-              autoplay: true,
-              animationData:
-                animationType === "success"
-                  ? successAnimation
-                  : errorAnimation,
-            }}
-            height={170}
-          />
-        </Box>
-      )}
+
+                    <Button
+                      type="submit"
+                      size="lg"
+                      borderRadius="18px"
+                      bg="#e48aa1"
+                      color="white"
+                      _hover={{
+                        bg: "#d97790",
+                        transform: "translateY(-2px)",
+                        boxShadow: "0 15px 40px rgba(0,0,0,0.15)",
+                      }}
+                      transition="all 0.3s ease"
+                      isDisabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Processing..." : "Place Order"}
+                    </Button>
+                  </VStack>
+                </form>
+              </Box>
+            </Flex>
+          </>
+        )}
+
+        {showAnimation && (
+          <Box textAlign="center" mt={20}>
+            <Lottie
+              options={{
+                loop: false,
+                autoplay: true,
+                animationData:
+                  animationType === "success"
+                    ? successAnimation
+                    : errorAnimation,
+              }}
+              height={170}
+            />
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };
