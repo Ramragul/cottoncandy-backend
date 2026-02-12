@@ -2485,10 +2485,10 @@ export const TailoringHome = () => {
     <Box p={5} maxW="1200px" mx="auto">
       {!showAnimation && (
         <>
-          <Alert status="success" mb={5}>
+          {/* <Alert status="success" mb={5}>
             <AlertIcon />
             Best Service at an Affordable Price!
-          </Alert>
+          </Alert> */}
 
           <Box mb={5}>
             <Image
