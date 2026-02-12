@@ -2253,26 +2253,44 @@ export const TailoringHome = () => {
                         }}
                       />
                     </FormControl>
+                    <FormControl position="relative">
+                    <Select
+                      {...register("city")}
+                      defaultValue="Chennai"
+                      placeholder=" "
+                      height="60px"
+                      borderRadius="16px"
+                      border="1px solid #e8edf3"
+                      bg="white"
+                      pt="20px"
+                      _focus={{
+                        borderColor: "#f4b6c2",
+                        boxShadow: "0 0 0 1px #f4b6c2",
+                      }}
+                      _hover={{
+                        borderColor: "#dbeafe",
+                      }}
+                    >
+                      <option value="Chennai">Chennai</option>
+                      {/* Future Cities */}
+                      {/* <option value="Coimbatore">Coimbatore</option> */}
+                      {/* <option value="Bangalore">Bangalore</option> */}
+                    </Select>
 
-                    <FormControl>
-                      <FormLabel>City</FormLabel>
+                    <FormLabel
+                      position="absolute"
+                      top="8px"
+                      left="14px"
+                      fontSize="12px"
+                      color="gray.500"
+                      bg="white"
+                      px="4px"
+                      pointerEvents="none"
+                    >
+                      City
+                    </FormLabel>
+                  </FormControl>
 
-                      <Select
-                        {...register("city")}
-                        defaultValue="Chennai"
-                        borderRadius="14px"
-                        border="1px solid #e8edf3"
-                        bg="white"
-                        _focus={{
-                          borderColor: "#bde0fe",
-                          boxShadow: "0 0 0 1px #bde0fe",
-                        }}
-                      >
-                        <option value="Chennai">Chennai</option>
-                        <option value="Coimbatore">Coimbatore</option>
-                        <option value="Bangalore">Bangalore</option>
-                      </Select>
-                    </FormControl>
 
 
                     <FormControl>
