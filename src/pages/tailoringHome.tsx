@@ -2049,7 +2049,7 @@ export const TailoringHome = () => {
                         </Text>
                       </Flex>
                     )}
-
+{/* 
                     {supportsLining && (
                       <FormControl>
                         <FormLabel fontWeight="500">Lining</FormLabel>
@@ -2085,7 +2085,64 @@ export const TailoringHome = () => {
                           </VStack>
                         </RadioGroup>
                       </FormControl>
+                    )} */}
+
+                    {/* CUSTOMIZATION BLOCK */}
+                <Box
+                  p={{ base: 5, md: 7 }}
+                  borderRadius="22px"
+                  bg="linear-gradient(145deg, #fff9fc, #f5fbff)"
+                  border="1px solid rgba(244,182,194,0.35)"
+                  boxShadow="0 12px 30px rgba(0,0,0,0.04)"
+                >
+                  <VStack spacing={6} align="stretch">
+
+                    {supportsLining && (
+                      <FormControl>
+                        <FormLabel fontWeight="600" fontSize="md">
+                          Lining Upgrade
+                        </FormLabel>
+                        <RadioGroup
+                          value={hasLining ? "yes" : "no"}
+                          onChange={(v) => setHasLining(v === "yes")}
+                        >
+                          <HStack spacing={8}>
+                            <Radio value="no">Without lining</Radio>
+                            <Radio value="yes" colorScheme="pink">
+                              With lining (+₹300)
+                            </Radio>
+                          </HStack>
+                        </RadioGroup>
+                      </FormControl>
                     )}
+
+                    {supportsRapidStitching && (
+                      <FormControl>
+                        <FormLabel fontWeight="600" fontSize="md">
+                          Delivery Priority
+                        </FormLabel>
+                        <RadioGroup
+                          value={stitchingSpeed}
+                          onChange={(v: any) => setStitchingSpeed(v)}
+                        >
+                          <VStack align="start" spacing={3}>
+                            <Radio value="standard">
+                              Standard – 5–7 Days
+                            </Radio>
+                            <Radio value="express" colorScheme="blue">
+                              Express – Next Day (+₹499)
+                            </Radio>
+                            <Radio value="rapid" colorScheme="pink">
+                              Rapid – 2 Hour Delivery (+₹999)
+                            </Radio>
+                          </VStack>
+                        </RadioGroup>
+                      </FormControl>
+                    )}
+
+                  </VStack>
+                </Box>
+
 
                     <Box
                       p={6}
