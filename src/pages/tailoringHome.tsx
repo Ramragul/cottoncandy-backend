@@ -2356,7 +2356,7 @@ export const TailoringHome = () => {
                         </MenuItem>
 
                         {/* Future Cities */}
-                        {/* 
+                        
                         <MenuItem
                           borderRadius="12px"
                           _hover={{ bg: "#fdf2f8" }}
@@ -2364,7 +2364,23 @@ export const TailoringHome = () => {
                         >
                           Coimbatore
                         </MenuItem>
-                        */}
+
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Banglore")}
+                        >
+                          Banglore
+                        </MenuItem>
+
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Trichy")}
+                        >
+                          Trichy
+                        </MenuItem>
+                       
                       </MenuList>
                     </Menu>
                   </FormControl>
