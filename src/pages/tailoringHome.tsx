@@ -2088,13 +2088,14 @@ export const TailoringHome = () => {
                     )} */}
 
                     {/* CUSTOMIZATION BLOCK */}
-                <Box
-                  p={{ base: 5, md: 7 }}
-                  borderRadius="22px"
-                  bg="linear-gradient(145deg, #fff9fc, #f5fbff)"
-                  border="1px solid rgba(244,182,194,0.35)"
-                  boxShadow="0 12px 30px rgba(0,0,0,0.04)"
-                >
+                    {(supportsLining || supportsRapidStitching) && (
+  <Box
+    p={{ base: 6, md: 8 }}
+    borderRadius="24px"
+    bg="white"
+    border="1px solid #f1f5f9"
+    boxShadow="0 20px 60px rgba(0,0,0,0.05)"
+  >
                   <VStack spacing={6} align="stretch">
 
                     {supportsLining && (
@@ -2142,6 +2143,7 @@ export const TailoringHome = () => {
 
                   </VStack>
                 </Box>
+               )}
 
 
                     <Box
@@ -2218,7 +2220,7 @@ export const TailoringHome = () => {
                       />
                     </FormControl>
 
-                    <FormControl>
+                    {/* <FormControl>
                       <FormLabel>Appointment Date</FormLabel>
                       <Controller
                         name="appointmentDate"
@@ -2236,7 +2238,43 @@ export const TailoringHome = () => {
                           />
                         )}
                       />
+                    </FormControl> */}
+
+                    <FormControl>
+                      <FormLabel fontWeight="500">Appointment Date</FormLabel>
+
+                      <Box
+                        border="1px solid #e8edf3"
+                        borderRadius="14px"
+                        px={4}
+                        py={2}
+                        bg="white"
+                        _focusWithin={{
+                          borderColor: "#f4b6c2",
+                          boxShadow: "0 0 0 1px #f4b6c2",
+                        }}
+                      >
+                        <Controller
+                          name="appointmentDate"
+                          control={control}
+                          render={() => (
+                            <DatePicker
+                              selected={
+                                appointmentDate
+                                  ? new Date(appointmentDate)
+                                  : null
+                              }
+                              onChange={handleAppointmentDateChange}
+                              minDate={new Date()}
+                              dateFormat="dd/MM/yyyy"
+                              placeholderText="Select your preferred date"
+                              className="premium-datepicker"
+                            />
+                          )}
+                        />
+                      </Box>
                     </FormControl>
+
 
                     <Controller
                       name="paymentType"
