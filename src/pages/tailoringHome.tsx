@@ -1794,6 +1794,7 @@ import {
   Radio,
   RadioGroup,
   HStack,
+  Select,
 } from "@chakra-ui/react";
 
 import DatePicker from "react-datepicker";
@@ -1877,6 +1878,39 @@ export const TailoringHome = () => {
     setAppointmentDate(formatted);
     setValue("appointmentDate", formatted);
   };
+
+  const setTime = (hour: number, minute: number) => {
+    const date = new Date();
+    date.setHours(hour);
+    date.setMinutes(minute);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return date;
+  };
+  
+  const isToday = (date: Date | null) => {
+    if (!date) return false;
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+  
+  const getRoundedCurrentTime = () => {
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const remainder = minutes % 30;
+    const addMinutes = remainder === 0 ? 0 : 30 - remainder;
+  
+    now.setMinutes(minutes + addMinutes);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+  
+    return now;
+  };
+  
 
   const onSubmit = (data: any) => {
     setIsSubmitting(true);
@@ -2220,6 +2254,41 @@ export const TailoringHome = () => {
                       />
                     </FormControl>
 
+                    <FormControl>
+                      <FormLabel>City</FormLabel>
+
+                      <Select
+                        {...register("city")}
+                        defaultValue="Chennai"
+                        borderRadius="14px"
+                        border="1px solid #e8edf3"
+                        bg="white"
+                        _focus={{
+                          borderColor: "#bde0fe",
+                          boxShadow: "0 0 0 1px #bde0fe",
+                        }}
+                      >
+                        <option value="Chennai">Chennai</option>
+                        <option value="Coimbatore">Coimbatore</option>
+                        <option value="Bangalore">Bangalore</option>
+                      </Select>
+                    </FormControl>
+
+
+                    <FormControl>
+                      <FormLabel>Pincode</FormLabel>
+                      <Input
+                        {...register("pincode")}
+                        required
+                        borderRadius="14px"
+                        border="1px solid #e8edf3"
+                        _focus={{
+                          borderColor: "#bde0fe",
+                          boxShadow: "0 0 0 1px #bde0fe",
+                        }}
+                      />
+                    </FormControl>
+
                     {/* <FormControl>
                       <FormLabel>Appointment Date</FormLabel>
                       <Controller
@@ -2260,21 +2329,34 @@ export const TailoringHome = () => {
       name="appointmentDate"
       control={control}
       render={() => (
-        <DatePicker
-          selected={
-            appointmentDate
-              ? new Date(appointmentDate)
-              : null
-          }
-          onChange={handleAppointmentDateChange}
-          minDate={new Date()}
-          dateFormat="dd/MM/yyyy h:mm aa"
-          showTimeSelect
-          timeIntervals={15}
-          timeCaption="Time"
-          placeholderText="Select your preferred date & time"
-          className="premium-datepicker"
-        />
+      <DatePicker
+        selected={
+          appointmentDate
+            ? new Date(appointmentDate)
+            : null
+        }
+        onChange={handleAppointmentDateChange}
+        minDate={new Date()}
+        dateFormat="dd/MM/yyyy h:mm aa"
+        showTimeSelect
+        timeIntervals={30}
+        timeCaption="Time"
+        minTime={
+          isToday(
+            appointmentDate ? new Date(appointmentDate) : null
+          )
+            ? new Date(
+                Math.max(
+                  getRoundedCurrentTime().getTime(),
+                  setTime(10, 0).getTime()
+                )
+              )
+            : setTime(10, 0)
+        }
+        maxTime={setTime(19, 0)}
+        placeholderText="Select your preferred date & time"
+        className="premium-datepicker"
+      />
       )}
     />
   </Box>
