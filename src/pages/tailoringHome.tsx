@@ -1795,7 +1795,14 @@ import {
   RadioGroup,
   HStack,
   Select,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
+
+import { ChevronDownIcon } from "@chakra-ui/icons";
+
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -1847,6 +1854,7 @@ export const TailoringHome = () => {
 
   const { register, handleSubmit, setValue, control } = useForm();
 
+  const [selectedCity, setSelectedCity] = useState("Chennai");
   const [appointmentDate, setAppointmentDate] = useState<string | null>(null);
   const [hasLining, setHasLining] = useState(false);
   const [stitchingSpeed, setStitchingSpeed] =
@@ -1921,6 +1929,7 @@ export const TailoringHome = () => {
     data.productPrice = BASE_PRICE;
     data.owningAuthority = owningAuthority;
     data.stitchType = productCategory;
+    data.city = selectedCity;
 
     data.hasLining = supportsLining ? hasLining : false;
     data.liningPrice = liningPrice;
@@ -2254,7 +2263,7 @@ export const TailoringHome = () => {
                       />
                     </FormControl>
 
-                    <FormControl>
+                    {/* <FormControl>
                     <FormLabel
                       fontSize="sm"
                       fontWeight="600"
@@ -2290,7 +2299,7 @@ export const TailoringHome = () => {
                         <option value="Bangalore">Bangalore</option>
                       </Select>
 
-                      {/* Custom Arrow */}
+                
                       <Box
                         position="absolute"
                         right="16px"
@@ -2303,6 +2312,61 @@ export const TailoringHome = () => {
                         ▾
                       </Box>
                     </Box>
+                  </FormControl> */}
+
+
+                  <FormControl>
+                    <FormLabel
+                      fontSize="sm"
+                      fontWeight="600"
+                      color="gray.600"
+                    >
+                      City
+                    </FormLabel>
+
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        rightIcon={<ChevronDownIcon />}
+                        height="58px"
+                        borderRadius="18px"
+                        bg="white"
+                        border="1px solid #edf2f7"
+                        fontWeight="500"
+                        _hover={{ bg: "white", borderColor: "#dbeafe" }}
+                        _focus={{ borderColor: "#f4b6c2", boxShadow: "0 0 0 1px #f4b6c2" }}
+                        width="100%"
+                        textAlign="left"
+                      >
+                        {selectedCity}
+                      </MenuButton>
+
+                      <MenuList
+                        borderRadius="18px"
+                        boxShadow="0 20px 60px rgba(0,0,0,0.08)"
+                        border="1px solid #f1f5f9"
+                        py={2}
+                      >
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Chennai")}
+                        >
+                          Chennai
+                        </MenuItem>
+
+                        {/* Future Cities */}
+                        {/* 
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Coimbatore")}
+                        >
+                          Coimbatore
+                        </MenuItem>
+                        */}
+                      </MenuList>
+                    </Menu>
                   </FormControl>
 
 
