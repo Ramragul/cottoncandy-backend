@@ -2092,7 +2092,7 @@ export const TailoringHome = () => {
   <Box
     p={{ base: 6, md: 8 }}
     borderRadius="24px"
-    bg="white"
+    bg="linear-gradient(145deg, #fff9fc, #f5fbff)"
     border="1px solid #f1f5f9"
     boxShadow="0 20px 60px rgba(0,0,0,0.05)"
   >
@@ -2240,40 +2240,46 @@ export const TailoringHome = () => {
                       />
                     </FormControl> */}
 
-                    <FormControl>
-                      <FormLabel fontWeight="500">Appointment Date</FormLabel>
+<FormControl>
+  <FormLabel fontWeight="500">Appointment Date & Time</FormLabel>
 
-                      <Box
-                        border="1px solid #e8edf3"
-                        borderRadius="14px"
-                        px={4}
-                        py={2}
-                        bg="white"
-                        _focusWithin={{
-                          borderColor: "#f4b6c2",
-                          boxShadow: "0 0 0 1px #f4b6c2",
-                        }}
-                      >
-                        <Controller
-                          name="appointmentDate"
-                          control={control}
-                          render={() => (
-                            <DatePicker
-                              selected={
-                                appointmentDate
-                                  ? new Date(appointmentDate)
-                                  : null
-                              }
-                              onChange={handleAppointmentDateChange}
-                              minDate={new Date()}
-                              dateFormat="dd/MM/yyyy"
-                              placeholderText="Select your preferred date"
-                              className="premium-datepicker"
-                            />
-                          )}
-                        />
-                      </Box>
-                    </FormControl>
+  <Box
+    border="1px solid #e8edf3"
+    borderRadius="14px"
+    px={4}
+    py={3}
+    bg="white"
+    display="flex"
+    alignItems="center"
+    _focusWithin={{
+      borderColor: "#f4b6c2",
+      boxShadow: "0 0 0 1px #f4b6c2",
+    }}
+  >
+    <Controller
+      name="appointmentDate"
+      control={control}
+      render={() => (
+        <DatePicker
+          selected={
+            appointmentDate
+              ? new Date(appointmentDate)
+              : null
+          }
+          onChange={handleAppointmentDateChange}
+          minDate={new Date()}
+          dateFormat="dd/MM/yyyy h:mm aa"
+          showTimeSelect
+          timeIntervals={15}
+          timeCaption="Time"
+          placeholderText="Select your preferred date & time"
+          className="premium-datepicker"
+        />
+      )}
+    />
+  </Box>
+</FormControl>
+
 
 
                     <Controller
