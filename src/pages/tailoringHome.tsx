@@ -2092,43 +2092,6 @@ export const TailoringHome = () => {
                         </Text>
                       </Flex>
                     )}
-{/* 
-                    {supportsLining && (
-                      <FormControl>
-                        <FormLabel fontWeight="500">Lining</FormLabel>
-                        <RadioGroup
-                          value={hasLining ? "yes" : "no"}
-                          onChange={(v) => setHasLining(v === "yes")}
-                        >
-                          <HStack spacing={8}>
-                            <Radio value="no">Without lining</Radio>
-                            <Radio value="yes" colorScheme="pink">
-                              With lining (+₹300)
-                            </Radio>
-                          </HStack>
-                        </RadioGroup>
-                      </FormControl>
-                    )}
-
-                    {supportsRapidStitching && (
-                      <FormControl>
-                        <FormLabel fontWeight="500">Stitching Speed</FormLabel>
-                        <RadioGroup
-                          value={stitchingSpeed}
-                          onChange={(v: any) => setStitchingSpeed(v)}
-                        >
-                          <VStack align="start" spacing={3}>
-                            <Radio value="standard">Standard – 5–7 Days</Radio>
-                            <Radio value="express" colorScheme="blue">
-                              Express – Next Day (+₹499)
-                            </Radio>
-                            <Radio value="rapid" colorScheme="pink">
-                              Rapid – 2 Hour Delivery (+₹999)
-                            </Radio>
-                          </VStack>
-                        </RadioGroup>
-                      </FormControl>
-                    )} */}
 
                     {/* CUSTOMIZATION BLOCK */}
                     {(supportsLining || supportsRapidStitching) && (
@@ -2263,56 +2226,7 @@ export const TailoringHome = () => {
                       />
                     </FormControl>
 
-                    {/* <FormControl>
-                    <FormLabel
-                      fontSize="sm"
-                      fontWeight="600"
-                      color="gray.600"
-                      letterSpacing="0.5px"
-                    >
-                      City
-                    </FormLabel>
-
-                    <Box position="relative">
-                      <Select
-                        {...register("city")}
-                        defaultValue="Chennai"
-                        height="58px"
-                        borderRadius="18px"
-                        bg="white"
-                        border="1px solid #edf2f7"
-                        fontSize="15px"
-                        fontWeight="500"
-                        _hover={{
-                          borderColor: "#dbeafe",
-                        }}
-                        _focus={{
-                          borderColor: "#f4b6c2",
-                          boxShadow: "0 0 0 1px #f4b6c2",
-                        }}
-                        sx={{
-                          appearance: "none",
-                        }}
-                      >
-                        <option value="Chennai">Chennai</option>
-                        <option value="Coimbatore">Coimbatore</option>
-                        <option value="Bangalore">Bangalore</option>
-                      </Select>
-
-                
-                      <Box
-                        position="absolute"
-                        right="16px"
-                        top="50%"
-                        transform="translateY(-50%)"
-                        pointerEvents="none"
-                        color="gray.400"
-                        fontSize="14px"
-                      >
-                        ▾
-                      </Box>
-                    </Box>
-                  </FormControl> */}
+                   
 
 
                   <FormControl>
@@ -2400,25 +2314,7 @@ export const TailoringHome = () => {
                       />
                     </FormControl>
 
-                    {/* <FormControl>
-                      <FormLabel>Appointment Date</FormLabel>
-                      <Controller
-                        name="appointmentDate"
-                        control={control}
-                        render={() => (
-                          <DatePicker
-                            selected={
-                              appointmentDate
-                                ? new Date(appointmentDate)
-                                : null
-                            }
-                            onChange={handleAppointmentDateChange}
-                            minDate={new Date()}
-                            dateFormat="dd/MM/yyyy"
-                          />
-                        )}
-                      />
-                    </FormControl> */}
+
 
 <FormControl>
   <FormLabel fontWeight="500">Appointment Date & Time</FormLabel>
