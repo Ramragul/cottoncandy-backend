@@ -1083,6 +1083,8 @@
 
 // FULL WORKING TAILORING HOME WITH CUSTOMIZATION SUPPORT
 
+// FULL WORKING TAILORING HOME WITH CUSTOMIZATION (SAFE VERSION)
+
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -1136,6 +1138,7 @@ const SPEED_PRICE_MAP = {
 };
 
 export const TailoringHome = () => {
+
   const navigate = useNavigate();
   const { authState } = useAuth();
   const location = useLocation();
@@ -1212,7 +1215,7 @@ export const TailoringHome = () => {
 
       if (alreadySelected) {
         const updated = { ...prev };
-        delete updated[categoryId]; // UNSELECT
+        delete updated[categoryId];
         return updated;
       }
 
@@ -1231,6 +1234,7 @@ export const TailoringHome = () => {
   };
 
   const onSubmit = (data: any) => {
+
     data.productName = productName;
     data.productId = productId;
     data.productImageURL = productImageURL;
@@ -1296,6 +1300,7 @@ export const TailoringHome = () => {
             >
               <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack spacing={7} align="stretch">
+
                   <Heading textAlign="center" color="#e48aa1">
                     Tailoring Appointment
                   </Heading>
@@ -1314,11 +1319,12 @@ export const TailoringHome = () => {
                     </Flex>
                   )}
 
-                  {/* Toggle Customization */}
+                  {/* CUSTOMIZATION TOGGLE */}
                   {customizations.length > 0 && (
                     <Button
                       variant="outline"
                       colorScheme="pink"
+                      size="sm"
                       onClick={() =>
                         setShowCustomization(!showCustomization)
                       }
@@ -1329,7 +1335,7 @@ export const TailoringHome = () => {
                     </Button>
                   )}
 
-                  {/* Customization Section */}
+                  {/* CUSTOMIZATION SECTION */}
                   {showCustomization &&
                     customizations.map((category: any) => (
                       <FormControl key={category.CategoryID}>
@@ -1373,10 +1379,7 @@ export const TailoringHome = () => {
                                     {option.CustomizationName}
                                   </Text>
                                   {option.PriceAdjustment > 0 && (
-                                    <Text
-                                      fontSize="xs"
-                                      color="pink.500"
-                                    >
+                                    <Text fontSize="xs" color="pink.500">
                                       +₹{option.PriceAdjustment}
                                     </Text>
                                   )}
@@ -1388,7 +1391,27 @@ export const TailoringHome = () => {
                       </FormControl>
                     ))}
 
-                  {/* Total */}
+                  {/* EXISTING FORM FIELDS CONTINUE HERE EXACTLY AS BEFORE */}
+                  <FormControl>
+                    <FormLabel>Name</FormLabel>
+                    <Input {...register("name")} required />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel>Email</FormLabel>
+                    <Input {...register("email")} required />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel>Phone</FormLabel>
+                    <Input {...register("phone")} required />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel>Address</FormLabel>
+                    <Textarea {...register("address")} required />
+                  </FormControl>
+
                   <Box>
                     <Text fontSize="xl" fontWeight="bold">
                       Total Amount: ₹{totalAmount}
@@ -1398,6 +1421,7 @@ export const TailoringHome = () => {
                   <Button type="submit" colorScheme="pink">
                     Place Order
                   </Button>
+
                 </VStack>
               </form>
             </Box>
@@ -1425,4 +1449,5 @@ export const TailoringHome = () => {
 };
 
 export default TailoringHome;
+
 
