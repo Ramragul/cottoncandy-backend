@@ -1113,12 +1113,22 @@ import "../css/DatePicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+
+import Lottie from "react-lottie";
+import successAnimation from "../animations/success.json";
+import errorAnimation from "../animations/error.json";
+
 import { useAuth } from "../contexts/AuthContext";
 import usePostData from "../hooks/usePostData";
+
+import doorstepConsultation from "../assets/tailoring/tailoring1.jpg";
+import measurementsCollection from "../assets/tailoring/tailoring2.jpg";
+import doorstepDelivery from "../assets/tailoring/tailoring3.jpg";
 
 /* ================= PRICING CONFIG ================= */
 
 const LINING_PRICE = 300;
+
 const SPEED_PRICE_MAP = {
   standard: 0,
   express: 499,
@@ -1126,7 +1136,6 @@ const SPEED_PRICE_MAP = {
 };
 
 export const TailoringHome = () => {
-
   const navigate = useNavigate();
   const { authState } = useAuth();
   const location = useLocation();
@@ -1140,7 +1149,7 @@ export const TailoringHome = () => {
     productPrice = 0,
     supportsLining = false,
     supportsRapidStitching = false,
-    customizations = []
+    customizations = [],
   } = location.state || {};
 
   const { register, handleSubmit, setValue, control } = useForm();
@@ -1151,30 +1160,66 @@ export const TailoringHome = () => {
   const [stitchingSpeed, setStitchingSpeed] =
     useState<"standard" | "express" | "rapid">("standard");
 
-  const [selectedCustomizations, setSelectedCustomizations] = useState<{[key:number]: number}>({});
+  const [selectedCustomizations, setSelectedCustomizations] =
+    useState<{ [key: number]: number }>({});
+
+  const [showCustomization, setShowCustomization] = useState(false);
+
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [animationType, setAnimationType] =
+    useState<"success" | "error" | null>(null);
+
+  const images = [
+    doorstepConsultation,
+    measurementsCollection,
+    doorstepDelivery,
+  ];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const { postData, responseData, error } =
+    usePostData("/api/cc/tailoringOrder");
+
+  /* ================= PRICE CALCULATION ================= */
 
   const BASE_PRICE = Number(productPrice) || 0;
   const liningPrice = supportsLining && hasLining ? LINING_PRICE : 0;
   const speedPrice = SPEED_PRICE_MAP[stitchingSpeed] || 0;
 
-  const customizationPrice = customizations.reduce((total: number, category: any) => {
-    const selectedId = selectedCustomizations[category.CategoryID];
-    if (!selectedId) return total;
+  const customizationPrice = customizations.reduce(
+    (total: number, category: any) => {
+      const selectedId = selectedCustomizations[category.CategoryID];
+      if (!selectedId) return total;
 
-    const selectedOption = category.Options.find(
-      (opt: any) => opt.CustomizationID === selectedId
-    );
+      const selectedOption = category.Options.find(
+        (opt: any) => opt.CustomizationID === selectedId
+      );
 
-    return total + (selectedOption?.PriceAdjustment || 0);
-  }, 0);
+      return total + (selectedOption?.PriceAdjustment || 0);
+    },
+    0
+  );
 
-  const totalAmount = BASE_PRICE + liningPrice + speedPrice + customizationPrice;
+  const totalAmount =
+    BASE_PRICE + liningPrice + speedPrice + customizationPrice;
 
-  const handleCustomizationSelect = (categoryId: number, customizationId: number) => {
-    setSelectedCustomizations(prev => ({
+  /* ===================================================== */
+
+  const handleCustomizationSelect = (
+    categoryId: number,
+    customizationId: number
+  ) => {
+    setSelectedCustomizations((prev) => ({
       ...prev,
-      [categoryId]: customizationId
+      [categoryId]: customizationId,
     }));
+  };
+
+  const removeCustomization = (categoryId: number) => {
+    setSelectedCustomizations((prev) => {
+      const updated = { ...prev };
+      delete updated[categoryId];
+      return updated;
+    });
   };
 
   const handleAppointmentDateChange = (date: Date | null) => {
@@ -1184,11 +1229,7 @@ export const TailoringHome = () => {
     setValue("appointmentDate", formatted);
   };
 
-  const { postData, responseData, error } =
-    usePostData("/api/cc/tailoringOrder");
-
   const onSubmit = (data: any) => {
-
     data.productName = productName;
     data.productId = productId;
     data.productImageURL = productImageURL;
@@ -1206,89 +1247,201 @@ export const TailoringHome = () => {
     data.speedPrice = speedPrice;
 
     data.totalAmount = totalAmount;
-
     data.selectedCustomizations = Object.values(selectedCustomizations);
 
     postData(data);
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((i) => (i + 1) % images.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (responseData?.status === 201) {
+      setShowAnimation(true);
+      setAnimationType("success");
+      setTimeout(() => navigate("/home"), 2000);
+    }
+    if (error) setAnimationType("error");
+  }, [responseData, error]);
+
   return (
-    <Box p={10}>
-      <Box bg="white" p={8} borderRadius="20px">
-
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spacing={6} align="stretch">
-
-            <Heading textAlign="center">
-              Tailoring Appointment
-            </Heading>
-
-            {/* Customization Section */}
-            {customizations.length > 0 && (
-              <Box>
-                {customizations.map((category: any) => (
-                  <FormControl key={category.CategoryID}>
-                    <FormLabel fontWeight="600">
-                      {category.CategoryName}
-                    </FormLabel>
-
-                    <HStack spacing={4}>
-                      {category.Options.map((option: any) => {
-
-                        const isSelected =
-                          selectedCustomizations[category.CategoryID] === option.CustomizationID;
-
-                        return (
-                          <Box
-                            key={option.CustomizationID}
-                            borderRadius="12px"
-                            border={isSelected ? "2px solid pink" : "1px solid #eee"}
-                            cursor="pointer"
-                            onClick={() =>
-                              handleCustomizationSelect(category.CategoryID, option.CustomizationID)
-                            }
-                            minW="130px"
-                          >
-                            <Image
-                              src={option.CustomizationImageURL}
-                              height="100px"
-                              objectFit="cover"
-                            />
-                            <Box p={2}>
-                              <Text fontSize="sm">
-                                {option.CustomizationName}
-                              </Text>
-                              {option.PriceAdjustment > 0 && (
-                                <Text fontSize="xs" color="pink.500">
-                                  +₹{option.PriceAdjustment}
-                                </Text>
-                              )}
-                            </Box>
-                          </Box>
-                        );
-                      })}
-                    </HStack>
-                  </FormControl>
-                ))}
-              </Box>
-            )}
-
-            <Box>
-              <Text fontSize="xl" fontWeight="bold">
-                Total Amount: ₹{totalAmount}
-              </Text>
+    <Box minH="100vh" bg="#fafcff" py={12} px={4}>
+      <Box maxW="1100px" mx="auto">
+        {!showAnimation && (
+          <>
+            {/* Hero Image */}
+            <Box
+              mb={10}
+              borderRadius="28px"
+              overflow="hidden"
+              boxShadow="0 40px 100px rgba(0,0,0,0.08)"
+            >
+              <Image
+                src={images[currentImageIndex]}
+                w="100%"
+                h={{ base: "240px", md: "340px" }}
+                objectFit="cover"
+              />
             </Box>
 
-            <Button type="submit" colorScheme="pink">
-              Place Order
-            </Button>
+            <Box
+              bg="white"
+              p={{ base: 6, md: 10 }}
+              borderRadius="28px"
+              boxShadow="0 40px 120px rgba(0,0,0,0.06)"
+            >
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <VStack spacing={7} align="stretch">
+                  <Heading textAlign="center" color="#e48aa1">
+                    Tailoring Appointment
+                  </Heading>
 
-          </VStack>
-        </form>
+                  {/* Product */}
+                  {productName && (
+                    <Flex gap={5} p={5} borderRadius="20px" bg="#ffffff">
+                      <Image
+                        src={productImageURL}
+                        boxSize="90px"
+                        borderRadius="16px"
+                        objectFit="cover"
+                      />
+                      <Text fontWeight="500" fontSize="lg">
+                        {productName}
+                      </Text>
+                    </Flex>
+                  )}
+
+                  {/* Customization Toggle */}
+                  {customizations.length > 0 && (
+                    <Box>
+                      <Button
+                        variant="outline"
+                        colorScheme="pink"
+                        onClick={() =>
+                          setShowCustomization(!showCustomization)
+                        }
+                      >
+                        {showCustomization
+                          ? "Hide Customization"
+                          : "View Customization (Optional)"}
+                      </Button>
+                    </Box>
+                  )}
+
+                  {/* Customization Section */}
+                  {showCustomization &&
+                    customizations.map((category: any) => (
+                      <FormControl key={category.CategoryID}>
+                        <FormLabel fontWeight="600">
+                          {category.CategoryName}
+                        </FormLabel>
+
+                        <HStack spacing={4} overflowX="auto">
+                          {category.Options.map((option: any) => {
+                            const isSelected =
+                              selectedCustomizations[
+                                category.CategoryID
+                              ] === option.CustomizationID;
+
+                            return (
+                              <Box
+                                key={option.CustomizationID}
+                                borderRadius="16px"
+                                border={
+                                  isSelected
+                                    ? "2px solid #e48aa1"
+                                    : "1px solid #edf2f7"
+                                }
+                                cursor="pointer"
+                                minW="140px"
+                                onClick={() =>
+                                  handleCustomizationSelect(
+                                    category.CategoryID,
+                                    option.CustomizationID
+                                  )
+                                }
+                              >
+                                <Image
+                                  src={option.CustomizationImageURL}
+                                  height="110px"
+                                  objectFit="cover"
+                                  borderTopRadius="16px"
+                                />
+                                <Box p={3}>
+                                  <Text fontSize="sm">
+                                    {option.CustomizationName}
+                                  </Text>
+                                  {option.PriceAdjustment > 0 && (
+                                    <Text
+                                      fontSize="xs"
+                                      color="pink.500"
+                                    >
+                                      +₹{option.PriceAdjustment}
+                                    </Text>
+                                  )}
+                                </Box>
+                              </Box>
+                            );
+                          })}
+                        </HStack>
+
+                        {selectedCustomizations[
+                          category.CategoryID
+                        ] && (
+                          <Button
+                            size="xs"
+                            mt={2}
+                            variant="ghost"
+                            onClick={() =>
+                              removeCustomization(
+                                category.CategoryID
+                              )
+                            }
+                          >
+                            Remove Selection
+                          </Button>
+                        )}
+                      </FormControl>
+                    ))}
+
+                  {/* Total */}
+                  <Box>
+                    <Text fontSize="xl" fontWeight="bold">
+                      Total Amount: ₹{totalAmount}
+                    </Text>
+                  </Box>
+
+                  <Button type="submit" colorScheme="pink">
+                    Place Order
+                  </Button>
+                </VStack>
+              </form>
+            </Box>
+          </>
+        )}
+
+        {showAnimation && (
+          <Box textAlign="center" mt={20}>
+            <Lottie
+              options={{
+                loop: false,
+                autoplay: true,
+                animationData:
+                  animationType === "success"
+                    ? successAnimation
+                    : errorAnimation,
+              }}
+              height={170}
+            />
+          </Box>
+        )}
       </Box>
     </Box>
   );
 };
 
 export default TailoringHome;
-
