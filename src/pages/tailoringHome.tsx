@@ -1164,7 +1164,6 @@ export const TailoringHome = () => {
     useState<{ [key: number]: number }>({});
 
   const [showCustomization, setShowCustomization] = useState(false);
-
   const [showAnimation, setShowAnimation] = useState(false);
   const [animationType, setAnimationType] =
     useState<"success" | "error" | null>(null);
@@ -1204,21 +1203,23 @@ export const TailoringHome = () => {
 
   /* ===================================================== */
 
-  const handleCustomizationSelect = (
+  const handleCustomizationClick = (
     categoryId: number,
     customizationId: number
   ) => {
-    setSelectedCustomizations((prev) => ({
-      ...prev,
-      [categoryId]: customizationId,
-    }));
-  };
-
-  const removeCustomization = (categoryId: number) => {
     setSelectedCustomizations((prev) => {
-      const updated = { ...prev };
-      delete updated[categoryId];
-      return updated;
+      const alreadySelected = prev[categoryId] === customizationId;
+
+      if (alreadySelected) {
+        const updated = { ...prev };
+        delete updated[categoryId]; // UNSELECT
+        return updated;
+      }
+
+      return {
+        ...prev,
+        [categoryId]: customizationId,
+      };
     });
   };
 
@@ -1273,7 +1274,6 @@ export const TailoringHome = () => {
       <Box maxW="1100px" mx="auto">
         {!showAnimation && (
           <>
-            {/* Hero Image */}
             <Box
               mb={10}
               borderRadius="28px"
@@ -1300,7 +1300,6 @@ export const TailoringHome = () => {
                     Tailoring Appointment
                   </Heading>
 
-                  {/* Product */}
                   {productName && (
                     <Flex gap={5} p={5} borderRadius="20px" bg="#ffffff">
                       <Image
@@ -1315,21 +1314,19 @@ export const TailoringHome = () => {
                     </Flex>
                   )}
 
-                  {/* Customization Toggle */}
+                  {/* Toggle Customization */}
                   {customizations.length > 0 && (
-                    <Box>
-                      <Button
-                        variant="outline"
-                        colorScheme="pink"
-                        onClick={() =>
-                          setShowCustomization(!showCustomization)
-                        }
-                      >
-                        {showCustomization
-                          ? "Hide Customization"
-                          : "View Customization (Optional)"}
-                      </Button>
-                    </Box>
+                    <Button
+                      variant="outline"
+                      colorScheme="pink"
+                      onClick={() =>
+                        setShowCustomization(!showCustomization)
+                      }
+                    >
+                      {showCustomization
+                        ? "Hide Customization"
+                        : "View Customization (Optional)"}
+                    </Button>
                   )}
 
                   {/* Customization Section */}
@@ -1359,7 +1356,7 @@ export const TailoringHome = () => {
                                 cursor="pointer"
                                 minW="140px"
                                 onClick={() =>
-                                  handleCustomizationSelect(
+                                  handleCustomizationClick(
                                     category.CategoryID,
                                     option.CustomizationID
                                   )
@@ -1388,23 +1385,6 @@ export const TailoringHome = () => {
                             );
                           })}
                         </HStack>
-
-                        {selectedCustomizations[
-                          category.CategoryID
-                        ] && (
-                          <Button
-                            size="xs"
-                            mt={2}
-                            variant="ghost"
-                            onClick={() =>
-                              removeCustomization(
-                                category.CategoryID
-                              )
-                            }
-                          >
-                            Remove Selection
-                          </Button>
-                        )}
                       </FormControl>
                     ))}
 
@@ -1445,3 +1425,4 @@ export const TailoringHome = () => {
 };
 
 export default TailoringHome;
+
