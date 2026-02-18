@@ -1083,9 +1083,584 @@
 
 // FULL WORKING TAILORING HOME WITH CUSTOMIZATION SUPPORT
 
-// FULL WORKING TAILORING HOME WITH CUSTOMIZATION (SAFE VERSION)
 
-// COMPLETE PREMIUM TAILORING HOME WITH CUSTOMIZATION
+// import React, { useState, useEffect, useMemo } from "react";
+// import {
+//   Box,
+//   Button,
+//   Flex,
+//   FormControl,
+//   FormLabel,
+//   Input,
+//   Textarea,
+//   VStack,
+//   Heading,
+//   Text,
+//   Image,
+//   Radio,
+//   RadioGroup,
+//   HStack,
+//   Menu,
+//   MenuButton,
+//   MenuList,
+//   MenuItem,
+//   Collapse,
+//   Badge,
+//   Divider
+// } from "@chakra-ui/react";
+
+// import { ChevronDownIcon } from "@chakra-ui/icons";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+// import "../css/DatePicker.css";
+
+// import { useForm, Controller } from "react-hook-form";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import Lottie from "react-lottie";
+// import successAnimation from "../animations/success.json";
+// import errorAnimation from "../animations/error.json";
+// import { useAuth } from "../contexts/AuthContext";
+// import usePostData from "../hooks/usePostData";
+
+// const LINING_PRICE = 300;
+
+// const SPEED_PRICE_MAP = {
+//   standard: 0,
+//   express: 499,
+//   rapid: 999,
+// };
+
+// export const TailoringHome = () => {
+
+//   const navigate = useNavigate();
+//   const { authState } = useAuth();
+//   const location = useLocation();
+
+//   const {
+//     productName = "",
+//     productId = "",
+//     productCategory = "",
+//     productImageURL = "",
+//     owningAuthority = "",
+//     productPrice = 0,
+//     supportsLining = false,
+//     supportsRapidStitching = false,
+//     customizations = [],
+//   } = location.state || {};
+
+//   const { register, handleSubmit, setValue, control } = useForm();
+
+//   const [selectedCity, setSelectedCity] = useState("Chennai");
+//   const [appointmentDate, setAppointmentDate] = useState<string | null>(null);
+//   const [hasLining, setHasLining] = useState(false);
+//   const [stitchingSpeed, setStitchingSpeed] =
+//     useState<"standard" | "express" | "rapid">("standard");
+
+//   const [selectedCustomizations, setSelectedCustomizations] =
+//     useState<{ [key: number]: number }>({});
+
+//   const [showCustomization, setShowCustomization] = useState(false);
+//   const [showAnimation, setShowAnimation] = useState(false);
+//   const [animationType, setAnimationType] =
+//     useState<"success" | "error" | null>(null);
+
+//   const { postData, responseData, error } =
+//     usePostData("/api/cc/tailoringOrder");
+
+//   /* ================= PRICE CALCULATION ================= */
+
+//   const BASE_PRICE = Number(productPrice) || 0;
+
+//   const liningPrice = supportsLining && hasLining ? LINING_PRICE : 0;
+//   const speedPrice = SPEED_PRICE_MAP[stitchingSpeed] || 0;
+
+//   const customizationPrice = useMemo(() => {
+//     return customizations.reduce((total: number, category: any) => {
+//       const selectedId = selectedCustomizations[category.CategoryID];
+//       if (!selectedId) return total;
+  
+//       const option = category.Options.find(
+//         (opt: any) => opt.CustomizationID === selectedId
+//       );
+  
+//       const price = Number(option?.PriceAdjustment || 0);
+  
+//       return total + price;
+//     }, 0);
+//   }, [selectedCustomizations, customizations]);
+  
+
+//   const totalAmount =
+//     BASE_PRICE + liningPrice + speedPrice + customizationPrice;
+
+//   /* ===================================================== */
+
+//   const toggleCustomization = () =>
+//     setShowCustomization((prev) => !prev);
+
+//   const handleCustomizationClick = (
+//     categoryId: number,
+//     customizationId: number
+//   ) => {
+//     setSelectedCustomizations((prev) => {
+//       const alreadySelected = prev[categoryId] === customizationId;
+
+//       if (alreadySelected) {
+//         const updated = { ...prev };
+//         delete updated[categoryId];
+//         return updated;
+//       }
+
+//       return {
+//         ...prev,
+//         [categoryId]: customizationId,
+//       };
+//     });
+//   };
+
+//   // const handleAppointmentDateChange = (date: Date | null) => {
+//   //   if (!date) return;
+//   //   const formatted = date.toISOString();
+//   //   setAppointmentDate(formatted);
+//   //   setValue("appointmentDate", formatted);
+//   // };
+
+//     const handleAppointmentDateChange = (date: Date | null) => {
+//     if (!date) return;
+//     const istDate = new Date(
+//       date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+//     );
+//     const formatted = istDate.toISOString();
+//     setAppointmentDate(formatted);
+//     setValue("appointmentDate", formatted);
+//   };
+
+//   const setTime = (hour: number, minute: number) => {
+//     const date = new Date();
+//     date.setHours(hour);
+//     date.setMinutes(minute);
+//     date.setSeconds(0);
+//     date.setMilliseconds(0);
+//     return date;
+//   };
+  
+//   const isToday = (date: Date | null) => {
+//     if (!date) return false;
+//     const today = new Date();
+//     return (
+//       date.getDate() === today.getDate() &&
+//       date.getMonth() === today.getMonth() &&
+//       date.getFullYear() === today.getFullYear()
+//     );
+//   };
+  
+//   const getRoundedCurrentTime = () => {
+//     const now = new Date();
+//     const minutes = now.getMinutes();
+//     const remainder = minutes % 30;
+//     const addMinutes = remainder === 0 ? 0 : 30 - remainder;
+  
+//     now.setMinutes(minutes + addMinutes);
+//     now.setSeconds(0);
+//     now.setMilliseconds(0);
+  
+//     return now;
+//   };
+
+//   const onSubmit = (data: any) => {
+
+//     data.productId = productId;
+//     data.productImageURL = productImageURL;
+//     data.productPrice = BASE_PRICE;
+//     data.owningAuthority = owningAuthority;
+//     data.stitchType = productCategory;
+//     data.city = selectedCity;
+
+//     data.hasLining = hasLining;
+//     data.liningPrice = liningPrice;
+
+//     data.stitchingSpeed = stitchingSpeed;
+//     data.speedPrice = speedPrice;
+
+//     data.totalAmount = totalAmount;
+//     data.selectedCustomizations = Object.values(selectedCustomizations);
+
+//     postData(data);
+//   };
+
+//   useEffect(() => {
+//     if (responseData?.status === 201) {
+//       setShowAnimation(true);
+//       setAnimationType("success");
+//       setTimeout(() => navigate("/home"), 2000);
+//     }
+//     if (error) setAnimationType("error");
+//   }, [responseData, error]);
+
+//   return (
+//     <Box minH="100vh" bg="#fafcff" py={12} px={4}>
+//       <Box maxW="1100px" mx="auto">
+
+//         {!showAnimation && (
+
+//           <Box
+//             bg="white"
+//             p={{ base: 6, md: 10 }}
+//             borderRadius="28px"
+//             boxShadow="0 40px 120px rgba(0,0,0,0.06)"
+//           >
+
+//             <form onSubmit={handleSubmit(onSubmit)}>
+//               <VStack spacing={8} align="stretch">
+
+//                 <Heading textAlign="center" color="#e48aa1">
+//                   Tailoring Appointment
+//                 </Heading>
+
+//                 {/* PRODUCT */}
+//                 {productName && (
+//                   <Flex gap={5} p={5} borderRadius="20px" bg="#fff7fb">
+//                     <Image
+//                       src={productImageURL}
+//                       boxSize="90px"
+//                       borderRadius="16px"
+//                       objectFit="cover"
+//                     />
+//                     <Text fontWeight="600" fontSize="lg">
+//                       {productName}
+//                     </Text>
+//                   </Flex>
+//                 )}
+
+//                 {/* LINING */}
+//                 {supportsLining && (
+//                   <FormControl>
+//                     <FormLabel>Lining</FormLabel>
+//                     <RadioGroup
+//                       value={hasLining ? "yes" : "no"}
+//                       onChange={(v) => setHasLining(v === "yes")}
+//                     >
+//                       <HStack>
+//                         <Radio value="no">Without lining</Radio>
+//                         <Radio value="yes" colorScheme="pink">
+//                           With lining (+₹300)
+//                         </Radio>
+//                       </HStack>
+//                     </RadioGroup>
+//                   </FormControl>
+//                 )}
+
+//                 {/* SPEED */}
+//                 {supportsRapidStitching && (
+//                   <FormControl>
+//                     <FormLabel>Delivery Speed</FormLabel>
+//                     <RadioGroup
+//                       value={stitchingSpeed}
+//                       onChange={(v: any) => setStitchingSpeed(v)}
+//                     >
+//                       <VStack align="start">
+//                         <Radio value="standard">Standard</Radio>
+//                         <Radio value="express">Express (+₹499)</Radio>
+//                         <Radio value="rapid">Rapid (+₹999)</Radio>
+//                       </VStack>
+//                     </RadioGroup>
+//                   </FormControl>
+//                 )}
+
+//                 <Divider />
+
+//                 {/* CUSTOMIZATION BUTTON */}
+//                 {customizations.length > 0 && (
+//                   <Button
+//                     onClick={toggleCustomization}
+//                     size="md"
+//                     borderRadius="full"
+//                     bg="linear-gradient(135deg,#f4b6c2,#bde0fe)"
+//                     color="white"
+//                     _hover={{ opacity: 0.9 }}
+//                   >
+//                     {showCustomization
+//                       ? "Hide Custom Designs"
+//                       : "Explore Design Customizations"}
+//                   </Button>
+//                 )}
+
+//                 {/* CUSTOMIZATION SECTION */}
+//                 <Collapse in={showCustomization} animateOpacity>
+//                   <VStack spacing={6} mt={4}>
+//                     {customizations.map((category: any) => (
+//                       <Box key={category.CategoryID} w="100%">
+//                         <FormLabel fontWeight="600">
+//                           {category.CategoryName}
+//                         </FormLabel>
+
+//                         <HStack overflowX="auto" spacing={4}>
+//                           {category.Options.map((option: any) => {
+
+//                             const isSelected =
+//                               selectedCustomizations[
+//                                 category.CategoryID
+//                               ] === option.CustomizationID;
+
+//                             return (
+//                               <Box
+//                                 key={option.CustomizationID}
+//                                 minW="150px"
+//                                 borderRadius="16px"
+//                                 overflow="hidden"
+//                                 border={
+//                                   isSelected
+//                                     ? "3px solid #e48aa1"
+//                                     : "1px solid #edf2f7"
+//                                 }
+//                                 cursor="pointer"
+//                                 onClick={() =>
+//                                   handleCustomizationClick(
+//                                     category.CategoryID,
+//                                     option.CustomizationID
+//                                   )
+//                                 }
+//                               >
+//                                 <Image
+//                                   src={option.CustomizationImageURL}
+//                                   h="120px"
+//                                   objectFit="cover"
+//                                 />
+//                                 <Box p={3}>
+//                                   <Text fontSize="sm">
+//                                     {option.CustomizationName}
+//                                   </Text>
+//                                   {option.PriceAdjustment > 0 && (
+//                                     <Badge colorScheme="pink">
+//                                       +₹{option.PriceAdjustment}
+//                                     </Badge>
+//                                   )}
+//                                 </Box>
+//                               </Box>
+//                             );
+//                           })}
+//                         </HStack>
+//                       </Box>
+//                     ))}
+//                   </VStack>
+//                 </Collapse>
+
+//                 {/* USER DETAILS */}
+//                 <FormControl>
+//                   <FormLabel>Name</FormLabel>
+//                   <Input {...register("name")} required />
+//                 </FormControl>
+
+//                 <FormControl>
+//                   <FormLabel>Email</FormLabel>
+//                   <Input {...register("email")} required />
+//                 </FormControl>
+
+//                 <FormControl>
+//                   <FormLabel>Phone</FormLabel>
+//                   <Input {...register("phone")} required />
+//                 </FormControl>
+
+//                 <FormControl>
+//                   <FormLabel>Address</FormLabel>
+//                   <Textarea {...register("address")} required />
+//                 </FormControl>
+
+//                    <FormControl>
+//                      <FormLabel
+//                       fontSize="sm"
+//                       fontWeight="600"
+//                       color="gray.600"
+//                     >
+//                       City
+//                     </FormLabel>
+
+//                     <Menu>
+//                       <MenuButton
+//                         as={Button}
+//                         rightIcon={<ChevronDownIcon />}
+//                         height="58px"
+//                         borderRadius="18px"
+//                         bg="white"
+//                         border="1px solid #edf2f7"
+//                         fontWeight="500"
+//                         _hover={{ bg: "white", borderColor: "#dbeafe" }}
+//                         _focus={{ borderColor: "#f4b6c2", boxShadow: "0 0 0 1px #f4b6c2" }}
+//                         width="100%"
+//                         textAlign="left"
+//                       >
+//                         {selectedCity}
+//                       </MenuButton>
+
+//                       <MenuList
+//                         borderRadius="18px"
+//                         boxShadow="0 20px 60px rgba(0,0,0,0.08)"
+//                         border="1px solid #f1f5f9"
+//                         py={2}
+//                       >
+//                         <MenuItem
+//                           borderRadius="12px"
+//                           _hover={{ bg: "#fdf2f8" }}
+//                           onClick={() => setSelectedCity("Chennai")}
+//                         >
+//                           Chennai
+//                         </MenuItem>
+
+//                         {/* Future Cities */}
+                        
+//                         <MenuItem
+//                           borderRadius="12px"
+//                           _hover={{ bg: "#fdf2f8" }}
+//                           onClick={() => setSelectedCity("Coimbatore")}
+//                         >
+//                           Coimbatore
+//                         </MenuItem>
+
+//                         <MenuItem
+//                           borderRadius="12px"
+//                           _hover={{ bg: "#fdf2f8" }}
+//                           onClick={() => setSelectedCity("Banglore")}
+//                         >
+//                           Banglore
+//                         </MenuItem>
+
+//                         <MenuItem
+//                           borderRadius="12px"
+//                           _hover={{ bg: "#fdf2f8" }}
+//                           onClick={() => setSelectedCity("Trichy")}
+//                         >
+//                           Trichy
+//                         </MenuItem>
+                       
+//                       </MenuList>
+//                     </Menu>
+//                   </FormControl>
+
+
+//                     <FormControl>
+//                       <FormLabel>Pincode</FormLabel>
+//                       <Input
+//                         {...register("pincode")}
+//                         required
+//                         borderRadius="14px"
+//                         border="1px solid #e8edf3"
+//                         _focus={{
+//                           borderColor: "#bde0fe",
+//                           boxShadow: "0 0 0 1px #bde0fe",
+//                         }}
+//                       />
+//                     </FormControl>
+
+
+
+//               <FormControl>
+//                 <FormLabel fontWeight="500">Appointment Date & Time</FormLabel>
+
+//                 <Box
+//                   border="1px solid #e8edf3"
+//                   borderRadius="14px"
+//                   px={4}
+//                   py={3}
+//                   bg="white"
+//                   display="flex"
+//                   alignItems="center"
+//                   _focusWithin={{
+//                     borderColor: "#f4b6c2",
+//                     boxShadow: "0 0 0 1px #f4b6c2",
+//                   }}
+//                 >
+//                   <Controller
+//                     name="appointmentDate"
+//                     control={control}
+//                     render={() => (
+//                     <DatePicker
+//                       selected={
+//                         appointmentDate
+//                           ? new Date(appointmentDate)
+//                           : null
+//                       }
+//                       onChange={handleAppointmentDateChange}
+//                       minDate={new Date()}
+//                       dateFormat="dd/MM/yyyy h:mm aa"
+//                       showTimeSelect
+//                       timeIntervals={30}
+//                       timeCaption="Time"
+//                       minTime={
+//                         isToday(
+//                           appointmentDate ? new Date(appointmentDate) : null
+//                         )
+//                           ? new Date(
+//                               Math.max(
+//                                 getRoundedCurrentTime().getTime(),
+//                                 setTime(10, 0).getTime()
+//                               )
+//                             )
+//                           : setTime(10, 0)
+//                       }
+//                       maxTime={setTime(19, 0)}
+//                       placeholderText="Select your preferred date & time"
+//                       className="premium-datepicker"
+//                     />
+//                     )}
+//                   />
+//                 </Box>
+//               </FormControl>
+
+//                 {/* TOTAL */}
+//                 <Box
+//                   p={6}
+//                   borderRadius="20px"
+//                   bg="linear-gradient(135deg,#fff7fb,#f0f8ff)"
+//                 >
+//                   <HStack justify="space-between">
+//                     <Text fontSize="lg">Total Amount</Text>
+//                     <Text fontSize="2xl" fontWeight="bold" color="#e48aa1">
+//                       ₹{totalAmount}
+//                     </Text>
+//                   </HStack>
+//                 </Box>
+
+//                 <Button
+//                   type="submit"
+//                   size="lg"
+//                   borderRadius="20px"
+//                   bg="#e48aa1"
+//                   color="white"
+//                 >
+//                   Place Order
+//                 </Button>
+
+//               </VStack>
+//             </form>
+//           </Box>
+//         )}
+
+//         {showAnimation && (
+//           <Box textAlign="center" mt={20}>
+//             <Lottie
+//               options={{
+//                 loop: false,
+//                 autoplay: true,
+//                 animationData:
+//                   animationType === "success"
+//                     ? successAnimation
+//                     : errorAnimation,
+//               }}
+//               height={170}
+//             />
+//           </Box>
+//         )}
+
+//       </Box>
+//     </Box>
+//   );
+// };
+
+// export default TailoringHome;
+
+
+
+// Version 4 : Clone of working version 3 
 
 import React, { useState, useEffect, useMemo } from "react";
 import {
@@ -1302,31 +1877,35 @@ export const TailoringHome = () => {
 
   return (
     <Box minH="100vh" bg="#fafcff" py={12} px={4}>
-      <Box maxW="1100px" mx="auto">
-
+      <Box maxW="1200px" mx="auto">
+  
         {!showAnimation && (
-
           <Box
             bg="white"
             p={{ base: 6, md: 10 }}
-            borderRadius="28px"
+            borderRadius="32px"
             boxShadow="0 40px 120px rgba(0,0,0,0.06)"
           >
-
             <form onSubmit={handleSubmit(onSubmit)}>
-              <VStack spacing={8} align="stretch">
-
+              <VStack spacing={10} align="stretch">
+  
                 <Heading textAlign="center" color="#e48aa1">
                   Tailoring Appointment
                 </Heading>
-
+  
                 {/* PRODUCT */}
                 {productName && (
-                  <Flex gap={5} p={5} borderRadius="20px" bg="#fff7fb">
+                  <Flex
+                    gap={5}
+                    p={6}
+                    borderRadius="24px"
+                    bg="linear-gradient(135deg,#fff7fb,#f0f8ff)"
+                    align="center"
+                  >
                     <Image
                       src={productImageURL}
-                      boxSize="90px"
-                      borderRadius="16px"
+                      boxSize="100px"
+                      borderRadius="20px"
                       objectFit="cover"
                     />
                     <Text fontWeight="600" fontSize="lg">
@@ -1334,7 +1913,7 @@ export const TailoringHome = () => {
                     </Text>
                   </Flex>
                 )}
-
+  
                 {/* LINING */}
                 {supportsLining && (
                   <FormControl>
@@ -1343,7 +1922,7 @@ export const TailoringHome = () => {
                       value={hasLining ? "yes" : "no"}
                       onChange={(v) => setHasLining(v === "yes")}
                     >
-                      <HStack>
+                      <HStack spacing={6}>
                         <Radio value="no">Without lining</Radio>
                         <Radio value="yes" colorScheme="pink">
                           With lining (+₹300)
@@ -1352,7 +1931,7 @@ export const TailoringHome = () => {
                     </RadioGroup>
                   </FormControl>
                 )}
-
+  
                 {/* SPEED */}
                 {supportsRapidStitching && (
                   <FormControl>
@@ -1369,26 +1948,42 @@ export const TailoringHome = () => {
                     </RadioGroup>
                   </FormControl>
                 )}
-
-                <Divider />
-
-                {/* CUSTOMIZATION BUTTON */}
+  
+                {/* 💎 DESIGN STUDIO CARD */}
                 {customizations.length > 0 && (
-                  <Button
+                  <Box
+                    p={6}
+                    borderRadius="28px"
+                    bg="linear-gradient(135deg,#fdf2f8,#e0f2fe)"
+                    border="1px solid #fbcfe8"
+                    cursor="pointer"
+                    transition="all 0.3s ease"
+                    _hover={{
+                      transform: "translateY(-4px)",
+                      boxShadow: "0 20px 40px rgba(228,138,161,0.25)",
+                    }}
                     onClick={toggleCustomization}
-                    size="md"
-                    borderRadius="full"
-                    bg="linear-gradient(135deg,#f4b6c2,#bde0fe)"
-                    color="white"
-                    _hover={{ opacity: 0.9 }}
                   >
-                    {showCustomization
-                      ? "Hide Custom Designs"
-                      : "Explore Design Customizations"}
-                  </Button>
+                    <Flex justify="space-between" align="center">
+                      <Box>
+                        <Text fontSize="lg" fontWeight="bold" color="#e48aa1">
+                          ✨ Design Studio
+                        </Text>
+                        <Text fontSize="sm" color="gray.600">
+                          Personalize your outfit with exclusive design options
+                        </Text>
+                      </Box>
+  
+                      <ChevronDownIcon
+                        transform={showCustomization ? "rotate(180deg)" : "rotate(0deg)"}
+                        transition="0.3s"
+                        boxSize={6}
+                      />
+                    </Flex>
+                  </Box>
                 )}
-
-                {/* CUSTOMIZATION SECTION */}
+  
+                {/* CUSTOMIZATION OPTIONS */}
                 <Collapse in={showCustomization} animateOpacity>
                   <VStack spacing={6} mt={4}>
                     {customizations.map((category: any) => (
@@ -1396,27 +1991,28 @@ export const TailoringHome = () => {
                         <FormLabel fontWeight="600">
                           {category.CategoryName}
                         </FormLabel>
-
+  
                         <HStack overflowX="auto" spacing={4}>
                           {category.Options.map((option: any) => {
-
                             const isSelected =
-                              selectedCustomizations[
-                                category.CategoryID
-                              ] === option.CustomizationID;
-
+                              selectedCustomizations[category.CategoryID] ===
+                              option.CustomizationID;
+  
                             return (
                               <Box
                                 key={option.CustomizationID}
-                                minW="150px"
-                                borderRadius="16px"
+                                minW="160px"
+                                borderRadius="20px"
                                 overflow="hidden"
-                                border={
-                                  isSelected
-                                    ? "3px solid #e48aa1"
-                                    : "1px solid #edf2f7"
-                                }
                                 cursor="pointer"
+                                bg={isSelected ? "#fff1f6" : "white"}
+                                boxShadow={
+                                  isSelected
+                                    ? "0 15px 40px rgba(228,138,161,0.35)"
+                                    : "0 5px 20px rgba(0,0,0,0.05)"
+                                }
+                                transform={isSelected ? "scale(1.03)" : "scale(1)"}
+                                transition="all 0.25s ease"
                                 onClick={() =>
                                   handleCustomizationClick(
                                     category.CategoryID,
@@ -1426,15 +2022,15 @@ export const TailoringHome = () => {
                               >
                                 <Image
                                   src={option.CustomizationImageURL}
-                                  h="120px"
+                                  h="130px"
                                   objectFit="cover"
                                 />
                                 <Box p={3}>
-                                  <Text fontSize="sm">
+                                  <Text fontSize="sm" fontWeight="500">
                                     {option.CustomizationName}
                                   </Text>
                                   {option.PriceAdjustment > 0 && (
-                                    <Badge colorScheme="pink">
+                                    <Badge mt={1} colorScheme="pink">
                                       +₹{option.PriceAdjustment}
                                     </Badge>
                                   )}
@@ -1447,217 +2043,104 @@ export const TailoringHome = () => {
                     ))}
                   </VStack>
                 </Collapse>
-
+  
+                <Divider />
+  
                 {/* USER DETAILS */}
                 <FormControl>
                   <FormLabel>Name</FormLabel>
-                  <Input {...register("name")} required />
+                  <Input {...register("name")} required borderRadius="16px" />
                 </FormControl>
-
+  
                 <FormControl>
                   <FormLabel>Email</FormLabel>
-                  <Input {...register("email")} required />
+                  <Input {...register("email")} required borderRadius="16px" />
                 </FormControl>
-
+  
                 <FormControl>
                   <FormLabel>Phone</FormLabel>
-                  <Input {...register("phone")} required />
+                  <Input {...register("phone")} required borderRadius="16px" />
                 </FormControl>
-
+  
                 <FormControl>
                   <FormLabel>Address</FormLabel>
-                  <Textarea {...register("address")} required />
+                  <Textarea {...register("address")} required borderRadius="16px" />
                 </FormControl>
-
-                   <FormControl>
-                     <FormLabel
-                      fontSize="sm"
-                      fontWeight="600"
-                      color="gray.600"
-                    >
-                      City
-                    </FormLabel>
-
-                    <Menu>
-                      <MenuButton
-                        as={Button}
-                        rightIcon={<ChevronDownIcon />}
-                        height="58px"
-                        borderRadius="18px"
-                        bg="white"
-                        border="1px solid #edf2f7"
-                        fontWeight="500"
-                        _hover={{ bg: "white", borderColor: "#dbeafe" }}
-                        _focus={{ borderColor: "#f4b6c2", boxShadow: "0 0 0 1px #f4b6c2" }}
-                        width="100%"
-                        textAlign="left"
-                      >
-                        {selectedCity}
-                      </MenuButton>
-
-                      <MenuList
-                        borderRadius="18px"
-                        boxShadow="0 20px 60px rgba(0,0,0,0.08)"
-                        border="1px solid #f1f5f9"
-                        py={2}
-                      >
-                        <MenuItem
-                          borderRadius="12px"
-                          _hover={{ bg: "#fdf2f8" }}
-                          onClick={() => setSelectedCity("Chennai")}
-                        >
-                          Chennai
-                        </MenuItem>
-
-                        {/* Future Cities */}
-                        
-                        <MenuItem
-                          borderRadius="12px"
-                          _hover={{ bg: "#fdf2f8" }}
-                          onClick={() => setSelectedCity("Coimbatore")}
-                        >
-                          Coimbatore
-                        </MenuItem>
-
-                        <MenuItem
-                          borderRadius="12px"
-                          _hover={{ bg: "#fdf2f8" }}
-                          onClick={() => setSelectedCity("Banglore")}
-                        >
-                          Banglore
-                        </MenuItem>
-
-                        <MenuItem
-                          borderRadius="12px"
-                          _hover={{ bg: "#fdf2f8" }}
-                          onClick={() => setSelectedCity("Trichy")}
-                        >
-                          Trichy
-                        </MenuItem>
-                       
-                      </MenuList>
-                    </Menu>
-                  </FormControl>
-
-
-                    <FormControl>
-                      <FormLabel>Pincode</FormLabel>
-                      <Input
-                        {...register("pincode")}
-                        required
-                        borderRadius="14px"
-                        border="1px solid #e8edf3"
-                        _focus={{
-                          borderColor: "#bde0fe",
-                          boxShadow: "0 0 0 1px #bde0fe",
-                        }}
-                      />
-                    </FormControl>
-
-                {/* APPOINTMENT */}
-                {/* <FormControl>
-                  <FormLabel>Appointment Date & Time</FormLabel>
-                  <Controller
-                    name="appointmentDate"
-                    control={control}
-                    render={() => (
-                      <DatePicker
-                        selected={
-                          appointmentDate
-                            ? new Date(appointmentDate)
-                            : null
-                        }
-                        onChange={handleAppointmentDateChange}
-                        minDate={new Date()}
-                        showTimeSelect
-                        dateFormat="dd/MM/yyyy h:mm aa"
-                      />
-                    )}
-                  />
-                </FormControl> */}
-
-              <FormControl>
-                <FormLabel fontWeight="500">Appointment Date & Time</FormLabel>
-
+  
+                {/* 💰 PREMIUM ORDER SUMMARY */}
                 <Box
-                  border="1px solid #e8edf3"
-                  borderRadius="14px"
-                  px={4}
-                  py={3}
+                  p={8}
+                  borderRadius="28px"
                   bg="white"
-                  display="flex"
-                  alignItems="center"
-                  _focusWithin={{
-                    borderColor: "#f4b6c2",
-                    boxShadow: "0 0 0 1px #f4b6c2",
-                  }}
+                  boxShadow="0 20px 60px rgba(0,0,0,0.06)"
                 >
-                  <Controller
-                    name="appointmentDate"
-                    control={control}
-                    render={() => (
-                    <DatePicker
-                      selected={
-                        appointmentDate
-                          ? new Date(appointmentDate)
-                          : null
-                      }
-                      onChange={handleAppointmentDateChange}
-                      minDate={new Date()}
-                      dateFormat="dd/MM/yyyy h:mm aa"
-                      showTimeSelect
-                      timeIntervals={30}
-                      timeCaption="Time"
-                      minTime={
-                        isToday(
-                          appointmentDate ? new Date(appointmentDate) : null
-                        )
-                          ? new Date(
-                              Math.max(
-                                getRoundedCurrentTime().getTime(),
-                                setTime(10, 0).getTime()
-                              )
-                            )
-                          : setTime(10, 0)
-                      }
-                      maxTime={setTime(19, 0)}
-                      placeholderText="Select your preferred date & time"
-                      className="premium-datepicker"
-                    />
+                  <Text fontSize="lg" fontWeight="bold" mb={4}>
+                    Order Summary
+                  </Text>
+  
+                  <VStack spacing={3} align="stretch">
+  
+                    <HStack justify="space-between">
+                      <Text>Base Stitching</Text>
+                      <Text>₹{BASE_PRICE}</Text>
+                    </HStack>
+  
+                    {hasLining && (
+                      <HStack justify="space-between">
+                        <Text>Lining</Text>
+                        <Text>₹{liningPrice}</Text>
+                      </HStack>
                     )}
-                  />
+  
+                    {stitchingSpeed !== "standard" && (
+                      <HStack justify="space-between">
+                        <Text>
+                          {stitchingSpeed === "express"
+                            ? "Express Delivery"
+                            : "Rapid Delivery"}
+                        </Text>
+                        <Text>₹{speedPrice}</Text>
+                      </HStack>
+                    )}
+  
+                    {customizationPrice > 0 && (
+                      <HStack justify="space-between">
+                        <Text>Design Customizations</Text>
+                        <Text>₹{customizationPrice}</Text>
+                      </HStack>
+                    )}
+  
+                    <Divider />
+  
+                    <HStack justify="space-between">
+                      <Text fontSize="lg" fontWeight="bold">
+                        Total
+                      </Text>
+                      <Text fontSize="2xl" fontWeight="bold" color="#e48aa1">
+                        ₹{totalAmount}
+                      </Text>
+                    </HStack>
+                  </VStack>
                 </Box>
-              </FormControl>
-
-                {/* TOTAL */}
-                <Box
-                  p={6}
-                  borderRadius="20px"
-                  bg="linear-gradient(135deg,#fff7fb,#f0f8ff)"
-                >
-                  <HStack justify="space-between">
-                    <Text fontSize="lg">Total Amount</Text>
-                    <Text fontSize="2xl" fontWeight="bold" color="#e48aa1">
-                      ₹{totalAmount}
-                    </Text>
-                  </HStack>
-                </Box>
-
+  
                 <Button
                   type="submit"
                   size="lg"
-                  borderRadius="20px"
+                  borderRadius="24px"
                   bg="#e48aa1"
                   color="white"
+                  _hover={{ bg: "#d86b8b" }}
+                  height="60px"
+                  fontSize="lg"
                 >
                   Place Order
                 </Button>
-
+  
               </VStack>
             </form>
           </Box>
         )}
-
+  
         {showAnimation && (
           <Box textAlign="center" mt={20}>
             <Lottie
@@ -1673,13 +2156,10 @@ export const TailoringHome = () => {
             />
           </Box>
         )}
-
       </Box>
     </Box>
   );
+  
 };
 
 export default TailoringHome;
-
-
-
