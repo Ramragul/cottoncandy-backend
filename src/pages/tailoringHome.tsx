@@ -1181,14 +1181,17 @@ export const TailoringHome = () => {
     return customizations.reduce((total: number, category: any) => {
       const selectedId = selectedCustomizations[category.CategoryID];
       if (!selectedId) return total;
-
+  
       const option = category.Options.find(
         (opt: any) => opt.CustomizationID === selectedId
       );
-
-      return total + (Number(option?.PriceAdjustment) || 0);
+  
+      const price = Number(option?.PriceAdjustment || 0);
+  
+      return total + price;
     }, 0);
   }, [selectedCustomizations, customizations]);
+  
 
   const totalAmount =
     BASE_PRICE + liningPrice + speedPrice + customizationPrice;
