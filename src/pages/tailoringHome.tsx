@@ -1186,7 +1186,7 @@ export const TailoringHome = () => {
         (opt: any) => opt.CustomizationID === selectedId
       );
 
-      return total + (option?.Number(PriceAdjustment) || 0);
+      return total + (Number(option?.PriceAdjustment) || 0);
     }, 0);
   }, [selectedCustomizations, customizations]);
 
