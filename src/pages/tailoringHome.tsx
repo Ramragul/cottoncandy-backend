@@ -1085,7 +1085,9 @@
 
 // FULL WORKING TAILORING HOME WITH CUSTOMIZATION (SAFE VERSION)
 
-import React, { useState, useEffect } from "react";
+// COMPLETE PREMIUM TAILORING HOME WITH CUSTOMIZATION
+
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Box,
   Button,
@@ -1105,6 +1107,9 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Collapse,
+  Badge,
+  Divider
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -1114,20 +1119,11 @@ import "../css/DatePicker.css";
 
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
-
 import Lottie from "react-lottie";
 import successAnimation from "../animations/success.json";
 import errorAnimation from "../animations/error.json";
-
 import { useAuth } from "../contexts/AuthContext";
 import usePostData from "../hooks/usePostData";
-
-import doorstepConsultation from "../assets/tailoring/tailoring1.jpg";
-import measurementsCollection from "../assets/tailoring/tailoring2.jpg";
-import doorstepDelivery from "../assets/tailoring/tailoring3.jpg";
-
-/* ================= PRICING CONFIG ================= */
 
 const LINING_PRICE = 300;
 
@@ -1171,40 +1167,36 @@ export const TailoringHome = () => {
   const [animationType, setAnimationType] =
     useState<"success" | "error" | null>(null);
 
-  const images = [
-    doorstepConsultation,
-    measurementsCollection,
-    doorstepDelivery,
-  ];
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
   const { postData, responseData, error } =
     usePostData("/api/cc/tailoringOrder");
 
   /* ================= PRICE CALCULATION ================= */
 
   const BASE_PRICE = Number(productPrice) || 0;
+
   const liningPrice = supportsLining && hasLining ? LINING_PRICE : 0;
   const speedPrice = SPEED_PRICE_MAP[stitchingSpeed] || 0;
 
-  const customizationPrice = customizations.reduce(
-    (total: number, category: any) => {
+  const customizationPrice = useMemo(() => {
+    return customizations.reduce((total: number, category: any) => {
       const selectedId = selectedCustomizations[category.CategoryID];
       if (!selectedId) return total;
 
-      const selectedOption = category.Options.find(
+      const option = category.Options.find(
         (opt: any) => opt.CustomizationID === selectedId
       );
 
-      return total + (selectedOption?.PriceAdjustment || 0);
-    },
-    0
-  );
+      return total + (option?.PriceAdjustment || 0);
+    }, 0);
+  }, [selectedCustomizations, customizations]);
 
   const totalAmount =
     BASE_PRICE + liningPrice + speedPrice + customizationPrice;
 
   /* ===================================================== */
+
+  const toggleCustomization = () =>
+    setShowCustomization((prev) => !prev);
 
   const handleCustomizationClick = (
     categoryId: number,
@@ -1235,7 +1227,6 @@ export const TailoringHome = () => {
 
   const onSubmit = (data: any) => {
 
-    data.productName = productName;
     data.productId = productId;
     data.productImageURL = productImageURL;
     data.productPrice = BASE_PRICE;
@@ -1243,12 +1234,10 @@ export const TailoringHome = () => {
     data.stitchType = productCategory;
     data.city = selectedCity;
 
-    data.hasLining = supportsLining ? hasLining : false;
+    data.hasLining = hasLining;
     data.liningPrice = liningPrice;
 
-    data.stitchingSpeed = supportsRapidStitching
-      ? stitchingSpeed
-      : "standard";
+    data.stitchingSpeed = stitchingSpeed;
     data.speedPrice = speedPrice;
 
     data.totalAmount = totalAmount;
@@ -1256,13 +1245,6 @@ export const TailoringHome = () => {
 
     postData(data);
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((i) => (i + 1) % images.length);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (responseData?.status === 201) {
@@ -1276,75 +1258,103 @@ export const TailoringHome = () => {
   return (
     <Box minH="100vh" bg="#fafcff" py={12} px={4}>
       <Box maxW="1100px" mx="auto">
+
         {!showAnimation && (
-          <>
-            <Box
-              mb={10}
-              borderRadius="28px"
-              overflow="hidden"
-              boxShadow="0 40px 100px rgba(0,0,0,0.08)"
-            >
-              <Image
-                src={images[currentImageIndex]}
-                w="100%"
-                h={{ base: "240px", md: "340px" }}
-                objectFit="cover"
-              />
-            </Box>
 
-            <Box
-              bg="white"
-              p={{ base: 6, md: 10 }}
-              borderRadius="28px"
-              boxShadow="0 40px 120px rgba(0,0,0,0.06)"
-            >
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <VStack spacing={7} align="stretch">
+          <Box
+            bg="white"
+            p={{ base: 6, md: 10 }}
+            borderRadius="28px"
+            boxShadow="0 40px 120px rgba(0,0,0,0.06)"
+          >
 
-                  <Heading textAlign="center" color="#e48aa1">
-                    Tailoring Appointment
-                  </Heading>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <VStack spacing={8} align="stretch">
 
-                  {productName && (
-                    <Flex gap={5} p={5} borderRadius="20px" bg="#ffffff">
-                      <Image
-                        src={productImageURL}
-                        boxSize="90px"
-                        borderRadius="16px"
-                        objectFit="cover"
-                      />
-                      <Text fontWeight="500" fontSize="lg">
-                        {productName}
-                      </Text>
-                    </Flex>
-                  )}
+                <Heading textAlign="center" color="#e48aa1">
+                  Tailoring Appointment
+                </Heading>
 
-                  {/* CUSTOMIZATION TOGGLE */}
-                  {customizations.length > 0 && (
-                    <Button
-                      variant="outline"
-                      colorScheme="pink"
-                      size="sm"
-                      onClick={() =>
-                        setShowCustomization(!showCustomization)
-                      }
+                {/* PRODUCT */}
+                {productName && (
+                  <Flex gap={5} p={5} borderRadius="20px" bg="#fff7fb">
+                    <Image
+                      src={productImageURL}
+                      boxSize="90px"
+                      borderRadius="16px"
+                      objectFit="cover"
+                    />
+                    <Text fontWeight="600" fontSize="lg">
+                      {productName}
+                    </Text>
+                  </Flex>
+                )}
+
+                {/* LINING */}
+                {supportsLining && (
+                  <FormControl>
+                    <FormLabel>Lining</FormLabel>
+                    <RadioGroup
+                      value={hasLining ? "yes" : "no"}
+                      onChange={(v) => setHasLining(v === "yes")}
                     >
-                      {showCustomization
-                        ? "Hide Customization"
-                        : "View Customization (Optional)"}
-                    </Button>
-                  )}
+                      <HStack>
+                        <Radio value="no">Without lining</Radio>
+                        <Radio value="yes" colorScheme="pink">
+                          With lining (+₹300)
+                        </Radio>
+                      </HStack>
+                    </RadioGroup>
+                  </FormControl>
+                )}
 
-                  {/* CUSTOMIZATION SECTION */}
-                  {showCustomization &&
-                    customizations.map((category: any) => (
-                      <FormControl key={category.CategoryID}>
+                {/* SPEED */}
+                {supportsRapidStitching && (
+                  <FormControl>
+                    <FormLabel>Delivery Speed</FormLabel>
+                    <RadioGroup
+                      value={stitchingSpeed}
+                      onChange={(v: any) => setStitchingSpeed(v)}
+                    >
+                      <VStack align="start">
+                        <Radio value="standard">Standard</Radio>
+                        <Radio value="express">Express (+₹499)</Radio>
+                        <Radio value="rapid">Rapid (+₹999)</Radio>
+                      </VStack>
+                    </RadioGroup>
+                  </FormControl>
+                )}
+
+                <Divider />
+
+                {/* CUSTOMIZATION BUTTON */}
+                {customizations.length > 0 && (
+                  <Button
+                    onClick={toggleCustomization}
+                    size="md"
+                    borderRadius="full"
+                    bg="linear-gradient(135deg,#f4b6c2,#bde0fe)"
+                    color="white"
+                    _hover={{ opacity: 0.9 }}
+                  >
+                    {showCustomization
+                      ? "Hide Custom Designs"
+                      : "Explore Design Customizations"}
+                  </Button>
+                )}
+
+                {/* CUSTOMIZATION SECTION */}
+                <Collapse in={showCustomization} animateOpacity>
+                  <VStack spacing={6} mt={4}>
+                    {customizations.map((category: any) => (
+                      <Box key={category.CategoryID} w="100%">
                         <FormLabel fontWeight="600">
                           {category.CategoryName}
                         </FormLabel>
 
-                        <HStack spacing={4} overflowX="auto">
+                        <HStack overflowX="auto" spacing={4}>
                           {category.Options.map((option: any) => {
+
                             const isSelected =
                               selectedCustomizations[
                                 category.CategoryID
@@ -1353,14 +1363,15 @@ export const TailoringHome = () => {
                             return (
                               <Box
                                 key={option.CustomizationID}
+                                minW="150px"
                                 borderRadius="16px"
+                                overflow="hidden"
                                 border={
                                   isSelected
-                                    ? "2px solid #e48aa1"
+                                    ? "3px solid #e48aa1"
                                     : "1px solid #edf2f7"
                                 }
                                 cursor="pointer"
-                                minW="140px"
                                 onClick={() =>
                                   handleCustomizationClick(
                                     category.CategoryID,
@@ -1370,62 +1381,98 @@ export const TailoringHome = () => {
                               >
                                 <Image
                                   src={option.CustomizationImageURL}
-                                  height="110px"
+                                  h="120px"
                                   objectFit="cover"
-                                  borderTopRadius="16px"
                                 />
                                 <Box p={3}>
                                   <Text fontSize="sm">
                                     {option.CustomizationName}
                                   </Text>
                                   {option.PriceAdjustment > 0 && (
-                                    <Text fontSize="xs" color="pink.500">
+                                    <Badge colorScheme="pink">
                                       +₹{option.PriceAdjustment}
-                                    </Text>
+                                    </Badge>
                                   )}
                                 </Box>
                               </Box>
                             );
                           })}
                         </HStack>
-                      </FormControl>
+                      </Box>
                     ))}
+                  </VStack>
+                </Collapse>
 
-                  {/* EXISTING FORM FIELDS CONTINUE HERE EXACTLY AS BEFORE */}
-                  <FormControl>
-                    <FormLabel>Name</FormLabel>
-                    <Input {...register("name")} required />
-                  </FormControl>
+                {/* USER DETAILS */}
+                <FormControl>
+                  <FormLabel>Name</FormLabel>
+                  <Input {...register("name")} required />
+                </FormControl>
 
-                  <FormControl>
-                    <FormLabel>Email</FormLabel>
-                    <Input {...register("email")} required />
-                  </FormControl>
+                <FormControl>
+                  <FormLabel>Email</FormLabel>
+                  <Input {...register("email")} required />
+                </FormControl>
 
-                  <FormControl>
-                    <FormLabel>Phone</FormLabel>
-                    <Input {...register("phone")} required />
-                  </FormControl>
+                <FormControl>
+                  <FormLabel>Phone</FormLabel>
+                  <Input {...register("phone")} required />
+                </FormControl>
 
-                  <FormControl>
-                    <FormLabel>Address</FormLabel>
-                    <Textarea {...register("address")} required />
-                  </FormControl>
+                <FormControl>
+                  <FormLabel>Address</FormLabel>
+                  <Textarea {...register("address")} required />
+                </FormControl>
 
-                  <Box>
-                    <Text fontSize="xl" fontWeight="bold">
-                      Total Amount: ₹{totalAmount}
+                {/* APPOINTMENT */}
+                <FormControl>
+                  <FormLabel>Appointment Date & Time</FormLabel>
+                  <Controller
+                    name="appointmentDate"
+                    control={control}
+                    render={() => (
+                      <DatePicker
+                        selected={
+                          appointmentDate
+                            ? new Date(appointmentDate)
+                            : null
+                        }
+                        onChange={handleAppointmentDateChange}
+                        minDate={new Date()}
+                        showTimeSelect
+                        dateFormat="dd/MM/yyyy h:mm aa"
+                      />
+                    )}
+                  />
+                </FormControl>
+
+                {/* TOTAL */}
+                <Box
+                  p={6}
+                  borderRadius="20px"
+                  bg="linear-gradient(135deg,#fff7fb,#f0f8ff)"
+                >
+                  <HStack justify="space-between">
+                    <Text fontSize="lg">Total Amount</Text>
+                    <Text fontSize="2xl" fontWeight="bold" color="#e48aa1">
+                      ₹{totalAmount}
                     </Text>
-                  </Box>
+                  </HStack>
+                </Box>
 
-                  <Button type="submit" colorScheme="pink">
-                    Place Order
-                  </Button>
+                <Button
+                  type="submit"
+                  size="lg"
+                  borderRadius="20px"
+                  bg="#e48aa1"
+                  color="white"
+                >
+                  Place Order
+                </Button>
 
-                </VStack>
-              </form>
-            </Box>
-          </>
+              </VStack>
+            </form>
+          </Box>
         )}
 
         {showAnimation && (
@@ -1443,11 +1490,13 @@ export const TailoringHome = () => {
             />
           </Box>
         )}
+
       </Box>
     </Box>
   );
 };
 
 export default TailoringHome;
+
 
 
