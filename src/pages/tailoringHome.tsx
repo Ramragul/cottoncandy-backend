@@ -1221,11 +1221,53 @@ export const TailoringHome = () => {
     });
   };
 
-  const handleAppointmentDateChange = (date: Date | null) => {
+  // const handleAppointmentDateChange = (date: Date | null) => {
+  //   if (!date) return;
+  //   const formatted = date.toISOString();
+  //   setAppointmentDate(formatted);
+  //   setValue("appointmentDate", formatted);
+  // };
+
+    const handleAppointmentDateChange = (date: Date | null) => {
     if (!date) return;
-    const formatted = date.toISOString();
+    const istDate = new Date(
+      date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+    );
+    const formatted = istDate.toISOString();
     setAppointmentDate(formatted);
     setValue("appointmentDate", formatted);
+  };
+
+  const setTime = (hour: number, minute: number) => {
+    const date = new Date();
+    date.setHours(hour);
+    date.setMinutes(minute);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return date;
+  };
+  
+  const isToday = (date: Date | null) => {
+    if (!date) return false;
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+  
+  const getRoundedCurrentTime = () => {
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const remainder = minutes % 30;
+    const addMinutes = remainder === 0 ? 0 : 30 - remainder;
+  
+    now.setMinutes(minutes + addMinutes);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+  
+    return now;
   };
 
   const onSubmit = (data: any) => {
@@ -1513,7 +1555,7 @@ export const TailoringHome = () => {
                     </FormControl>
 
                 {/* APPOINTMENT */}
-                <FormControl>
+                {/* <FormControl>
                   <FormLabel>Appointment Date & Time</FormLabel>
                   <Controller
                     name="appointmentDate"
@@ -1532,7 +1574,60 @@ export const TailoringHome = () => {
                       />
                     )}
                   />
-                </FormControl>
+                </FormControl> */}
+
+              <FormControl>
+                <FormLabel fontWeight="500">Appointment Date & Time</FormLabel>
+
+                <Box
+                  border="1px solid #e8edf3"
+                  borderRadius="14px"
+                  px={4}
+                  py={3}
+                  bg="white"
+                  display="flex"
+                  alignItems="center"
+                  _focusWithin={{
+                    borderColor: "#f4b6c2",
+                    boxShadow: "0 0 0 1px #f4b6c2",
+                  }}
+                >
+                  <Controller
+                    name="appointmentDate"
+                    control={control}
+                    render={() => (
+                    <DatePicker
+                      selected={
+                        appointmentDate
+                          ? new Date(appointmentDate)
+                          : null
+                      }
+                      onChange={handleAppointmentDateChange}
+                      minDate={new Date()}
+                      dateFormat="dd/MM/yyyy h:mm aa"
+                      showTimeSelect
+                      timeIntervals={30}
+                      timeCaption="Time"
+                      minTime={
+                        isToday(
+                          appointmentDate ? new Date(appointmentDate) : null
+                        )
+                          ? new Date(
+                              Math.max(
+                                getRoundedCurrentTime().getTime(),
+                                setTime(10, 0).getTime()
+                              )
+                            )
+                          : setTime(10, 0)
+                      }
+                      maxTime={setTime(19, 0)}
+                      placeholderText="Select your preferred date & time"
+                      className="premium-datepicker"
+                    />
+                    )}
+                  />
+                </Box>
+              </FormControl>
 
                 {/* TOTAL */}
                 <Box
