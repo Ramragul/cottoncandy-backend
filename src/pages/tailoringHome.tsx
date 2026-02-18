@@ -1691,6 +1691,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../css/DatePicker.css";
+import "../css/TailoringHome.css"
 
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -2310,6 +2311,23 @@ export const TailoringHome = () => {
                 >
                   {isSubmitting ? "Processing..." : "Confirm Tailoring Appointment"}
                 </Button>
+                
+                {isSubmitting && (
+                <Box mt={4}>
+                  <Box
+                    h="6px"
+                    borderRadius="full"
+                    bg="pink.100"
+                    overflow="hidden"
+                  >
+                    <Box
+                      h="100%"
+                      bgGradient="linear(to-r, #f4b6c2, #e48aa1)"
+                      animation="progress 1.2s linear infinite"
+                    />
+                  </Box>
+                </Box>
+              )}
 
   
               </VStack>
