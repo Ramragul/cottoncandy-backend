@@ -1728,6 +1728,7 @@ export const TailoringHome = () => {
 
   const { register, handleSubmit, setValue, control } = useForm();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCity, setSelectedCity] = useState("Chennai");
   const [appointmentDate, setAppointmentDate] = useState<string | null>(null);
   const [hasLining, setHasLining] = useState(false);
@@ -1847,6 +1848,10 @@ export const TailoringHome = () => {
 
   const onSubmit = (data: any) => {
 
+    if (isSubmitting) return; // Prevent double click
+
+    setIsSubmitting(true);
+
     data.productId = productId;
     data.productImageURL = productImageURL;
     data.productPrice = BASE_PRICE;
@@ -1872,7 +1877,10 @@ export const TailoringHome = () => {
       setAnimationType("success");
       setTimeout(() => navigate("/home"), 2000);
     }
-    if (error) setAnimationType("error");
+    if (error) {
+      setAnimationType("error");
+      setIsSubmitting(false);
+    }
   }, [responseData, error]);
 
   return (
@@ -2263,7 +2271,7 @@ export const TailoringHome = () => {
                   </VStack>
                 </Box>
   
-                <Button
+                {/* <Button
                   type="submit"
                   size="lg"
                   borderRadius="24px"
@@ -2274,7 +2282,35 @@ export const TailoringHome = () => {
                   fontSize="lg"
                 >
                   Place Order
+                </Button> */}
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  borderRadius="30px"
+                  height="64px"
+                  fontSize="lg"
+                  fontWeight="600"
+                  width="100%"
+                  bgGradient="linear(to-r, #f4b6c2, #e48aa1)"
+                  color="white"
+                  _hover={{
+                    bgGradient: "linear(to-r, #e48aa1, #d86b8b)",
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 15px 35px rgba(228,138,161,0.35)",
+                  }}
+                  _active={{
+                    transform: "scale(0.98)",
+                  }}
+                  isDisabled={isSubmitting}
+                  isLoading={isSubmitting}
+                  loadingText="Booking in progress..."
+                  spinnerPlacement="start"
+                  boxShadow="0 10px 30px rgba(228,138,161,0.25)"
+                >
+                  {isSubmitting ? "Processing..." : "Confirm Tailoring Appointment"}
                 </Button>
+
   
               </VStack>
             </form>
