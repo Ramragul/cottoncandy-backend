@@ -1424,6 +1424,91 @@ export const TailoringHome = () => {
                   <Textarea {...register("address")} required />
                 </FormControl>
 
+                   <FormControl>
+                     <FormLabel
+                      fontSize="sm"
+                      fontWeight="600"
+                      color="gray.600"
+                    >
+                      City
+                    </FormLabel>
+
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        rightIcon={<ChevronDownIcon />}
+                        height="58px"
+                        borderRadius="18px"
+                        bg="white"
+                        border="1px solid #edf2f7"
+                        fontWeight="500"
+                        _hover={{ bg: "white", borderColor: "#dbeafe" }}
+                        _focus={{ borderColor: "#f4b6c2", boxShadow: "0 0 0 1px #f4b6c2" }}
+                        width="100%"
+                        textAlign="left"
+                      >
+                        {selectedCity}
+                      </MenuButton>
+
+                      <MenuList
+                        borderRadius="18px"
+                        boxShadow="0 20px 60px rgba(0,0,0,0.08)"
+                        border="1px solid #f1f5f9"
+                        py={2}
+                      >
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Chennai")}
+                        >
+                          Chennai
+                        </MenuItem>
+
+                        {/* Future Cities */}
+                        
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Coimbatore")}
+                        >
+                          Coimbatore
+                        </MenuItem>
+
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Banglore")}
+                        >
+                          Banglore
+                        </MenuItem>
+
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Trichy")}
+                        >
+                          Trichy
+                        </MenuItem>
+                       
+                      </MenuList>
+                    </Menu>
+                  </FormControl>
+
+
+                    <FormControl>
+                      <FormLabel>Pincode</FormLabel>
+                      <Input
+                        {...register("pincode")}
+                        required
+                        borderRadius="14px"
+                        border="1px solid #e8edf3"
+                        _focus={{
+                          borderColor: "#bde0fe",
+                          boxShadow: "0 0 0 1px #bde0fe",
+                        }}
+                      />
+                    </FormControl>
+
                 {/* APPOINTMENT */}
                 <FormControl>
                   <FormLabel>Appointment Date & Time</FormLabel>
