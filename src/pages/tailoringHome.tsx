@@ -2066,6 +2066,146 @@ export const TailoringHome = () => {
                   <FormLabel>Address</FormLabel>
                   <Textarea {...register("address")} required borderRadius="16px" />
                 </FormControl>
+
+                <FormControl>
+                      <FormLabel
+                      fontSize="sm"
+                      fontWeight="600"
+                      color="gray.600"
+                    >
+                      City
+                    </FormLabel>
+
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        rightIcon={<ChevronDownIcon />}
+                        height="58px"
+                        borderRadius="18px"
+                        bg="white"
+                        border="1px solid #edf2f7"
+                        fontWeight="500"
+                        _hover={{ bg: "white", borderColor: "#dbeafe" }}
+                        _focus={{ borderColor: "#f4b6c2", boxShadow: "0 0 0 1px #f4b6c2" }}
+                        width="100%"
+                        textAlign="left"
+                      >
+                        {selectedCity}
+                      </MenuButton>
+
+                      <MenuList
+                        borderRadius="18px"
+                        boxShadow="0 20px 60px rgba(0,0,0,0.08)"
+                        border="1px solid #f1f5f9"
+                        py={2}
+                      >
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Chennai")}
+                        >
+                          Chennai
+                        </MenuItem>
+
+                        {/* Future Cities */}
+                        
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Coimbatore")}
+                        >
+                          Coimbatore
+                        </MenuItem>
+
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Banglore")}
+                        >
+                          Banglore
+                        </MenuItem>
+
+                        <MenuItem
+                          borderRadius="12px"
+                          _hover={{ bg: "#fdf2f8" }}
+                          onClick={() => setSelectedCity("Trichy")}
+                        >
+                          Trichy
+                        </MenuItem>
+                       
+                      </MenuList>
+                    </Menu>
+                  </FormControl>
+
+
+                    <FormControl>
+                      <FormLabel>Pincode</FormLabel>
+                      <Input
+                        {...register("pincode")}
+                        required
+                        borderRadius="14px"
+                        border="1px solid #e8edf3"
+                        _focus={{
+                          borderColor: "#bde0fe",
+                          boxShadow: "0 0 0 1px #bde0fe",
+                        }}
+                      />
+                    </FormControl>
+
+
+
+              <FormControl>
+                <FormLabel fontWeight="500">Appointment Date & Time</FormLabel>
+
+                <Box
+                  border="1px solid #e8edf3"
+                  borderRadius="14px"
+                  px={4}
+                  py={3}
+                  bg="white"
+                  display="flex"
+                  alignItems="center"
+                  _focusWithin={{
+                    borderColor: "#f4b6c2",
+                    boxShadow: "0 0 0 1px #f4b6c2",
+                  }}
+                >
+                  <Controller
+                    name="appointmentDate"
+                    control={control}
+                    render={() => (
+                    <DatePicker
+                      selected={
+                        appointmentDate
+                          ? new Date(appointmentDate)
+                          : null
+                      }
+                      onChange={handleAppointmentDateChange}
+                      minDate={new Date()}
+                      dateFormat="dd/MM/yyyy h:mm aa"
+                      showTimeSelect
+                      timeIntervals={30}
+                      timeCaption="Time"
+                      minTime={
+                        isToday(
+                          appointmentDate ? new Date(appointmentDate) : null
+                        )
+                          ? new Date(
+                              Math.max(
+                                getRoundedCurrentTime().getTime(),
+                                setTime(10, 0).getTime()
+                              )
+                            )
+                          : setTime(10, 0)
+                      }
+                      maxTime={setTime(19, 0)}
+                      placeholderText="Select your preferred date & time"
+                      className="premium-datepicker"
+                    />
+                    )}
+                  />
+                </Box>
+              </FormControl>
   
                 {/* 💰 PREMIUM ORDER SUMMARY */}
                 <Box
