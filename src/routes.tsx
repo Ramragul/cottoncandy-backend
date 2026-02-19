@@ -1,4 +1,4 @@
-import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage, ResetPasswordPage ,RegisterPage,YourOrdersPage,YourTailoringOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage,PartnerServiceBookingManagementPage, MehendiServiceBookingPage, MehendiOrderManagement, ProductManager, ProductManagerMain , ProductManagerWrapper, PrivacyPolicy} from "./pages";
+import {Home, RentalCatalogue, TailoringCatalogue,RentalProductDetails , CartPage,CheckoutPage, LoginPage, ResetPasswordPage ,RegisterPage,YourOrdersPage,YourTailoringOrdersPage,PurchaseCatalogue, OrderManagement,OrderManagementDetails,SpinWheel,ScratchCard,AboutUs,TailoringHome, TailoringProductDetails, BusinessPartnerRegistration,RentalProductUploadForm,AdminDashboard, TailoringProductUploadForm, MehendiArtistList, ServiceUploadForm,ServiceBookingPage, MehendiHomePage, ContactUsPage, TailoringOrderManagement, TailoringOrderManagementDetails, Winner, ServiceHomePage,ServiceDetailsPage,ServiceLandingPage,PartnerServiceManagementPage,ServicePartnerLandingPage,PartnerServiceBookingManagementPage, MehendiServiceBookingPage, MehendiOrderManagement, ProductManager, ProductManagerMain , ProductManagerWrapper, PrivacyPolicy, TailoringKanbanBoard , TailoringOperationsDashboard } from "./pages";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -319,6 +319,20 @@ export const routes = [
     name: "PrivacyPolicy",
     path: "/privacy-policy",
     element: <PrivacyPolicy/>,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "TailoringKanbanBoard",
+    path: "/tailoring/kanban",
+    element: <TailoringKanbanBoard/>,
+    visible: false,
+  },
+  {
+    icon: UsersIcon,
+    name: "TailoringOperationsDashboard",
+    path: "/tailoring/dashboard",
+    element: <TailoringOperationsDashboard/>,
     visible: false,
   },
   // {

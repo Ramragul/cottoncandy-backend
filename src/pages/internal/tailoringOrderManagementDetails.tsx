@@ -170,7 +170,7 @@ import { useLocation } from 'react-router-dom';
 import usePatchData from '../../hooks/usePatchData';
 import { useAuth } from '../../contexts/AuthContext';
 
-export default function TailoringOrderManagementDetails(){
+export const  TailoringOrderManagementDetails = () => {
 
   const {authState} = useAuth();
   const { state } = useLocation();
@@ -277,3 +277,5 @@ export default function TailoringOrderManagementDetails(){
     </Box>
   )
 }
+
+export default TailoringOrderManagementDetails;

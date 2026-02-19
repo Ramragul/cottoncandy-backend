@@ -6,7 +6,7 @@ import {
 import useGetAllOrders from '../../hooks/useGetAllOrders';
 import { OrderItem } from '../../types/OrderItem';
 
-export default function TailoringOperationsDashboard() {
+export const  TailoringOperationsDashboard = () => {
   const { data: orders = [], isLoading } =
     useGetAllOrders('/api/cc/tailoring/orders?showAll=false');
 
@@ -63,3 +63,6 @@ const StatCard = ({label,value,color}:any)=>(
     <StatNumber>{value}</StatNumber>
   </Stat>
 );
+
+
+export default TailoringOperationsDashboard;

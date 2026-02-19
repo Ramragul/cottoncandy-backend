@@ -144,7 +144,7 @@ import useGetAllOrders from '../../hooks/useGetAllOrders';
 import { useNavigate } from 'react-router-dom';
 import { OrderItem } from '../../types/OrderItem';
 
-export default function TailoringOrderManagement() {
+export const  TailoringOrderManagement = () => {
 
   const [search,setSearch]=useState('');
   const [showAll,setShowAll]=useState(false);
@@ -220,3 +220,5 @@ export default function TailoringOrderManagement() {
     </Box>
   )
 }
+
+export default TailoringOrderManagement;

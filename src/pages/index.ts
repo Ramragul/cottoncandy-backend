@@ -46,3 +46,5 @@ export * from "./productManagerMain";
 export * from "./productManagerWrapper";
 export * from "./yourTailoringOrdersPage";
 export * from "./privacyPolicy";
+export * from "./internal/tailoringKanbanBoard";
+export * from "./internal/tailoringOperationsDashboard";

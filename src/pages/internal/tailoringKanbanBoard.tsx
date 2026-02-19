@@ -18,7 +18,7 @@ const STATUS_COLUMNS = [
   'Delivered',
 ];
 
-export const TailoringKanbanBoard = () => {
+export const TailoringKanbanBoard: React.FC = () => {
   const { data: orders = [] } =
     useGetAllOrders('/api/cc/tailoring/orders?showAll=false');
 
@@ -64,3 +64,5 @@ export const TailoringKanbanBoard = () => {
     </Box>
   );
 };
+
+export default TailoringKanbanBoard;
