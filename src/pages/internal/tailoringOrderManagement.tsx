@@ -134,7 +134,6 @@
 // FULL SMART TABLE VERSION
 // (clean and optimized)
 
-import { keyframes } from '@emotion/react';
 
 import React, { useState, useMemo } from 'react';
 import {
@@ -152,8 +151,10 @@ import {
   Stack,
   Select,
   Switch,
+  Button,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import useGetAllOrders from '../../hooks/useGetAllOrders';
 import { useNavigate } from 'react-router-dom';
 import { OrderItem } from '../../types/OrderItem';
@@ -166,11 +167,20 @@ export const TailoringOrderManagement = () => {
   const [showHistorical, setShowHistorical] = useState(false);
   const [sortBy, setSortBy] = useState('appointment_date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [activeTab, setActiveTab] =
+    useState<'all' | 'urgent' | 'today' | 'unassigned'>('all');
 
   const navigate = useNavigate();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  // 🔥 URGENCY LOGIC
+  // 🔥 CLEAN PULSE ANIMATION
+  const pulse = keyframes`
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  `;
+
+  // 🔥 URGENCY
   const getUrgencyLevel = (order: OrderItem) => {
     const diff =
       (new Date(order.appointment_date).getTime() - new Date().getTime()) /
@@ -185,7 +195,7 @@ export const TailoringOrderManagement = () => {
   const filteredOrders = useMemo(() => {
     let filtered = orders;
 
-    // Show completed only if toggle ON
+    // Completed toggle
     if (showHistorical) {
       filtered = filtered.filter(
         (o) => o.order_status === 'Completed'
@@ -198,13 +208,35 @@ export const TailoringOrderManagement = () => {
       );
     }
 
+    // Tabs
+    if (activeTab === 'urgent') {
+      filtered = filtered.filter(
+        (o) => getUrgencyLevel(o) === 'critical'
+      );
+    }
+
+    if (activeTab === 'today') {
+      filtered = filtered.filter(
+        (o) =>
+          new Date(o.appointment_date).toDateString() ===
+          new Date().toDateString()
+      );
+    }
+
+    if (activeTab === 'unassigned') {
+      filtered = filtered.filter(
+        (o) => !o.order_assignment
+      );
+    }
+
     // Search
     if (search.trim()) {
       const keyword = search.toLowerCase();
-      filtered = filtered.filter((o) =>
-        o.order_id.toString().includes(keyword) ||
-        o.name?.toLowerCase().includes(keyword) ||
-        o.phone?.toLowerCase().includes(keyword)
+      filtered = filtered.filter(
+        (o) =>
+          o.order_id.toString().includes(keyword) ||
+          o.name?.toLowerCase().includes(keyword) ||
+          o.phone?.toLowerCase().includes(keyword)
       );
     }
 
@@ -224,29 +256,30 @@ export const TailoringOrderManagement = () => {
     });
 
     return filtered;
-  }, [orders, search, showHistorical, sortBy, sortOrder]);
-
-  const dashboardStats = {
-    total: filteredOrders.length,
-    urgent: filteredOrders.filter(
-      (o) => getUrgencyLevel(o) === 'critical'
-    ).length,
-    unassigned: filteredOrders.filter(
-      (o) => !o.order_assignment
-    ).length,
-  };
+  }, [orders, search, showHistorical, sortBy, sortOrder, activeTab]);
 
   return (
     <Box p={{ base: 4, md: 8 }}>
-      <Text fontSize="3xl" fontWeight="bold" mb={8}>
+      <Text fontSize="3xl" fontWeight="bold" mb={6}>
         Tailoring Order Management
       </Text>
 
-      {/* 🔥 DASHBOARD SUMMARY */}
-      <Flex gap={6} mb={8} wrap="wrap">
-        <StatCard label="Visible Orders" value={dashboardStats.total} />
-        <StatCard label="Urgent" value={dashboardStats.urgent} color="red.400" />
-        <StatCard label="Unassigned" value={dashboardStats.unassigned} color="orange.400" />
+      {/* 🔥 TABS */}
+      <Flex gap={3} mb={6} wrap="wrap">
+        {['all', 'urgent', 'today', 'unassigned'].map((tab) => (
+          <Button
+            key={tab}
+            size="sm"
+            borderRadius="full"
+            variant={activeTab === tab ? 'solid' : 'outline'}
+            colorScheme="purple"
+            onClick={() =>
+              setActiveTab(tab as any)
+            }
+          >
+            {tab.toUpperCase()}
+          </Button>
+        ))}
       </Flex>
 
       {/* 🔥 CONTROLS */}
@@ -267,7 +300,7 @@ export const TailoringOrderManagement = () => {
           onChange={(e) => setSortBy(e.target.value)}
           maxW={{ base: '100%', md: '200px' }}
         >
-          <option value="appointment_date">Appointment Date</option>
+          <option value="appointment_date">Appointment</option>
           <option value="order_date">Created Date</option>
           <option value="total_amount">Amount</option>
         </Select>
@@ -275,7 +308,7 @@ export const TailoringOrderManagement = () => {
         <Select
           value={sortOrder}
           onChange={(e) =>
-            setSortOrder(e.target.value as 'asc' | 'desc')
+            setSortOrder(e.target.value as any)
           }
           maxW={{ base: '100%', md: '150px' }}
         >
@@ -286,7 +319,9 @@ export const TailoringOrderManagement = () => {
         <Flex align="center" gap={2}>
           <Switch
             isChecked={showHistorical}
-            onChange={() => setShowHistorical(!showHistorical)}
+            onChange={() =>
+              setShowHistorical(!showHistorical)
+            }
           />
           <Text>Completed Only</Text>
         </Flex>
@@ -309,9 +344,10 @@ export const TailoringOrderManagement = () => {
                 borderColor="gray.200"
                 cursor="pointer"
                 onClick={() =>
-                  navigate(`/tailoring/orderDetails/${o.order_id}`, {
-                    state: { order: o },
-                  })
+                  navigate(
+                    `/tailoring/orderDetails/${o.order_id}`,
+                    { state: { order: o } }
+                  )
                 }
               >
                 <Flex justify="space-between">
@@ -320,9 +356,13 @@ export const TailoringOrderManagement = () => {
                   </Text>
 
                   {urgency === 'critical' && (
-                    <Badge colorScheme="red">
-                      URGENT
-                    </Badge>
+                    <Box
+                      animation={`${pulse} 1s infinite`}
+                    >
+                      <Badge colorScheme="red">
+                        URGENT
+                      </Badge>
+                    </Box>
                   )}
                 </Flex>
 
@@ -332,10 +372,12 @@ export const TailoringOrderManagement = () => {
                 </Text>
 
                 <Text mt={2}>
-                  {new Date(o.appointment_date).toLocaleString(
-                    'en-IN',
-                    { dateStyle: 'medium', timeStyle: 'short' }
-                  )}
+                  {new Date(
+                    o.appointment_date
+                  ).toLocaleString('en-IN', {
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  })}
                 </Text>
 
                 <Flex mt={2} gap={2} wrap="wrap">
@@ -388,22 +430,13 @@ export const TailoringOrderManagement = () => {
                       transition: '0.2s',
                     }}
                     onClick={() =>
-                      navigate(`/tailoring/orderDetails/${o.order_id}`, {
-                        state: { order: o },
-                      })
+                      navigate(
+                        `/tailoring/orderDetails/${o.order_id}`,
+                        { state: { order: o } }
+                      )
                     }
                   >
-                    <Td
-                      borderLeft="6px solid"
-                      borderColor={
-                        urgency === 'critical'
-                          ? 'red.400'
-                          : urgency === 'warning'
-                          ? 'orange.400'
-                          : 'teal.400'
-                      }
-                      fontWeight="600"
-                    >
+                    <Td fontWeight="600">
                       #{o.order_id}
                     </Td>
 
@@ -411,16 +444,21 @@ export const TailoringOrderManagement = () => {
                       <Text fontWeight="500">
                         {o.name}
                       </Text>
-                      <Text fontSize="sm" color="gray.500">
+                      <Text
+                        fontSize="sm"
+                        color="gray.500"
+                      >
                         {o.phone}
                       </Text>
                     </Td>
 
                     <Td>
-                      {new Date(o.appointment_date).toLocaleString(
-                        'en-IN',
-                        { dateStyle: 'medium', timeStyle: 'short' }
-                      )}
+                      {new Date(
+                        o.appointment_date
+                      ).toLocaleString('en-IN', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short',
+                      })}
                     </Td>
 
                     <Td>
@@ -429,9 +467,15 @@ export const TailoringOrderManagement = () => {
                       </Badge>
 
                       {urgency === 'critical' && (
-                        <Badge ml={2} colorScheme="red">
-                          URGENT
-                        </Badge>
+                        <Box
+                          as="span"
+                          ml={2}
+                          animation={`${pulse} 1s infinite`}
+                        >
+                          <Badge colorScheme="red">
+                            URGENT
+                          </Badge>
+                        </Box>
                       )}
                     </Td>
 
@@ -452,25 +496,6 @@ export const TailoringOrderManagement = () => {
     </Box>
   );
 };
-
-const StatCard = ({ label, value, color }: any) => (
-  <Box
-    p={6}
-    bg="white"
-    borderRadius="xl"
-    boxShadow="md"
-    borderLeft="6px solid"
-    borderColor={color || 'purple.400'}
-    minW="200px"
-  >
-    <Text fontSize="sm" color="gray.500">
-      {label}
-    </Text>
-    <Text fontSize="2xl" fontWeight="bold">
-      {value}
-    </Text>
-  </Box>
-);
 
 export default TailoringOrderManagement;
 
