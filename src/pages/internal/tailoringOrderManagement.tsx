@@ -354,6 +354,9 @@ export const TailoringOrderManagement = () => {
                   <Text fontWeight="bold">
                     #{o.order_id}
                   </Text>
+                  <Text fontWeight="bold">
+                    {o.stitch_option}
+                  </Text>
 
                   {urgency === 'critical' && (
                     <Box
@@ -454,7 +457,7 @@ export const TailoringOrderManagement = () => {
                     </Td>
 
                     <Td fontWeight="600">
-                      #{o.stitch_option}
+                      {o.stitch_option}
                     </Td>
 
                     <Td>
