@@ -134,6 +134,8 @@
 // FULL SMART TABLE VERSION
 // (clean and optimized)
 
+import { keyframes } from '@emotion/react';
+
 import React, { useState, useMemo } from 'react';
 import {
   Box,
@@ -146,16 +148,14 @@ import {
   Input,
   Badge,
   Flex,
-  Switch,
   Text,
   Stack,
   Select,
   Checkbox,
   Button,
+  Switch,
   useBreakpointValue,
-
 } from '@chakra-ui/react';
-import { keyframes } from '@emotion/react';
 import useGetAllOrders from '../../hooks/useGetAllOrders';
 import { useNavigate } from 'react-router-dom';
 import { OrderItem } from '../../types/OrderItem';
@@ -168,30 +168,29 @@ export const TailoringOrderManagement = () => {
   const [showHistorical, setShowHistorical] = useState(false);
   const [sortBy, setSortBy] = useState('appointment_date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-  const [filterType, setFilterType] = useState<'all' | 'urgent' | 'unassigned' | 'today'>('all');
   const [selectedOrders, setSelectedOrders] = useState<number[]>([]);
-  const [bulkAssignName, setBulkAssignName] = useState('');
 
   const navigate = useNavigate();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  // 🔥 Pulse Animation
+  // 🔥 CLEAN PULSE ANIMATION
   const pulse = keyframes`
-    0% { box-shadow: 0 0 0 0 rgba(255,0,0,0.6); }
-    70% { box-shadow: 0 0 0 8px rgba(255,0,0,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
   `;
 
-  const getUrgencyLevel = (order: OrderItem) => {
+  const getUrgency = (order: OrderItem) => {
     const diff =
       (new Date(order.appointment_date).getTime() - new Date().getTime()) /
       (1000 * 3600);
+
     if (diff <= 24 && diff > 0) return 'critical';
     if (diff <= 48 && diff > 0) return 'warning';
     return 'normal';
   };
 
-  // 🔥 FILTER + SEARCH + SORT
+  // 🔥 FILTER + SORT
   const filteredOrders = useMemo(() => {
     let filtered = orders;
 
@@ -199,22 +198,8 @@ export const TailoringOrderManagement = () => {
       filtered = filtered.filter(o => o.order_status === 'Completed');
     } else {
       filtered = filtered.filter(
-        o => o.order_status !== 'Completed' && o.order_status !== 'Cancelled'
-      );
-    }
-
-    if (filterType === 'urgent') {
-      filtered = filtered.filter(o => getUrgencyLevel(o) === 'critical');
-    }
-
-    if (filterType === 'unassigned') {
-      filtered = filtered.filter(o => !o.order_assignment);
-    }
-
-    if (filterType === 'today') {
-      filtered = filtered.filter(o =>
-        new Date(o.appointment_date).toDateString() ===
-        new Date().toDateString()
+        o => o.order_status !== 'Completed' &&
+             o.order_status !== 'Cancelled'
       );
     }
 
@@ -227,210 +212,232 @@ export const TailoringOrderManagement = () => {
       );
     }
 
-    filtered.sort((a: any, b: any) => {
+    filtered.sort((a:any,b:any)=>{
       let valA = a[sortBy];
       let valB = b[sortBy];
 
-      if (sortBy.includes('date')) {
+      if(sortBy.includes('date')){
         valA = new Date(valA).getTime();
         valB = new Date(valB).getTime();
       }
 
-      return sortOrder === 'asc'
+      return sortOrder==='asc'
         ? valA > valB ? 1 : -1
         : valA < valB ? 1 : -1;
     });
 
     return filtered;
-  }, [orders, search, showHistorical, sortBy, sortOrder, filterType]);
+  },[orders,search,showHistorical,sortBy,sortOrder]);
 
-  const handleSelect = (id: number) => {
+  const handleSelect = (id:number)=>{
     setSelectedOrders(prev =>
       prev.includes(id)
-        ? prev.filter(x => x !== id)
-        : [...prev, id]
+        ? prev.filter(x=>x!==id)
+        : [...prev,id]
     );
   };
 
-  const dashboardStats = {
-    total: filteredOrders.length,
-    urgent: filteredOrders.filter(o => getUrgencyLevel(o) === 'critical').length,
-    unassigned: filteredOrders.filter(o => !o.order_assignment).length,
-  };
-
   return (
-    <Box p={{ base: 4, md: 8 }}>
-      <Text fontSize="3xl" fontWeight="bold" mb={8}>
-        Tailoring Order Management
+    <Box p={{ base:4, md:8 }}>
+      <Text fontSize="3xl" fontWeight="bold" mb={6}>
+        Tailoring Orders
       </Text>
 
-      {/* 🔥 DASHBOARD CARDS */}
-      <Flex gap={6} mb={8} wrap="wrap">
-        <StatCard label="Visible Orders" value={dashboardStats.total} />
-        <StatCard label="Urgent" value={dashboardStats.urgent} color="red.400" />
-        <StatCard label="Unassigned" value={dashboardStats.unassigned} color="orange.400" />
-      </Flex>
-
-      {/* 🔥 FILTER CHIPS */}
-      <Flex gap={3} mb={6} wrap="wrap">
-        {['all','urgent','unassigned','today'].map(type => (
-          <Button
-            key={type}
-            size="sm"
-            variant={filterType===type?'solid':'outline'}
-            colorScheme="purple"
-            onClick={()=>setFilterType(type as any)}
-          >
-            {type.toUpperCase()}
-          </Button>
-        ))}
-      </Flex>
-
-      {/* 🔥 SEARCH + SORT */}
-      <Flex direction={{ base: 'column', md: 'row' }} gap={4} mb={6}>
+      {/* 🔥 CONTROLS */}
+      <Flex
+        direction={{ base:'column', md:'row' }}
+        gap={4}
+        mb={6}
+      >
         <Input
           placeholder="Search Order ID / Name / Phone"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e)=>setSearch(e.target.value)}
+          bg="white"
         />
 
-        <Select value={sortBy} onChange={(e)=>setSortBy(e.target.value)}>
+        <Select
+          value={sortBy}
+          onChange={(e)=>setSortBy(e.target.value)}
+          maxW={{ base:'100%', md:'200px' }}
+        >
           <option value="appointment_date">Appointment</option>
           <option value="order_date">Created Date</option>
           <option value="total_amount">Amount</option>
         </Select>
 
-        <Select value={sortOrder} onChange={(e)=>setSortOrder(e.target.value as any)}>
+        <Select
+          value={sortOrder}
+          onChange={(e)=>setSortOrder(e.target.value as any)}
+          maxW={{ base:'100%', md:'150px' }}
+        >
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </Select>
 
-        <Switch
-          isChecked={showHistorical}
-          onChange={()=>setShowHistorical(!showHistorical)}
-        >
-          Completed Only
-        </Switch>
+        <Flex align="center" gap={2}>
+          <Switch
+            isChecked={showHistorical}
+            onChange={()=>setShowHistorical(!showHistorical)}
+          />
+          <Text>Completed Only</Text>
+        </Flex>
       </Flex>
 
-      {/* 🔥 BULK ASSIGN */}
-      {selectedOrders.length > 0 && (
-        <Flex gap={4} mb={4}>
-          <Input
-            placeholder="Assign to..."
-            value={bulkAssignName}
-            onChange={(e)=>setBulkAssignName(e.target.value)}
-          />
-          <Button colorScheme="teal">
-            Assign {selectedOrders.length}
-          </Button>
-        </Flex>
-      )}
+      {/* 🔥 MOBILE CARD VIEW */}
+      {isMobile ? (
+        <Stack spacing={4}>
+          {filteredOrders.map(o=>{
+            const urgency = getUrgency(o);
 
-      {/* 🔥 TABLE */}
-      <Box bg="white" borderRadius="2xl" boxShadow="xl" overflow="hidden">
-        <Table>
-          <Thead bg="gray.50">
-            <Tr>
-              <Th></Th>
-              <Th>ID</Th>
-              <Th>Customer</Th>
-              <Th>Appointment</Th>
-              <Th>Status</Th>
-              <Th>Assigned</Th>
-            </Tr>
-          </Thead>
-
-          <Tbody>
-            {filteredOrders.map(o => {
-              const urgency = getUrgencyLevel(o);
-
-              return (
-                <Tr
-                  key={o.order_id}
-                  borderBottom="1px solid"
-                  borderColor="gray.100"
-                  _hover={{ bg: 'gray.50' }}
-                >
-                  <Td>
-                    <Checkbox
-                      isChecked={selectedOrders.includes(o.order_id)}
-                      onChange={()=>handleSelect(o.order_id)}
-                    />
-                  </Td>
-
-                  <Td
-                    borderLeft="6px solid"
-                    borderColor={
-                      urgency==='critical'?'red.400':
-                      urgency==='warning'?'orange.400':
-                      'teal.400'
-                    }
-                  >
+            return (
+              <Box
+                key={o.order_id}
+                p={4}
+                bg="white"
+                borderRadius="xl"
+                boxShadow="md"
+                border="1px solid"
+                borderColor="gray.100"
+                onClick={()=>navigate(`/tailoring/orderDetails/${o.order_id}`,{state:{order:o}})}
+                cursor="pointer"
+              >
+                <Flex justify="space-between">
+                  <Text fontWeight="bold">
                     #{o.order_id}
-                  </Td>
+                  </Text>
 
-                  <Td>
-                    <Text fontWeight="600">{o.name}</Text>
-                    <Text fontSize="sm" color="gray.500">
-                      {o.phone}
-                    </Text>
-                  </Td>
-
-                  <Td>
-                    {new Date(o.appointment_date).toLocaleString(
-                      'en-IN',
-                      { dateStyle:'medium', timeStyle:'short' }
-                    )}
-                  </Td>
-
-                  <Td>
-                    <Badge colorScheme="purple">
-                      {o.order_status}
-                    </Badge>
-
-                    {urgency==='critical' && (
-                      <Badge
-                        ml={2}
-                        colorScheme="red"
-                        animation={`${pulse} 1.5s infinite`}
-                      >
+                  {urgency==='critical' && (
+                    <Box
+                      animation={`${pulse} 1.2s infinite`}
+                    >
+                      <Badge colorScheme="red">
                         URGENT
                       </Badge>
-                    )}
-                  </Td>
+                    </Box>
+                  )}
+                </Flex>
 
-                  <Td>
-                    {o.order_assignment || (
-                      <Badge colorScheme="orange">
-                        Not Assigned
+                <Text mt={2}>{o.name}</Text>
+                <Text fontSize="sm" color="gray.500">
+                  {o.phone}
+                </Text>
+
+                <Text mt={2}>
+                  {new Date(o.appointment_date).toLocaleString(
+                    'en-IN',
+                    { dateStyle:'medium', timeStyle:'short' }
+                  )}
+                </Text>
+
+                <Flex mt={2} gap={2} wrap="wrap">
+                  <Badge colorScheme="purple">
+                    {o.order_status}
+                  </Badge>
+
+                  {!o.order_assignment && (
+                    <Badge colorScheme="orange">
+                      Not Assigned
+                    </Badge>
+                  )}
+                </Flex>
+              </Box>
+            );
+          })}
+        </Stack>
+      ) : (
+        /* 🔥 DESKTOP TABLE */
+        <Box
+          bg="white"
+          borderRadius="2xl"
+          boxShadow="lg"
+          overflow="hidden"
+        >
+          <Table variant="simple">
+            <Thead bg="gray.50">
+              <Tr>
+                <Th></Th>
+                <Th>ID</Th>
+                <Th>Customer</Th>
+                <Th>Appointment</Th>
+                <Th>Status</Th>
+                <Th>Assigned</Th>
+              </Tr>
+            </Thead>
+
+            <Tbody>
+              {filteredOrders.map(o=>{
+                const urgency = getUrgency(o);
+
+                return (
+                  <Tr
+                    key={o.order_id}
+                    borderBottom="2px solid"
+                    borderColor="gray.100"
+                    _hover={{ bg:'gray.50' }}
+                  >
+                    <Td>
+                      <Checkbox
+                        isChecked={selectedOrders.includes(o.order_id)}
+                        onChange={()=>handleSelect(o.order_id)}
+                      />
+                    </Td>
+
+                    <Td fontWeight="600">
+                      #{o.order_id}
+                    </Td>
+
+                    <Td>
+                      <Text fontWeight="500">
+                        {o.name}
+                      </Text>
+                      <Text fontSize="sm" color="gray.500">
+                        {o.phone}
+                      </Text>
+                    </Td>
+
+                    <Td>
+                      {new Date(o.appointment_date).toLocaleString(
+                        'en-IN',
+                        { dateStyle:'medium', timeStyle:'short' }
+                      )}
+                    </Td>
+
+                    <Td>
+                      <Badge colorScheme="purple">
+                        {o.order_status}
                       </Badge>
-                    )}
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </Box>
+
+                      {urgency==='critical' && (
+                        <Box
+                          as="span"
+                          ml={2}
+                          animation={`${pulse} 1.2s infinite`}
+                        >
+                          <Badge colorScheme="red">
+                            URGENT
+                          </Badge>
+                        </Box>
+                      )}
+                    </Td>
+
+                    <Td>
+                      {o.order_assignment || (
+                        <Badge colorScheme="orange">
+                          Not Assigned
+                        </Badge>
+                      )}
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </Box>
+      )}
     </Box>
   );
 };
-
-const StatCard = ({label,value,color}:any)=>(
-  <Box
-    p={6}
-    bg="white"
-    borderRadius="xl"
-    boxShadow="md"
-    borderLeft="6px solid"
-    borderColor={color || 'purple.400'}
-    minW="200px"
-  >
-    <Text fontSize="sm" color="gray.500">{label}</Text>
-    <Text fontSize="2xl" fontWeight="bold">{value}</Text>
-  </Box>
-);
 
 export default TailoringOrderManagement;
 
