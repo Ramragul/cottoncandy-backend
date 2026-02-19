@@ -131,114 +131,92 @@
 
 // Version 2 : Enhancement to version 1
 
+// FULL SMART TABLE VERSION
+// (clean and optimized)
+
 import React, { useState, useMemo } from 'react';
 import {
-  Table, Thead, Tbody, Tr, Th, Td,
-  Box, Text, Spinner, Input,
-  Select, Badge, Flex, Switch
+  Box, Table, Thead, Tbody,
+  Tr, Th, Td, Input,
+  Badge, Flex, Switch
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import useGetAllOrders from '../../hooks/useGetAllOrders';
-import { OrderItem } from '../../types';
+import { useNavigate } from 'react-router-dom';
+import { OrderItem } from '../../types/OrderItem';
 
-export const TailoringOrderManagement = () => {
-  const [search, setSearch] = useState('');
-  const [showAll, setShowAll] = useState(false);
-  const [sortKey, setSortKey] = useState<keyof OrderItem>('appointment_date');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+export default function TailoringOrderManagement() {
 
-  const { data: orders = [], isLoading } =
+  const [search,setSearch]=useState('');
+  const [showAll,setShowAll]=useState(false);
+
+  const { data:orders=[] } =
     useGetAllOrders(`/api/cc/tailoring/orders?search=${search}&showAll=${showAll}`);
 
   const navigate = useNavigate();
 
-  const sortedOrders = useMemo(() => {
-    return [...orders].sort((a, b) => {
-      const valA = new Date(a[sortKey] as any).getTime();
-      const valB = new Date(b[sortKey] as any).getTime();
-      return sortOrder === 'asc' ? valA - valB : valB - valA;
-    });
-  }, [orders, sortKey, sortOrder]);
-
-  const isUrgent = (date: string, status: string) => {
-    const now = new Date();
-    const appt = new Date(date);
-    const diff = (appt.getTime() - now.getTime()) / (1000 * 3600);
-    return diff <= 48 && diff > 0 && status !== 'Completed';
+  const isUrgent = (date:string)=>{
+    const diff =
+      (new Date(date).getTime() - new Date().getTime())/(1000*3600);
+    return diff <= 48 && diff > 0;
   };
-
-  if (isLoading) return <Spinner size="xl" />;
 
   return (
     <Box p={6}>
-      <Text fontSize="3xl" fontWeight="bold" mb={6}>
-        Tailoring Order Management
-      </Text>
-
-      <Flex mb={4} gap={4}>
+      <Flex gap={4} mb={4}>
         <Input
           placeholder="Search Order ID / Name / Phone / Date"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e)=>setSearch(e.target.value)}
         />
         <Switch
           isChecked={showAll}
-          onChange={() => setShowAll(!showAll)}
+          onChange={()=>setShowAll(!showAll)}
         >
           Show Historical
         </Switch>
       </Flex>
 
-      <Table variant="simple">
+      <Table>
         <Thead bg="gray.100">
           <Tr>
-            <Th>Order ID</Th>
+            <Th>ID</Th>
             <Th>Customer</Th>
             <Th>Appointment</Th>
             <Th>Total</Th>
             <Th>Status</Th>
-            <Th>Assigned</Th>
+            <Th>Payment</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {sortedOrders.map((order) => (
-            <Tr
-              key={order.order_id}
-              bg={
-                isUrgent(order.appointment_date, order.order_status)
-                  ? 'red.50'
-                  : 'white'
-              }
-              _hover={{ bg: 'gray.50', cursor: 'pointer' }}
-              onClick={() =>
-                navigate(`/tailoring/orderDetails/${order.order_id}`, { state: { order } })
-              }
+          {orders.map((o:OrderItem)=>(
+            <Tr key={o.order_id}
+              bg={isUrgent(o.appointment_date) ? 'red.50' : 'white'}
+              _hover={{bg:'gray.50',cursor:'pointer'}}
+              onClick={()=>navigate(`/tailoring/orderDetails/${o.order_id}`,{state:{order:o}})}
             >
-              <Td>{order.order_id}</Td>
+              <Td>{o.order_id}</Td>
               <Td>
-                <Text fontWeight="bold">{order.name}</Text>
-                <Text fontSize="sm">{order.phone}</Text>
+                {o.name}
+                <br/>
+                <small>{o.phone}</small>
               </Td>
               <Td>
-                {new Date(order.appointment_date).toLocaleString('en-IN', {
-                  dateStyle: 'medium',
-                  timeStyle: 'short',
+                {new Date(o.appointment_date).toLocaleString('en-IN',{
+                  dateStyle:'medium',
+                  timeStyle:'short'
                 })}
               </Td>
-              <Td>₹{order.total_amount}</Td>
+              <Td>₹{o.total_amount}</Td>
+              <Td><Badge>{o.order_status}</Badge></Td>
               <Td>
-                <Badge colorScheme="blue">{order.order_status}</Badge>
-              </Td>
-              <Td>
-                {order.order_assignment || (
-                  <Badge colorScheme="red">Unassigned</Badge>
-                )}
+                <Badge colorScheme={o.payment_status==='Paid'?'green':'red'}>
+                  {o.payment_status}
+                </Badge>
               </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
     </Box>
-  );
-};
-
+  )
+}
