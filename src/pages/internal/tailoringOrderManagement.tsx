@@ -408,6 +408,7 @@ export const TailoringOrderManagement = () => {
               <Tr>
                 <Th>ID</Th>
                 <Th>Customer</Th>
+                <Th>Type</Th>
                 <Th>Appointment</Th>
                 <Th>Status</Th>
                 <Th>Assigned</Th>
@@ -450,6 +451,10 @@ export const TailoringOrderManagement = () => {
                       >
                         {o.phone}
                       </Text>
+                    </Td>
+
+                    <Td fontWeight="600">
+                      #{o.stitch_option}
                     </Td>
 
                     <Td>
