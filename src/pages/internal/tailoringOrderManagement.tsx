@@ -384,7 +384,7 @@ export const TailoringOrderManagement = () => {
                 </Text> */}
                 <Text mt={2}>
                 {new Date(
-                  o.appointment_date.replace(' ', 'T')
+                  o.appointment_date.replace('Z', '')
                 ).toLocaleString('en-IN', {
                   timeZone: 'Asia/Kolkata',
                   dateStyle: 'medium',
@@ -487,7 +487,7 @@ export const TailoringOrderManagement = () => {
                       })} */}
                      
                       {new Date(
-                        o.appointment_date.replace(' ', 'T')
+                        o.appointment_date.replace('Z', '')
                       ).toLocaleString('en-IN', {
                         timeZone: 'Asia/Kolkata',
                         dateStyle: 'medium',
