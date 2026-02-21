@@ -374,14 +374,23 @@ export const TailoringOrderManagement = () => {
                   {o.phone}
                 </Text>
 
-                <Text mt={2}>
+                {/* <Text mt={2}>
                   {new Date(
                     o.appointment_date
                   ).toLocaleString('en-IN', {
                     dateStyle: 'medium',
                     timeStyle: 'short',
                   })}
-                </Text>
+                </Text> */}
+                <Text mt={2}>
+                {new Date(
+                  o.appointment_date.replace(' ', 'T')
+                ).toLocaleString('en-IN', {
+                  timeZone: 'Asia/Kolkata',
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                })}
+              </Text>
 
                 <Flex mt={2} gap={2} wrap="wrap">
                   <Badge colorScheme="purple">
@@ -461,14 +470,30 @@ export const TailoringOrderManagement = () => {
                     </Td>
 
                     <Td>
-                      {new Date(
+                      {/* {new Date(
                         o.appointment_date
                       ).toLocaleString('en-IN', {
                         dateStyle: 'medium',
                         timeStyle: 'short',
+                      })} */}
+                     
+                      {new Date(
+                        o.appointment_date.replace(' ', 'T')
+                      ).toLocaleString('en-IN', {
+                        timeZone: 'Asia/Kolkata',
+                        dateStyle: 'medium',
+                        timeStyle: 'short',
                       })}
+
                     </Td>
 
+                    <Td fontWeight="700" color="green.600">
+                      ₹ {Number(o.total_amount).toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      })}
+                    </Td>
+                    
                     <Td>
                       <Badge colorScheme="purple">
                         {o.order_status}
