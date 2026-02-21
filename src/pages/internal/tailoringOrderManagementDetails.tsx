@@ -160,102 +160,236 @@
 // Version 2 : Enhancement to version 1
 
 
-import React,{useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Box, Text, Image,
-  Select, Input, Button,
-  Grid, Badge
+  Box,
+  Text,
+  Image,
+  Select,
+  Input,
+  Button,
+  Grid,
+  Badge,
+  Stack,
+  Flex,
+  Divider,
+  Spinner,
+  useToast
 } from '@chakra-ui/react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import usePatchData from '../../hooks/usePatchData';
 import { useAuth } from '../../contexts/AuthContext';
+import Lottie from 'react-lottie';
+import successAnimation from '../../animations/success.json';
+import loadingAnimation from '../../animations/loading.json';
 
-export const  TailoringOrderManagementDetails = () => {
+const STATUS_FLOW = [
+  'Created',
+  'Processing',
+  'Stitching',
+  'Quality Check',
+  'Ready',
+  'Delivered',
+  'Completed'
+];
 
-  const {authState} = useAuth();
+export const TailoringOrderManagementDetails = () => {
+  const { authState } = useAuth();
   const { state } = useLocation();
-  const order = state.order;
+  const navigate = useNavigate();
+  const toast = useToast();
 
-  const { patchData } =
+  const order = state?.order;
+
+  const { patchData, isLoading, responseData, error } =
     usePatchData(`/api/tailoring/orders/${order.order_id}/update`);
 
-  const [status,setStatus]=useState(order.order_status);
-  const [assignment,setAssignment]=useState(order.order_assignment);
+  const [status, setStatus] = useState(order.order_status);
+  const [assignment, setAssignment] = useState(order.order_assignment || '');
+  const [appointmentDate, setAppointmentDate] = useState(
+    order.appointment_date
+      ? new Date(order.appointment_date).toISOString().slice(0,16)
+      : ''
+  );
 
-  const handleSave=()=>{
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  // 🔥 HANDLE UPDATE
+  const handleSave = () => {
     patchData({
-      orderStatus:status,
-      orderAssignment:assignment,
-      updatedBy:authState?.userId
+      orderStatus: status,
+      orderAssignment: assignment,
+      appointmentDate: appointmentDate,
+      updatedBy: authState?.userId
     });
   };
 
-  return (
-    <Box p={8} maxW="1200px" mx="auto">
+  // 🔥 SUCCESS HANDLER
+  useEffect(() => {
+    if (responseData?.status === 200) {
+      setShowSuccess(true);
+      setTimeout(() => {
+        navigate(-1);
+      }, 2500);
+    }
 
-      <Text fontSize="2xl" fontWeight="bold" mb={6}>
+    if (error) {
+      toast({
+        title: "Update Failed",
+        description: error,
+        status: "error",
+        duration: 4000,
+        isClosable: true
+      });
+    }
+  }, [responseData, error]);
+
+  // 🔥 DATE MIN (TODAY)
+  const minDateTime = new Date().toISOString().slice(0,16);
+
+  if (!order) return <Spinner size="xl" />;
+
+  return (
+    <Box p={{ base:4, md:8 }} maxW="1200px" mx="auto">
+
+      {/* BACK BUTTON */}
+      <Button mb={6} onClick={()=>navigate(-1)}>
+        ← Back
+      </Button>
+
+      <Text fontSize="3xl" fontWeight="bold" mb={8}>
         Order #{order.order_id}
       </Text>
 
-      <Grid templateColumns="1fr 1fr" gap={6}>
+      <Grid templateColumns={{ base:'1fr', md:'1fr 1fr' }} gap={8}>
 
-        <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
+        {/* PRODUCT SECTION */}
+        <Box bg="white" p={6} borderRadius="2xl" boxShadow="xl">
           <Image
             src={order.product_image_url}
-            boxSize="200px"
-            objectFit="cover"
-            borderRadius="md"
+            borderRadius="lg"
+            mb={4}
           />
-          <Text mt={4}><b>Product ID:</b> {order.product_id}</Text>
 
-          {order.has_lining===1 && (
-            <Text>Lining: ₹{order.lining_price}</Text>
+          <Text fontWeight="bold">
+            Product ID: {order.product_id}
+          </Text>
+
+          <Text mt={2}>
+            Stitch Option: {order.stitch_option}
+          </Text>
+
+          {order.has_lining === 1 && (
+            <Badge mt={2} colorScheme="purple">
+              Lining + ₹{order.lining_price}
+            </Badge>
           )}
 
-          {Number(order.speed_price)>0 && (
-            <Text>
-              Speed: {order.stitching_speed}
-              (₹{order.speed_price})
-            </Text>
+          {Number(order.speed_price) > 0 && (
+            <Badge mt={2} ml={2} colorScheme="blue">
+              {order.stitching_speed} + ₹{order.speed_price}
+            </Badge>
           )}
+
+          <Divider my={4} />
+
+          <Text fontWeight="bold">Appointment</Text>
+
+          <Input
+            type="datetime-local"
+            value={appointmentDate}
+            min={minDateTime}
+            onChange={(e)=>setAppointmentDate(e.target.value)}
+            mt={2}
+          />
+
+          <Text fontSize="sm" color="gray.500" mt={2}>
+            Allowed time: 10 AM – 7 PM only
+          </Text>
 
           <Text mt={4}>
-            Appointment:
-            {new Date(order.appointment_date).toLocaleString('en-IN',{
-              dateStyle:'full',
+            Order Created:
+            {new Date(order.order_date).toLocaleString('en-IN',{
+              dateStyle:'medium',
               timeStyle:'short'
             })}
           </Text>
         </Box>
 
-        <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
+        {/* CUSTOMER SECTION */}
+        <Box bg="white" p={6} borderRadius="2xl" boxShadow="xl">
+          <Text fontWeight="bold" mb={3}>
+            Customer Details
+          </Text>
+
           <Text><b>Name:</b> {order.name}</Text>
           <Text><b>Phone:</b> {order.phone}</Text>
           <Text><b>Email:</b> {order.email}</Text>
           <Text>
-            <b>Address:</b>
-            {order.address}, {order.city} - {order.pincode}
+            <b>Address:</b> {order.address}, {order.city} - {order.pincode}
           </Text>
 
-          <Badge mt={3}
-            colorScheme={order.payment_status==='Paid'?'green':'red'}>
-            {order.payment_status}
+          <Divider my={4} />
+
+          <Text fontWeight="bold">Payment</Text>
+          <Badge
+            mt={2}
+            colorScheme={order.payment_status === 'Paid' ? 'green' : 'red'}
+          >
+            {order.payment_status || 'Unpaid'}
           </Badge>
+
+          <Divider my={4} />
+
+          <Text fontWeight="bold">Customizations</Text>
+
+          {order.customizations?.length > 0 ? (
+            <Stack mt={3} spacing={3}>
+              {order.customizations.map((c:any)=>(
+                <Flex key={c.customizationId}
+                  p={3}
+                  border="1px solid"
+                  borderColor="gray.200"
+                  borderRadius="lg"
+                  align="center"
+                  gap={4}
+                >
+                  <Image
+                    src={c.image}
+                    boxSize="60px"
+                    borderRadius="md"
+                  />
+                  <Box>
+                    <Text fontWeight="600">{c.name}</Text>
+                    <Badge colorScheme="green">
+                      + ₹{c.priceAdjustment}
+                    </Badge>
+                  </Box>
+                </Flex>
+              ))}
+            </Stack>
+          ) : (
+            <Text mt={2} color="gray.500">
+              No customizations selected
+            </Text>
+          )}
         </Box>
       </Grid>
 
-      <Box mt={8}>
+      {/* STATUS & ASSIGNMENT */}
+      <Box mt={10} bg="white" p={6} borderRadius="2xl" boxShadow="xl">
+
+        <Text fontWeight="bold" mb={4}>
+          Workflow Management
+        </Text>
+
         <Select
           value={status}
           onChange={(e)=>setStatus(e.target.value)}
         >
-          <option>Created</option>
-          <option>Processing</option>
-          <option>Stitching</option>
-          <option>Quality Check</option>
-          <option>Ready</option>
-          <option>Delivered</option>
-          <option>Completed</option>
+          {STATUS_FLOW.map((s)=>(
+            <option key={s}>{s}</option>
+          ))}
         </Select>
 
         <Input
@@ -268,14 +402,33 @@ export const  TailoringOrderManagementDetails = () => {
         <Button
           mt={6}
           colorScheme="teal"
+          width="100%"
           onClick={handleSave}
+          isDisabled={isLoading}
         >
-          Update Order
+          {isLoading ? <Spinner size="sm" /> : "Update Order"}
         </Button>
       </Box>
 
+      {/* SUCCESS ANIMATION */}
+      {showSuccess && (
+        <Box textAlign="center" mt={8}>
+          <Lottie
+            options={{
+              loop:false,
+              autoplay:true,
+              animationData:successAnimation
+            }}
+            height={150}
+            width={150}
+          />
+          <Text mt={2} color="green.500">
+            Order Updated Successfully
+          </Text>
+        </Box>
+      )}
     </Box>
-  )
-}
+  );
+};
 
 export default TailoringOrderManagementDetails;
