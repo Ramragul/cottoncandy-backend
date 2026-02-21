@@ -430,6 +430,7 @@ export const TailoringOrderManagement = () => {
                 <Th>Customer</Th>
                 <Th>Type</Th>
                 <Th>Appointment</Th>
+                <Th> Total Amount</Th>
                 <Th>Status</Th>
                 <Th>Assigned</Th>
               </Tr>
