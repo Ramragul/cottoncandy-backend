@@ -393,6 +393,14 @@ export const TailoringOrderManagement = () => {
               </Text>
 
                 <Flex mt={2} gap={2} wrap="wrap">
+                <Text fontWeight="700" color="green.600">
+                ₹ {Number(o.total_amount || 0).toLocaleString('en-IN', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}
+              </Text>
+
+
                   <Badge colorScheme="purple">
                     {o.order_status}
                   </Badge>
@@ -493,7 +501,7 @@ export const TailoringOrderManagement = () => {
                         maximumFractionDigits: 2
                       })}
                     </Td>
-                    
+
                     <Td>
                       <Badge colorScheme="purple">
                         {o.order_status}
